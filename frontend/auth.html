@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerZone Auth</title>
+    <link rel="stylesheet" href="auth.css?v=1">
+</head>
+<body>
+    <div class="auth-bg"></div>
+
+    <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Go to home">
+            <img src="images/logo.png" alt="PowerZone Logo">
+        </a>
+        <a class="back-link" href="index.html">Back To Home</a>
+    </header>
+
+    <main class="auth-wrap">
+        <section class="auth-card">
+            <div class="auth-head">
+                <h1>PowerZone Access</h1>
+                <p>Sign in to continue your fitness transformation.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+                <button class="auth-tab active" data-view-target="login">Login</button>
+                <button class="auth-tab" data-view-target="register">Register</button>
+            </div>
+
+            <p id="auth-status" class="auth-status" aria-live="polite"></p>
+
+            <section class="auth-view active" data-view="login">
+                <form id="login-form" class="auth-form" novalidate>
+                    <label>Email
+                        <input type="email" name="email" autocomplete="email" required>
+                    </label>
+                    <label>Password
+                        <div class="pw-field">
+                            <input type="password" name="password" autocomplete="current-password" required>
+                            <button type="button" class="pw-toggle">Show</button>
+                        </div>
+                    </label>
+                    <div class="row">
+                        <label class="check">
+                            <input type="checkbox" name="remember">
+                            Remember me
+                        </label>
+                        <button type="button" class="text-btn" data-view-target="forgot">Forgot password?</button>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+            </section>
+
+            <section class="auth-view" data-view="register">
+                <form id="register-form" class="auth-form" novalidate>
+                    <label>Full Name
+                        <input type="text" name="fullName" autocomplete="name" required>
+                    </label>
+                    <label>Email
+                        <input type="email" name="email" autocomplete="email" required>
+                    </label>
+                    <label>Password
+                        <div class="pw-field">
+                            <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="pw-toggle">Show</button>
+                        </div>
+                    </label>
+                    <label>Confirm Password
+                        <div class="pw-field">
+                            <input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="pw-toggle">Show</button>
+                        </div>
+                    </label>
+                    <label class="check">
+                        <input type="checkbox" name="terms" required>
+                        I agree to Terms and Privacy Policy.
+                    </label>
+                    <button type="submit" class="btn-primary">Create Account</button>
+                </form>
+            </section>
+
+            <section class="auth-view" data-view="forgot">
+                <form id="forgot-form" class="auth-form" novalidate>
+                    <label>Email
+                        <input type="email" name="email" autocomplete="email" required>
+                    </label>
+                    <button type="submit" class="btn-primary">Send Reset Link</button>
+                    <button type="button" class="text-btn left" data-view-target="login">Back To Login</button>
+                </form>
+            </section>
+
+            <section class="auth-view" data-view="reset">
+                <form id="reset-form" class="auth-form" novalidate>
+                    <label>New Password
+                        <div class="pw-field">
+                            <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="pw-toggle">Show</button>
+                        </div>
+                    </label>
+                    <label>Confirm New Password
+                        <div class="pw-field">
+                            <input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="pw-toggle">Show</button>
+                        </div>
+                    </label>
+                    <button type="submit" class="btn-primary">Update Password</button>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

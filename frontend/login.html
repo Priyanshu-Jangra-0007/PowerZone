@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerZone Login</title>
+    <link rel="stylesheet" href="auth-pages.css?v=1">
+</head>
+<body data-auth-page="login">
+    <main class="auth-shell">
+        <div class="auth-panel">
+            <a class="logo-link" href="index.html">
+                <img src="images/logo.png" alt="PowerZone Logo">
+            </a>
+
+            <div class="auth-headline">
+                <p class="kicker">START YOUR</p>
+                <h1>JOURNEY</h1>
+                <p class="kicker tail">NOW</p>
+            </div>
+
+            <section class="auth-box">
+                <h2>Login Now</h2>
+                <p id="auth-status" class="auth-status" aria-live="polite"></p>
+                <form id="login-form" class="auth-form" novalidate>
+                    <label>Email
+                        <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+                    </label>
+                    <label>Password
+                        <input type="password" name="password" autocomplete="current-password" placeholder="Password" required>
+                    </label>
+                    <button type="button" class="text-link" id="forgot-toggle">Forgot Password?</button>
+                    <div id="forgot-row" class="forgot-row">
+                        <input type="email" id="forgot-email" placeholder="Enter email for reset">
+                        <button type="button" id="forgot-submit">Send Reset Link</button>
+                    </div>
+                    <div class="btn-row">
+                        <button type="submit" class="btn-red">Login</button>
+                        <a class="btn-light" href="register.html">Register Now</a>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="hero-side"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth-pages.js"></script>
+</body>
+</html>

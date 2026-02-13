@@ -584,16 +584,45 @@ body {
         inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.phone-notch {
+.phone-side {
     position: absolute;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 20px;
-    border-radius: 20px;
-    background: #000000;
-    z-index: 2;
+    top: 118px;
+    display: grid;
+    gap: 8px;
+    z-index: 3;
+}
+
+.phone-side-left {
+    left: -4px;
+}
+
+.phone-side-right {
+    right: -4px;
+    top: 170px;
+}
+
+.side-btn {
+    display: block;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #2a2f38 0%, #111419 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.85);
+}
+
+.volume-up {
+    height: 34px;
+}
+
+.volume-down {
+    height: 34px;
+}
+
+.power-btn {
+    height: 44px;
+}
+
+.phone-notch {
+    display: none;
 }
 
 .phone-screen {
@@ -611,20 +640,162 @@ body {
 
 .phone-status-row {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
+    top: 8px;
+    left: 20px;
+    right: 10px;
     display: flex;
     justify-content: space-between;
-    font-size: 9px;
+    align-items: center;
+    font-size: 11px;
     line-height: 1;
-    color: rgba(245, 248, 255, 0.92);
+    color: #f5f7ff;
     font-weight: 600;
+    z-index: 3;
 }
 
-.status-dots {
-    letter-spacing: 1.2px;
-    color: rgba(226, 231, 241, 0.85);
+.status-time {
+    min-width: 38px;
+    letter-spacing: 0.2px;
+}
+
+.status-island {
+    width: 78px;
+    height: 24px;
+    border-radius: 999px;
+    background: rgba(2, 2, 4, 0.82);
+    position: relative;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.status-island::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 14px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(12, 13, 17, 0.75) 0%, rgba(7, 8, 12, 0.75) 100%);
+}
+
+.status-island::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(242, 246, 255, 0.72) 0 26%, rgba(127, 162, 255, 0.62) 36%, rgba(39, 61, 134, 0.58) 54%, rgba(10, 13, 20, 0.78) 75%);
+    box-shadow: 0 0 4px rgba(79, 124, 255, 0.22);
+}
+
+.status-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 56px;
+    justify-content: flex-end;
+}
+
+.status-icons .sig {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 1px;
+    height: 10px;
+}
+
+.status-icons .sig b {
+    display: block;
+    width: 2px;
+    border-radius: 1px;
+    background: #eef2ff;
+    opacity: 0.95;
+}
+
+.status-icons .sig b:nth-child(1) { height: 3px; }
+.status-icons .sig b:nth-child(2) { height: 5px; }
+.status-icons .sig b:nth-child(3) { height: 7px; }
+.status-icons .sig b:nth-child(4) { height: 9px; }
+
+.status-icons .wifi {
+    width: 12px;
+    height: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.status-icons .wifi,
+.status-icons .wifi::before,
+.status-icons .wifi::after {
+    border-top-left-radius: 999px;
+    border-top-right-radius: 999px;
+    border-bottom: 0;
+    border-left: 1.4px solid #eef2ff;
+    border-right: 1.4px solid #eef2ff;
+    border-top: 1.4px solid #eef2ff;
+    box-sizing: border-box;
+}
+
+.status-icons .wifi::before,
+.status-icons .wifi::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.status-icons .wifi {
+    width: 12px;
+    height: 8px;
+    margin-top: 1px;
+}
+
+.status-icons .wifi::before {
+    width: 8px;
+    height: 6px;
+    top: 1px;
+    opacity: 0.96;
+}
+
+.status-icons .wifi::after {
+    width: 4px;
+    height: 3px;
+    top: 3px;
+    opacity: 1;
+}
+
+
+.status-icons .battery {
+    width: 16px;
+    height: 9px;
+    border: 1.4px solid #eef2ff;
+    border-radius: 3px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.status-icons .battery::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 2px;
+    width: 2px;
+    height: 4px;
+    border-radius: 1px;
+    background: #eef2ff;
+}
+
+.status-icons .battery b {
+    position: absolute;
+    inset: 1.5px 2px 1.5px 2px;
+    border-radius: 1px;
+    background: #eef2ff;
 }
 
 .phone-location {
@@ -700,15 +871,15 @@ body {
 }
 
 .screen-cards.clubs span {
-    min-height: 72px;
+    min-height: 92px;
 }
 
 .screen-cards.clubs span:nth-child(1) {
-    background: url('images/img1.jpg') center / cover no-repeat;
+    background: url('images/club1.jpg') center / cover no-repeat;
 }
 
 .screen-cards.clubs span:nth-child(2) {
-    background: url('images/img4.jpg') center / cover no-repeat;
+    background: url('images/club2.jpg') center / cover no-repeat;
 }
 
 .screen-cards.activities span {
@@ -775,45 +946,44 @@ body {
     font-size: 6px;
     color: rgba(184, 194, 213, 0.72);
     text-align: center;
-}
-
-.phone-nav span::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(152, 164, 189, 0.4);
-    animation: navIconFloat 2.6s ease-in-out infinite;
-    transform-origin: center;
-}
-
-.phone-nav span:nth-child(1)::before {
-    animation-delay: 0s;
-}
-
-.phone-nav span:nth-child(2)::before {
-    animation-delay: 0.18s;
-}
-
-.phone-nav span:nth-child(3)::before {
-    animation-delay: 0.36s;
-}
-
-.phone-nav span:nth-child(4)::before {
-    animation-delay: 0.54s;
-}
-
-.phone-nav span:nth-child(5)::before {
-    animation-delay: 0.72s;
+    position: relative;
+    padding-bottom: 3px;
 }
 
 .phone-nav .active {
     color: #e31e24;
 }
 
-.phone-nav .active::before {
+.phone-nav .active::after {
+    content: "";
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: -2px;
+    height: 4px;
+    border-radius: 999px;
     background: #e31e24;
-    animation: navIconPulse 1.4s ease-in-out infinite;
+}
+
+.nav-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    color: #8b93a3;
+}
+
+.phone-nav .active .nav-icon {
+    color: #ff8b1f;
+    filter: drop-shadow(0 0 6px rgba(255, 139, 31, 0.35));
+}
+
+.phone-home-indicator {
+    width: 36%;
+    height: 3px;
+    margin: 2px auto 2px;
+    border-radius: 999px;
+    background: #ffffff;
+    opacity: 0.96;
 }
 
 @media (max-width: 1024px) {

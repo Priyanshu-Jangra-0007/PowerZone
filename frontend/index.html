@@ -17,7 +17,7 @@
                 <div class="nav-links">
                     <a href="#gyms">Gyms</a>
                     <a href="#about">About</a>
-                    <a href="#health">Health Stream</a>
+                    <a href="health-stream.html">Health Stream</a>
                     <a href="#network">Join Our Network</a>
                     <a href="#products">Products</a>
                     <a href="#refer">Refer a Friend</a>
@@ -113,11 +113,23 @@
                 </div>
 
                 <div class="phone-mockup" aria-hidden="true">
+                    <div class="phone-side phone-side-left">
+                        <span class="side-btn volume-up"></span>
+                        <span class="side-btn volume-down"></span>
+                    </div>
+                    <div class="phone-side phone-side-right">
+                        <span class="side-btn power-btn"></span>
+                    </div>
                     <div class="phone-notch"></div>
                     <div class="phone-screen">
                         <div class="phone-status-row">
-                            <span>01:32</span>
-                            <span class="status-dots">&bull; &bull; &bull;</span>
+                            <span class="status-time">01:32</span>
+                            <span class="status-island"></span>
+                            <span class="status-icons">
+                                <i class="sig"><b></b><b></b><b></b><b></b></i>
+                                <i class="wifi"></i>
+                                <i class="battery"><b></b></i>
+                            </span>
                         </div>
                         <div class="phone-location">Your Location <b>Shanti Apartment, W.P.</b></div>
                         <div class="phone-search">Search gyms</div>
@@ -155,12 +167,13 @@
 
                         <div class="phone-bottom">
                             <div class="phone-nav">
-                                <span class="active">Home</span>
-                                <span>Gyms</span>
-                                <span>Calendar</span>
-                                <span>Activities</span>
-                                <span>Profile</span>
+                                <span class="active"><ion-icon class="nav-icon" name="home-outline"></ion-icon>Home</span>
+                                <span><ion-icon class="nav-icon" name="barbell-outline"></ion-icon>Gyms</span>
+                                <span><ion-icon class="nav-icon" name="calendar-clear-outline"></ion-icon>Calendar</span>
+                                <span><ion-icon class="nav-icon" name="walk-outline"></ion-icon>Activities</span>
+                                <span><ion-icon class="nav-icon" name="person-circle-outline"></ion-icon>Profile</span>
                             </div>
+                            <div class="phone-home-indicator"></div>
                         </div>
                     </div>
                 </div>
@@ -186,6 +199,8 @@
         </div>
     </section>
 
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

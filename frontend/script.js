@@ -24,8 +24,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Smooth transition effect for nav links
-const navLinks = document.querySelectorAll('.nav-links a');
-const navContainer = document.querySelector('.nav-links');
+const navLinks = document.querySelectorAll('.nav-links > a, .nav-dropdown-toggle');
 
 navLinks.forEach(link => {
     link.addEventListener('mouseenter', function() {
@@ -37,6 +36,28 @@ navLinks.forEach(link => {
         this.style.transform = 'translateY(0) scale(1)';
     });
 });
+
+const networkDropdown = document.querySelector('.nav-dropdown');
+const networkToggle = document.querySelector('.nav-dropdown-toggle');
+
+if (networkDropdown && networkToggle) {
+    networkDropdown.addEventListener('mouseenter', () => {
+        networkDropdown.classList.add('open');
+        networkToggle.setAttribute('aria-expanded', 'true');
+    });
+
+    networkDropdown.addEventListener('mouseleave', () => {
+        networkDropdown.classList.remove('open');
+        networkToggle.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            networkDropdown.classList.remove('open');
+            networkToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
 
 // Scroll animation for feature boxes
 const observerOptions = {

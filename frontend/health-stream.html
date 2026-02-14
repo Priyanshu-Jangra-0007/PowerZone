@@ -378,6 +378,15 @@
             letter-spacing: 0.2px;
         }
 
+        .analysis-row strong.value-text {
+            font-size: 16px;
+            font-weight: 700;
+            text-align: right;
+            max-width: 62%;
+            word-break: break-word;
+            line-height: 1.25;
+        }
+
         .nutri-head {
             display: flex;
             align-items: center;
@@ -537,7 +546,7 @@
                 <div class="nav-links">
                     <a href="index.html#gyms">Gyms</a>
                     <a href="index.html#about">About</a>
-                    <a href="health-stream.html">Health Stream</a>
+                    <a href="health-stream.html">AI Food Scanner</a>
                     <a href="index.html#network">Join Our Network</a>
                     <a href="index.html#products">Products</a>
                     <a href="index.html#refer">Refer a Friend</a>
@@ -581,6 +590,14 @@
                     <div class="analysis-row">
                         <span>Calories</span>
                         <strong id="calories-value">-</strong>
+                    </div>
+                    <div class="analysis-row">
+                        <span>Detected Food</span>
+                        <strong id="label-value" class="value-text">-</strong>
+                    </div>
+                    <div class="analysis-row">
+                        <span>Confidence</span>
+                        <strong id="confidence-value" class="value-text">-</strong>
                     </div>
                 </article>
 
@@ -646,6 +663,8 @@
 
         const itemsCount = document.getElementById("items-count");
         const caloriesValue = document.getElementById("calories-value");
+        const labelValue = document.getElementById("label-value");
+        const confidenceValue = document.getElementById("confidence-value");
         const proteinValue = document.getElementById("protein-value");
         const carbValue = document.getElementById("carb-value");
         const fatValue = document.getElementById("fat-value");
@@ -671,11 +690,21 @@
         function resetValues() {
             itemsCount.textContent = "-";
             caloriesValue.textContent = "-";
+            labelValue.textContent = "-";
+            confidenceValue.textContent = "-";
             proteinValue.textContent = "-";
             carbValue.textContent = "-";
             fatValue.textContent = "-";
             fiberValue.textContent = "-";
             scanTime.textContent = "-";
+        }
+
+        function formatLabel(label) {
+            return label
+                .replace(/[_-]+/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+                .replace(/\b\w/g, (c) => c.toUpperCase());
         }
 
         function formatScanTime() {
@@ -733,16 +762,24 @@
                 if (!Number.isFinite(calories) || calories <= 0) {
                     throw new Error("Invalid calories from API");
                 }
+                const confidence = Number(data.confidence);
+                const predictedLabel = typeof data.predicted_label === "string" ? data.predicted_label : "";
+                const caloriesSource = data.calories_source === "mapped" ? "mapped" : "estimated";
+                const modelUsed = typeof data.model_used === "string" ? data.model_used : "ml";
 
                 const macros = estimateMacros(calories);
                 itemsCount.textContent = "1 item";
                 caloriesValue.textContent = `${calories} kcal`;
+                labelValue.textContent = predictedLabel ? formatLabel(predictedLabel) : "Unknown";
+                confidenceValue.textContent = Number.isFinite(confidence)
+                    ? `${(confidence * 100).toFixed(1)}%`
+                    : "-";
                 proteinValue.textContent = `${macros.protein}g`;
                 carbValue.textContent = `${macros.carbs}g`;
                 fatValue.textContent = `${macros.fat}g`;
                 fiberValue.textContent = `${macros.fiber}g`;
                 scanTime.textContent = formatScanTime();
-                resultNote.textContent = "Calories detected successfully.";
+                resultNote.textContent = `Analysis complete (${caloriesSource} calories, ${modelUsed} model).`;
             } catch (error) {
                 resetValues();
                 resultNote.textContent = `${error.message}. Start backend at ${API_BASE}.`;

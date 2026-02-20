@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greater Noida Gym Directory</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../theme.css?v=1">
+</head>
+<body>
+  <header class="page-header">
+    <div class="container">
+      <h1>Greater Noida Gym Directory</h1>
+      <p>Find gyms across Pari Chowk, Alpha, Beta, and Knowledge Park zones.</p>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <aside class="filters panel">
+      <div class="panel-head">
+        <h2>Filters</h2>
+        <button id="resetBtn" class="btn ghost">Reset</button>
+      </div>
+
+      <label class="field">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Search by name or area">
+      </label>
+
+      <section class="field">
+        <span>Categories</span>
+        <div id="categoryFilters" class="chip-wrap"></div>
+      </section>
+
+      <label class="field">
+        <span>Rating</span>
+        <select id="ratingFilter">
+          <option value="0">All ratings</option>
+          <option value="4">4.0+</option>
+          <option value="4.5">4.5+</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Price Tier</span>
+        <select id="priceFilter">
+          <option value="0">All prices</option>
+          <option value="1">$</option>
+          <option value="2">$$</option>
+          <option value="3">$$$</option>
+          <option value="4">$$$$</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Area</span>
+        <select id="areaFilter">
+          <option value="all">All areas</option>
+        </select>
+      </label>
+
+      <label class="switch-row">
+        <span>Open Now</span>
+        <input id="openNowFilter" type="checkbox">
+      </label>
+    </aside>
+
+    <section class="content">
+      <div class="panel top-row">
+        <div>
+          <strong id="resultCount">0 gyms</strong>
+          <p id="resultMeta">Live results</p>
+        </div>
+        <label class="sort-label">
+          Sort by
+          <select id="sortSelect">
+            <option value="rating">Highest Rating</option>
+            <option value="nearest">Nearest</option>
+            <option value="price">Lowest Price</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="panel map-box">
+        <h3>Map Placeholder</h3>
+        <p>Ready for Leaflet or Google Maps integration using <code>mapMarkers</code>.</p>
+      </div>
+
+      <div id="gymGrid" class="gym-grid"></div>
+      <div id="emptyState" class="panel empty" hidden>
+        <h3>No gyms found</h3>
+        <p>Try adjusting filters or resetting search.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script src="../theme.js"></script>
+</body>
+</html>

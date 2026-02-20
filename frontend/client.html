@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerZone Client Dashboard</title>
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="client.css?v=3">
+    <link rel="stylesheet" href="theme.css?v=1">
+</head>
+<body class="client-body">
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="PowerZone Logo" class="logo-img">
+                </a>
+            </div>
+            <div class="nav-center">
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="gym-directory.html">Gyms</a>
+                    <a href="health-stream.html">AI Food Scanner</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                            Join Our Network
+                            <span class="dropdown-caret" aria-hidden="true"></span>
+                        </button>
+                        <div class="nav-dropdown-menu" role="menu" aria-label="Join Our Network">
+                            <a href="client.html" role="menuitem" class="is-active-client">Client</a>
+                            <a href="franchise.html" role="menuitem">Join Our Franchise</a>
+                        </div>
+                    </div>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="nav-cta">
+                <a class="btn-outlined" href="login.html">Login</a>
+                <a class="btn-register" href="register.html">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="client-page">
+        <section class="client-dashboard">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-logo">
+                    <img src="images/logo.png" alt="PowerZone logo">
+                </div>
+                <nav class="side-nav" aria-label="Client Dashboard Menu">
+                    <a href="client-dashboard.html" class="active" data-view="dashboard">Dashboard</a>
+                    <a href="client-diets.html" data-view="diets">Diets</a>
+                    <a href="client-workouts.html" data-view="workouts">Workouts</a>
+                    <a href="client-supplements.html" data-view="supplements">Supplements</a>
+                    <a href="client-goals.html" data-view="goals">My Goal</a>
+                    <a href="client-trainer.html" data-view="trainer">Trainer</a>
+                    <a href="client-members.html" data-view="members">Members</a>
+                    <a href="client-messages.html" data-view="messages">Messages</a>
+                    <a href="client-settings.html" data-view="settings">Setting</a>
+                </nav>
+                <div class="sidebar-promo">
+                    <h4>Get Premium Now!</h4>
+                    <p>Reach your goals faster with expert plans.</p>
+                    <button type="button">Subscribe</button>
+                </div>
+            </aside>
+
+            <section class="dashboard-main">
+                <section class="dashboard-view active" data-panel="dashboard">
+                    <header class="dashboard-header-card panel-lite">
+                        <div>
+                            <h1>Hi Priyanshu!</h1>
+                            <p>Train hard, turn up, run your best!</p>
+                        </div>
+                        <label class="search-shell">
+                            <input id="member-search" type="search" placeholder="Search anything here...">
+                        </label>
+                    </header>
+
+                    <section class="activity-cards">
+                        <article class="activity-card purple">
+                            <h3>Body Building</h3>
+                            <p>24 Sessions</p>
+                        </article>
+                        <article class="activity-card sand">
+                            <h3>Yoga class</h3>
+                            <p>12 Sessions</p>
+                        </article>
+                        <article class="activity-card green">
+                            <h3>Fat Reduction</h3>
+                            <p>58 Sessions</p>
+                        </article>
+                    </section>
+
+                    <section class="middle-grid">
+                        <article class="panel-lite goal-process">
+                            <div class="panel-top">
+                                <h2>Goal Process</h2>
+                                <span>This week</span>
+                            </div>
+                            <div class="goal-static-chart" aria-label="Weekly goal process chart" role="img">
+                                <svg viewBox="0 0 680 250" preserveAspectRatio="none">
+                                    <g class="grid-lines">
+                                        <line x1="40" y1="24" x2="660" y2="24"></line>
+                                        <line x1="40" y1="64" x2="660" y2="64"></line>
+                                        <line x1="40" y1="104" x2="660" y2="104"></line>
+                                        <line x1="40" y1="144" x2="660" y2="144"></line>
+                                        <line x1="40" y1="184" x2="660" y2="184"></line>
+                                    </g>
+                                    <g class="y-labels">
+                                        <text x="8" y="28">100%</text>
+                                        <text x="16" y="68">80%</text>
+                                        <text x="16" y="108">60%</text>
+                                        <text x="16" y="148">40%</text>
+                                        <text x="16" y="188">20%</text>
+                                        <text x="16" y="228">00%</text>
+                                    </g>
+                                    <defs>
+                                        <linearGradient id="goalAreaFill" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="rgba(245,154,84,0.35)"></stop>
+                                            <stop offset="100%" stop-color="rgba(245,154,84,0)"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <path class="area" d="M40,164 C85,134 110,190 154,164 C200,125 224,92 268,118 C302,136 322,66 350,84 C376,102 392,156 432,162 C472,168 512,138 556,150 C598,164 632,168 660,146 L660,206 L40,206 Z"></path>
+                                    <path class="line" d="M40,164 C85,134 110,190 154,164 C200,125 224,92 268,118 C302,136 322,66 350,84 C376,102 392,156 432,162 C472,168 512,138 556,150 C598,164 632,168 660,146"></path>
+                                    <line class="focus-line" x1="350" y1="84" x2="350" y2="206"></line>
+                                    <circle class="focus-outer" cx="350" cy="84" r="8"></circle>
+                                    <circle class="focus-inner" cx="350" cy="84" r="4"></circle>
+                                    <text class="focus-text" x="350" y="72">58%</text>
+                                    <g class="x-labels">
+                                        <text x="50" y="228">Sun</text>
+                                        <text x="145" y="228">Mon</text>
+                                        <text x="240" y="228">Tue</text>
+                                        <text x="335" y="228">Wed</text>
+                                        <text x="430" y="228">Thu</text>
+                                        <text x="525" y="228">Fri</text>
+                                        <text x="620" y="228">Sat</text>
+                                    </g>
+                                </svg>
+                                <div class="goal-static-legend">
+                                    <span><i class="lg-purple"></i>Body Building</span>
+                                    <span><i class="lg-orange"></i>Yoga class</span>
+                                    <span><i class="lg-green"></i>Fat Reduction</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="panel-lite today-goal">
+                            <h2>Today Goal</h2>
+                            <div class="goal-item">
+                                <p>Build Muscles</p>
+                                <div class="goal-progress"><span style="width:75%"></span></div>
+                            </div>
+                            <div class="goal-item">
+                                <p>3 reps of 5kg Dumbbells</p>
+                                <div class="goal-progress"><span style="width:52%"></span></div>
+                            </div>
+                            <div class="goal-item">
+                                <p>5 reps of butterfly game</p>
+                                <div class="goal-progress"><span style="width:68%"></span></div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="bottom-grid">
+                        <article class="panel-lite mini-card">
+                            <h2>Recommended Food</h2>
+                            <ul>
+                                <li>Veggies and hummus <span>7 days</span></li>
+                                <li>Bowl of salad <span>12 days</span></li>
+                                <li>Green variety foods <span>16 days</span></li>
+                            </ul>
+                        </article>
+                        <article class="panel-lite mini-card todo-card">
+                            <h2>To Do List</h2>
+                            <ul id="todo-list"></ul>
+                            <form id="dashboard-todo-form" class="todo-add-form">
+                                <input id="dashboard-todo-input" type="text" placeholder="Add workout task">
+                                <button type="button">Add</button>
+                            </form>
+                        </article>
+                    </section>
+                </section>
+
+                <section class="dashboard-view" data-panel="diets">
+                    <article class="panel-lite functional-card">
+                        <h2>Diets</h2>
+                        <p class="muted">Tell your goal and preference, then get personalized diet suggestions.</p>
+                        <form id="diet-profile-form" class="inline-form diet-profile-form">
+                            <select id="diet-goal" aria-label="Diet goal">
+                                <option value="fat-loss">Fat loss</option>
+                                <option value="muscle-gain">Muscle gain</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                            <select id="diet-type" aria-label="Diet type">
+                                <option value="balanced">Balanced</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="high-protein">High protein</option>
+                            </select>
+                            <button type="submit">Give Diet</button>
+                        </form>
+                        <ul id="diet-plan-list" class="action-list plain-list"></ul>
+                        <form id="diet-form" class="inline-form">
+                            <input id="diet-input" type="text" placeholder="Add meal item to today's diet">
+                            <button type="submit">Add</button>
+                        </form>
+                        <ul id="diet-list" class="action-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="workouts">
+                    <article class="panel-lite functional-card">
+                        <h2>Workouts</h2>
+                        <p class="muted">Track planned sessions.</p>
+                        <form id="workout-form" class="inline-form">
+                            <input id="workout-input" type="text" placeholder="Add workout">
+                            <button type="submit">Add</button>
+                        </form>
+                        <ul id="workout-list" class="action-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="supplements">
+                    <article class="panel-lite functional-card">
+                        <h2>Supplements</h2>
+                        <p class="muted">Plan supplements and dosage reminders.</p>
+                        <form id="supplement-form" class="inline-form">
+                            <input id="supplement-input" type="text" placeholder="Add supplement">
+                            <button type="submit">Add</button>
+                        </form>
+                        <ul id="supplement-list" class="action-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="goals">
+                    <article class="panel-lite functional-card">
+                        <h2>My Goal</h2>
+                        <p class="muted">Set your goals and maintain today's checklist.</p>
+                        <form id="goal-form" class="inline-form goal-form">
+                            <input id="goal-title" type="text" placeholder="Goal title">
+                            <input id="goal-progress" type="number" min="0" max="100" placeholder="Progress %">
+                            <button type="submit">Save</button>
+                        </form>
+                        <div id="goal-tracker" class="goal-tracker"></div>
+                        <h3>Today's Goal Checklist</h3>
+                        <form id="today-goal-form" class="inline-form">
+                            <input id="today-goal-input" type="text" placeholder="Add today's goal task">
+                            <button type="submit">Add</button>
+                        </form>
+                        <ul id="today-goal-list" class="action-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="trainer">
+                    <article class="panel-lite functional-card">
+                        <h2>Trainer</h2>
+                        <p class="muted">Book and manage trainer sessions.</p>
+                        <form id="trainer-form" class="inline-form">
+                            <input id="trainer-input" type="text" placeholder="Session title and time">
+                            <button type="submit">Book</button>
+                        </form>
+                        <ul id="trainer-list" class="action-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="members">
+                    <article class="panel-lite functional-card">
+                        <h2>Members</h2>
+                        <p class="muted">Search your team.</p>
+                        <input id="members-filter" type="search" placeholder="Search members">
+                        <ul id="members-list" class="action-list plain-list"></ul>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="messages">
+                    <article class="panel-lite functional-card">
+                        <h2>Messages</h2>
+                        <p class="muted">Chat with multiple friends.</p>
+                        <div class="messages-shell">
+                            <aside class="friends-pane">
+                                <ul id="friends-list" class="action-list plain-list"></ul>
+                                <form id="friend-form" class="inline-form">
+                                    <input id="friend-input" type="text" placeholder="Add friend">
+                                    <button type="submit">Add</button>
+                                </form>
+                            </aside>
+                            <section class="chat-pane">
+                                <h3 id="chat-title">Conversation</h3>
+                                <ul id="chat-history" class="action-list chat-history"></ul>
+                                <form id="message-form" class="inline-form">
+                                    <input id="message-input" type="text" placeholder="Write a message">
+                                    <button type="submit">Send</button>
+                                </form>
+                            </section>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="dashboard-view" data-panel="settings">
+                    <article class="panel-lite functional-card">
+                        <h2>Setting</h2>
+                        <p class="muted">Preferences</p>
+                        <label class="setting-row"><input id="notif-setting" type="checkbox"> Enable notifications</label>
+                        <label class="setting-row"><input id="email-setting" type="checkbox"> Daily summary email</label>
+                        <label class="setting-row">
+                            Units
+                            <select id="units-setting">
+                                <option value="metric">Metric</option>
+                                <option value="imperial">Imperial</option>
+                            </select>
+                        </label>
+                    </article>
+                </section>
+            </section>
+
+            <aside class="dashboard-right">
+                <article class="panel-lite profile-card">
+                    <h2>Profile</h2>
+                    <div class="avatar">PJ</div>
+                    <h3>Priyanshu</h3>
+                    <p>Manager | UI designer</p>
+                </article>
+
+                <article class="panel-lite calendar-card">
+                    <div class="calendar-head">
+                        <button type="button" aria-label="Previous month">&lt;</button>
+                        <h3>September 2024</h3>
+                        <button type="button" aria-label="Next month">&gt;</button>
+                    </div>
+                    <div class="calendar-grid" aria-hidden="true">
+                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+                        <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+                        <span>15</span><span>16</span><span class="today">17</span><span>18</span><span>19</span><span>20</span><span>21</span>
+                        <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
+                        <span>29</span><span>30</span>
+                    </div>
+                </article>
+
+                <article class="panel-lite map-card">
+                    <h2>Gym near you</h2>
+                    <div class="map-mock">
+                        <span class="pin"></span>
+                    </div>
+                </article>
+            </aside>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="client.js?v=3"></script>
+    <script src="theme.js"></script>
+</body>
+</html>
+

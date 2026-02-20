@@ -1,0 +1,1031 @@
+.client-body {
+    margin: 0;
+    background:
+        radial-gradient(circle at 10% 8%, rgba(227, 30, 36, 0.15), transparent 30%),
+        radial-gradient(circle at 88% 85%, rgba(227, 30, 36, 0.12), transparent 34%),
+        linear-gradient(180deg, #07090d 0%, #0b0f15 52%, #0d1118 100%);
+    color: #e8edf7;
+}
+
+.nav-dropdown-menu a.is-active-client {
+    color: #ffffff;
+    background: rgba(227, 30, 36, 0.9);
+}
+
+.client-page {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 110px 14px 28px;
+}
+
+.client-dashboard {
+    display: grid;
+    grid-template-columns: 210px 1fr 260px;
+    gap: 14px;
+}
+
+.panel-lite {
+    background: linear-gradient(180deg, #131821 0%, #10151d 100%);
+    border: 1px solid #252d3a;
+    border-radius: 12px;
+    color: #e8edf7;
+}
+
+.dashboard-sidebar {
+    background: linear-gradient(180deg, #121821 0%, #0f141d 100%);
+    border: 1px solid #252d3a;
+    border-radius: 12px;
+    padding: 18px 14px;
+    display: grid;
+    align-content: start;
+    gap: 18px;
+}
+
+.sidebar-logo {
+    text-align: center;
+}
+
+.sidebar-logo img {
+    width: 110px;
+    height: auto;
+}
+
+.side-nav {
+    display: grid;
+    gap: 6px;
+}
+
+.side-nav a {
+    text-decoration: none;
+    color: #adb7c8;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.side-nav a.active {
+    background: #1f2642;
+    color: #ffffff;
+}
+
+.sidebar-promo {
+    margin-top: 6px;
+    background: #121a27;
+    border: 1px solid #283245;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.sidebar-promo h4 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.sidebar-promo p {
+    margin: 6px 0 12px;
+    font-size: 12px;
+    color: #9fa9bc;
+}
+
+.sidebar-promo button {
+    border: 0;
+    border-radius: 8px;
+    background: #4eb784;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 7px 12px;
+    cursor: pointer;
+}
+
+.dashboard-main {
+    display: grid;
+    gap: 12px;
+}
+
+.dashboard-view {
+    display: none;
+    gap: 12px;
+}
+
+.dashboard-view.active {
+    display: grid;
+}
+
+.dashboard-header-card {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.dashboard-header-card h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.dashboard-header-card p {
+    margin: 2px 0 0;
+    color: #a6b0c2;
+    font-size: 13px;
+}
+
+.search-shell {
+    display: block;
+}
+
+.search-shell input {
+    width: 290px;
+    max-width: 100%;
+    border: 1px solid #2a3445;
+    background: #0f151f;
+    color: #e9effa;
+    border-radius: 8px;
+    padding: 11px 12px;
+    outline: none;
+}
+
+.activity-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.activity-card {
+    border-radius: 10px;
+    padding: 16px;
+    min-height: 90px;
+    border: 1px solid transparent;
+}
+
+.activity-card h3 {
+    margin: 28px 0 4px;
+    font-size: 18px;
+}
+
+.activity-card p {
+    margin: 0;
+    color: #aab4c7;
+    font-size: 12px;
+}
+
+.activity-card.purple {
+    background: linear-gradient(145deg, rgba(131, 120, 255, 0.2), rgba(131, 120, 255, 0.08));
+    border-color: rgba(147, 137, 255, 0.35);
+}
+
+.activity-card.sand {
+    background: linear-gradient(145deg, rgba(255, 196, 121, 0.2), rgba(255, 196, 121, 0.08));
+    border-color: rgba(255, 196, 121, 0.3);
+}
+
+.activity-card.green {
+    background: linear-gradient(145deg, rgba(121, 226, 143, 0.18), rgba(121, 226, 143, 0.07));
+    border-color: rgba(121, 226, 143, 0.28);
+}
+
+.middle-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 12px;
+}
+
+.goal-process {
+    padding: 14px;
+}
+
+.panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.panel-top h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.panel-top span {
+    background: #121926;
+    border: 1px solid #273246;
+    color: #a3afc2;
+    font-size: 12px;
+    border-radius: 7px;
+    padding: 5px 8px;
+}
+
+#goal-process-chart {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.goal-static-chart {
+    width: 100%;
+}
+
+.goal-static-chart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.goal-static-chart .grid-lines line {
+    stroke: #2b3648;
+    stroke-width: 1;
+}
+
+.goal-static-chart .y-labels text,
+.goal-static-chart .x-labels text {
+    fill: #9ba7bc;
+    font-size: 11px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.goal-static-chart .area {
+    fill: url(#goalAreaFill);
+}
+
+.goal-static-chart .line {
+    fill: none;
+    stroke: #f59a54;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.goal-static-chart .focus-line {
+    stroke: #e7ad83;
+    stroke-dasharray: 4 4;
+    stroke-width: 1;
+}
+
+.goal-static-chart .focus-outer {
+    fill: #fff0e4;
+}
+
+.goal-static-chart .focus-inner {
+    fill: #f59a54;
+}
+
+.goal-static-chart .focus-text {
+    fill: #f59a54;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    text-anchor: middle;
+    font-weight: 700;
+}
+
+.goal-static-legend {
+    margin-top: 4px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #aab5c8;
+}
+
+.goal-static-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.goal-static-legend i {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+}
+
+.goal-static-legend .lg-purple {
+    background: #8e75ff;
+}
+
+.goal-static-legend .lg-orange {
+    background: #f59a54;
+}
+
+.goal-static-legend .lg-green {
+    background: #79d68d;
+}
+
+.today-goal {
+    padding: 14px;
+    display: grid;
+    align-content: start;
+    gap: 12px;
+}
+
+.today-goal h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.goal-item p {
+    margin: 0 0 6px;
+    color: #b2bdd0;
+    font-size: 13px;
+}
+
+.goal-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: #212b3a;
+    overflow: hidden;
+}
+
+.goal-progress span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #7f8cff, #4ec19f);
+}
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.mini-card {
+    padding: 14px;
+}
+
+.mini-card h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.mini-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.mini-head h2 {
+    margin: 0;
+}
+
+.mini-add {
+    border: 1px solid #2c374a;
+    background: #121926;
+    color: #d8e2f3;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.mini-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 9px;
+}
+
+.mini-card li {
+    font-size: 13px;
+    color: #72798c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.mini-card li span {
+    color: #a6b0c2;
+    font-size: 12px;
+}
+
+.functional-card {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.functional-card h2 {
+    margin: 0;
+}
+
+.muted {
+    margin: 0;
+    color: #a6b0c2;
+    font-size: 13px;
+}
+
+.inline-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+}
+
+.inline-form input,
+.functional-card input,
+.functional-card select {
+    width: 100%;
+    border: 1px solid #2a3445;
+    background: #0f151f;
+    color: #e9effa;
+    border-radius: 8px;
+    padding: 10px 11px;
+    outline: none;
+}
+
+.goal-form {
+    grid-template-columns: 1fr 140px auto;
+}
+
+.diet-profile-form {
+    grid-template-columns: 1fr 1fr auto;
+}
+
+.inline-form button {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    background: #e31e24;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.action-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.action-list li {
+    border: 1px solid #273246;
+    background: #121926;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.action-list label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-list .meta {
+    color: #90a0b8;
+    font-size: 12px;
+}
+
+.action-list button {
+    border: 1px solid #34415a;
+    background: #141d2a;
+    color: #c7d2e6;
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+
+.action-list li.done {
+    opacity: 0.72;
+    text-decoration: line-through;
+}
+
+.goal-tracker {
+    display: grid;
+    gap: 10px;
+}
+
+.goal-entry {
+    display: grid;
+    gap: 6px;
+}
+
+.goal-entry-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.goal-entry-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #212b3a;
+    overflow: hidden;
+}
+
+.goal-entry-bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #7f8cff, #4ec19f);
+}
+
+.message-list li {
+    justify-content: flex-start;
+}
+
+.plain-list li {
+    justify-content: flex-start;
+}
+
+.messages-shell {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 12px;
+}
+
+.friends-pane,
+.chat-pane {
+    display: grid;
+    gap: 10px;
+}
+
+.friends-pane .action-list li {
+    cursor: pointer;
+}
+
+.friends-pane .action-list li.active-friend {
+    border-color: #516390;
+    background: #1a2435;
+}
+
+.chat-history li {
+    justify-content: flex-start;
+}
+
+.chat-history .from-you {
+    border-color: #5c3b42;
+    background: #23181b;
+}
+
+.chat-history .from-friend {
+    border-color: #273246;
+    background: #121926;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1px solid #273246;
+    background: #121926;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.todo-card li {
+    justify-content: space-between;
+    min-height: 30px;
+    padding: 6px 0;
+    border: 0;
+    border-bottom: 1px solid #243045;
+    background: transparent;
+    border-radius: 0;
+}
+
+.todo-card label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 13px;
+    color: #d7dfed;
+}
+
+.todo-card input[type="checkbox"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #9aa7be;
+    border-radius: 50%;
+    background: transparent;
+    margin: 0;
+    cursor: pointer;
+}
+
+.todo-card input[type="checkbox"]:checked {
+    border-color: #f59a54;
+    box-shadow: inset 0 0 0 3px #f59a54;
+}
+
+.todo-card input {
+    accent-color: #5864d8;
+}
+
+.todo-card li.done {
+    color: #8894aa;
+}
+
+.todo-card li.done .todo-text {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #9aa7be;
+}
+
+.todo-card .todo-empty {
+    border-bottom: 0;
+    color: #93a0b7;
+    font-size: 13px;
+    padding-top: 4px;
+}
+
+.todo-card .todo-dots {
+    border: 0;
+    background: transparent;
+    color: #8e9ab0;
+    padding: 0 4px;
+    line-height: 1;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.todo-add-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.todo-add-form input {
+    border: 1px solid #2b374a;
+    background: #111925;
+    color: #e7eef8;
+    border-radius: 7px;
+    padding: 7px 9px;
+    font-size: 12px;
+}
+
+.todo-add-form button {
+    border: 0;
+    border-radius: 7px;
+    background: #1f2642;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+
+.todo-card {
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+#todo-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+#todo-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#todo-list::-webkit-scrollbar-thumb {
+    background: #34425a;
+    border-radius: 999px;
+}
+
+.dashboard-right {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+}
+
+.profile-card {
+    padding: 14px;
+    text-align: center;
+}
+
+.profile-card h2 {
+    margin: 0;
+    text-align: left;
+    font-size: 20px;
+}
+
+.avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    margin: 14px auto 10px;
+    background: linear-gradient(145deg, #ffe8cc, #dce8ff);
+    color: #2f3650;
+    font-size: 30px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+}
+
+.profile-card h3 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.profile-card p {
+    margin: 6px 0 0;
+    color: #a7b0c3;
+    font-size: 13px;
+}
+
+.calendar-card {
+    padding: 12px;
+}
+
+.calendar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-head h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.calendar-head button {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #2a3447;
+    border-radius: 6px;
+    background: #121926;
+    color: #b6c1d4;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.calendar-grid span {
+    text-align: center;
+    font-size: 12px;
+    color: #adbad0;
+    padding: 7px 0;
+    border-radius: 999px;
+}
+
+.calendar-grid .today {
+    background: #24284a;
+    color: #ffffff;
+}
+
+.map-card {
+    padding: 12px;
+}
+
+.map-card h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.map-mock {
+    height: 170px;
+    border-radius: 10px;
+    border: 1px solid #2a3549;
+    background:
+        radial-gradient(circle at 70% 20%, rgba(112, 126, 154, 0.5) 7%, transparent 8%),
+        radial-gradient(circle at 30% 65%, rgba(112, 126, 154, 0.45) 8%, transparent 9%),
+        repeating-linear-gradient(30deg, #121a26 0, #121a26 14px, #1a2432 14px, #1a2432 28px);
+    position: relative;
+}
+
+.dashboard-main h1,
+.dashboard-main h2,
+.dashboard-main h3,
+.dashboard-right h2,
+.dashboard-right h3,
+.sidebar-promo h4 {
+    color: #f1f5ff;
+}
+
+.search-shell input::placeholder {
+    color: #8f9cb3;
+}
+
+.pin {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #5b66e0;
+    position: absolute;
+    right: 26%;
+    top: 56%;
+    box-shadow: 0 0 0 5px rgba(91, 102, 224, 0.2);
+}
+
+@media (max-width: 1200px) {
+    .client-dashboard {
+        grid-template-columns: 190px 1fr;
+    }
+
+    .dashboard-right {
+        grid-column: span 2;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 980px) {
+    .client-page {
+        padding-top: 170px;
+    }
+
+    .client-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-right {
+        grid-column: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-sidebar {
+        order: 2;
+    }
+
+    .middle-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inline-form {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-form {
+        grid-template-columns: 1fr;
+    }
+
+    .diet-profile-form {
+        grid-template-columns: 1fr;
+    }
+
+    .messages-shell {
+        grid-template-columns: 1fr;
+    }
+}
+
+html[data-theme="light"] .panel-lite,
+html[data-theme="light"] .dashboard-sidebar {
+    background: #ffffff;
+    border-color: #ebedf3;
+    color: #1f2430;
+}
+
+html[data-theme="light"] .dashboard-main h1,
+html[data-theme="light"] .dashboard-main h2,
+html[data-theme="light"] .dashboard-main h3,
+html[data-theme="light"] .dashboard-right h2,
+html[data-theme="light"] .dashboard-right h3,
+html[data-theme="light"] .sidebar-promo h4 {
+    color: #1f2430;
+}
+
+html[data-theme="light"] .side-nav a {
+    color: #72798c;
+}
+
+html[data-theme="light"] .sidebar-promo {
+    background: #f7f9ff;
+    border-color: #e8ecff;
+}
+
+html[data-theme="light"] .sidebar-promo p,
+html[data-theme="light"] .dashboard-header-card p,
+html[data-theme="light"] .goal-item p,
+html[data-theme="light"] .profile-card p,
+html[data-theme="light"] .calendar-grid span,
+html[data-theme="light"] .activity-card p,
+html[data-theme="light"] .mini-card li span,
+html[data-theme="light"] .muted,
+html[data-theme="light"] .action-list .meta {
+    color: #7d879a;
+}
+
+html[data-theme="light"] .search-shell input {
+    background: #ffffff;
+    color: #1f2430;
+    border-color: #e6e9f1;
+}
+
+html[data-theme="light"] .inline-form input,
+html[data-theme="light"] .functional-card input,
+html[data-theme="light"] .functional-card select,
+html[data-theme="light"] .action-list li,
+html[data-theme="light"] .setting-row {
+    background: #f9fbff;
+    border-color: #e4e8f1;
+    color: #1f2430;
+}
+
+html[data-theme="light"] .action-list button {
+    background: #ffffff;
+    border-color: #dbe2ef;
+    color: #334055;
+}
+
+html[data-theme="light"] .mini-add {
+    border-color: #d7deec;
+    background: #ffffff;
+    color: #41506a;
+}
+
+html[data-theme="light"] .todo-card label {
+    color: #3b4a61;
+}
+
+html[data-theme="light"] .todo-card input[type="checkbox"] {
+    border-color: #9ca8ba;
+}
+
+html[data-theme="light"] .todo-card .todo-dots {
+    color: #7d8798;
+}
+
+html[data-theme="light"] .todo-add-form input {
+    background: #f8fbff;
+    border-color: #dfe5f1;
+    color: #2b3442;
+}
+
+html[data-theme="light"] .todo-add-form button {
+    background: #2b3359;
+}
+
+html[data-theme="light"] .todo-card li {
+    border-bottom-color: #e4e9f2;
+}
+
+html[data-theme="light"] .friends-pane .action-list li.active-friend {
+    border-color: #c7d2e5;
+    background: #ecf1fb;
+}
+
+html[data-theme="light"] .chat-history .from-you {
+    border-color: #f0ccd1;
+    background: #fff1f4;
+}
+
+html[data-theme="light"] .goal-entry-bar {
+    background: #e8edf5;
+}
+
+html[data-theme="light"] .goal-static-chart .grid-lines line {
+    stroke: #e5eaf3;
+}
+
+html[data-theme="light"] .goal-static-chart .y-labels text,
+html[data-theme="light"] .goal-static-chart .x-labels text,
+html[data-theme="light"] .goal-static-legend {
+    fill: #7d879a;
+    color: #7d879a;
+}
+
+html[data-theme="light"] .search-shell input::placeholder {
+    color: #a0a7b6;
+}
+
+html[data-theme="light"] .activity-card.purple {
+    background: #efecff;
+    border-color: #ddd7ff;
+}
+
+html[data-theme="light"] .activity-card.sand {
+    background: #fff5e8;
+    border-color: #fde8cb;
+}
+
+html[data-theme="light"] .activity-card.green {
+    background: #eff9e8;
+    border-color: #daf0ca;
+}
+
+html[data-theme="light"] .map-mock {
+    border-color: #e3e7f0;
+    background:
+        radial-gradient(circle at 70% 20%, #d8dce7 7%, transparent 8%),
+        radial-gradient(circle at 30% 65%, #d8dce7 8%, transparent 9%),
+        repeating-linear-gradient(30deg, #f4f6fb 0, #f4f6fb 14px, #eceff7 14px, #eceff7 28px);
+}

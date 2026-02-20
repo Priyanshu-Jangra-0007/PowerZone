@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerZone Gym Directory</title>
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="gym-directory.css">
+    <link rel="stylesheet" href="theme.css?v=1">
+</head>
+<body class="gym-directory-body">
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="PowerZone Logo" class="logo-img">
+                </a>
+            </div>
+            <div class="nav-center">
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="gym-directory.html" class="is-active">Gyms</a>
+                    <a href="health-stream.html">AI Food Scanner</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                            Join Our Network
+                            <span class="dropdown-caret" aria-hidden="true"></span>
+                        </button>
+                        <div class="nav-dropdown-menu" role="menu" aria-label="Join Our Network">
+                            <a href="client.html" role="menuitem">Client</a>
+                            <a href="franchise.html" role="menuitem">Join Our Franchise</a>
+                        </div>
+                    </div>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="nav-cta">
+                <a class="btn-outlined" href="login.html">Login</a>
+                <a class="btn-register" href="register.html">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="gym-page">
+        <header class="gym-page-header">
+            <p class="kicker">PowerZone Discovery</p>
+            <h1>Find The Right Gym In Minutes</h1>
+            <p class="subhead">Explore verified gyms with instant filtering by category, rating, price, distance, and open-now availability.</p>
+            <div class="search-wrap">
+                <label for="gym-search" class="visually-hidden">Search gyms by name or address</label>
+                <input id="gym-search" type="search" placeholder="Search by gym name, city, or address">
+            </div>
+        </header>
+
+        <section class="gym-layout" aria-label="Gym Directory Layout">
+            <aside class="filter-panel card-shell" aria-label="Filter Panel">
+                <div class="panel-head">
+                    <h2>Filters</h2>
+                    <button id="reset-filters" type="button">Reset</button>
+                </div>
+
+                <section class="filter-block">
+                    <h3>Categories</h3>
+                    <div id="category-chips" class="chip-grid"></div>
+                </section>
+
+                <section class="filter-block">
+                    <h3>Minimum Rating <span id="rating-value">0.0</span></h3>
+                    <input id="rating-filter" type="range" min="0" max="5" step="0.1" value="0">
+                </section>
+
+                <section class="filter-block">
+                    <h3>Distance Radius <span id="distance-value">25 km</span></h3>
+                    <input id="distance-filter" type="range" min="1" max="25" step="1" value="25">
+                </section>
+
+                <section class="filter-block">
+                    <h3>Price Tier</h3>
+                    <div id="price-tiers" class="tier-grid">
+                        <button type="button" class="tier-btn" data-tier="1">$</button>
+                        <button type="button" class="tier-btn" data-tier="2">$$</button>
+                        <button type="button" class="tier-btn" data-tier="3">$$$</button>
+                        <button type="button" class="tier-btn" data-tier="4">$$$$</button>
+                    </div>
+                </section>
+
+                <section class="filter-block">
+                    <label class="toggle-row" for="open-now-toggle">
+                        <span>Open Now</span>
+                        <input id="open-now-toggle" type="checkbox">
+                    </label>
+                </section>
+            </aside>
+
+            <section class="results-panel">
+                <div class="sort-bar card-shell" aria-label="Sort Bar">
+                    <div class="results-count">
+                        <strong id="results-count">0 gyms</strong>
+                        <span id="results-meta">Live results</span>
+                    </div>
+                    <label class="sort-control" for="sort-select">
+                        Sort by
+                        <select id="sort-select">
+                            <option value="distance">Distance (Nearest)</option>
+                            <option value="rating">Rating (Highest)</option>
+                            <option value="price">Price (Lowest)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="map-placeholder card-shell" aria-label="Map Placeholder">
+                    <h2>Map View Coming Soon</h2>
+                    <p>Interactive map integration will appear here in a future release.</p>
+                </div>
+
+                <div id="results-grid" class="results-grid" aria-live="polite"></div>
+                <div id="empty-state" class="empty-state card-shell" hidden>
+                    <h3>No gyms match your filters</h3>
+                    <p>Try lowering your rating requirement, increasing distance, or clearing categories.</p>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="gym-directory.js"></script>
+    <script src="theme.js"></script>
+</body>
+</html>

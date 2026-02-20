@@ -120,7 +120,7 @@
 
         showStatus("Login successful. Redirecting...", true);
         setTimeout(() => {
-            window.location.href = "index.html";
+            window.location.href = "client.html";
         }, 700);
     });
 
@@ -162,14 +162,17 @@
         }
 
         if (!data.session) {
-            showStatus("Check your email to verify your account, then login.", true);
-            setView("login");
-            return;
+            const loginAttempt = await supabase.auth.signInWithPassword({ email, password });
+            if (loginAttempt.error) {
+                showStatus("Check your email to verify your account, then login.", true);
+                setView("login");
+                return;
+            }
         }
 
         showStatus("Account created. Redirecting...", true);
         setTimeout(() => {
-            window.location.href = "index.html";
+            window.location.href = "client.html";
         }, 700);
     });
 

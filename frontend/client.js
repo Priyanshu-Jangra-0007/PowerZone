@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'powerzone-client-state-v1';
 const goalChart = document.getElementById('goal-process-chart');
-const navLinks = Array.from(document.querySelectorAll('.side-nav a[data-view]'));
+const sideNavLinks = Array.from(document.querySelectorAll('.side-nav a[data-view]'));
 const panels = Array.from(document.querySelectorAll('.dashboard-view[data-panel]'));
 
 const defaultState = {
@@ -114,7 +114,7 @@ function normalizeChecklist(key) {
 function setActiveView(view) {
     const normalized = panels.some((panel) => panel.dataset.panel === view) ? view : 'dashboard';
     state.view = normalized;
-    navLinks.forEach((link) => link.classList.toggle('active', link.dataset.view === normalized));
+    sideNavLinks.forEach((link) => link.classList.toggle('active', link.dataset.view === normalized));
     panels.forEach((panel) => panel.classList.toggle('active', panel.dataset.panel === normalized));
     const nextUrl = `client.html?view=${encodeURIComponent(normalized)}`;
     if (window.location.pathname.toLowerCase().includes('client.html')) {
@@ -435,7 +435,7 @@ function bindAddForm(formId, inputId, key, mapFn, options = {}) {
 }
 
 function bindStaticEvents() {
-    navLinks.forEach((link) => {
+    sideNavLinks.forEach((link) => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
             const view = link.dataset.view;
@@ -570,7 +570,40 @@ function bindStaticEvents() {
     bindAddForm('supplement-form', 'supplement-input', 'supplements', (text) => ({ text, done: false }));
     bindAddForm('trainer-form', 'trainer-input', 'trainer', (text) => ({ text, done: false }));
     bindAddForm('today-goal-form', 'today-goal-input', 'todayGoals', (text) => ({ text, done: false }));
-    bindAddForm('dashboard-todo-form', 'dashboard-todo-input', 'todos', (text) => ({ text, done: false }), { prepend: true });
+
+    const todoForm = document.getElementById('dashboard-todo-form');
+    const todoInput = document.getElementById('dashboard-todo-input');
+    const todoButton = todoForm ? todoForm.querySelector('button') : null;
+    if (todoForm && todoInput && todoButton) {
+        const addTodoItem = () => {
+            const value = todoInput.value.trim();
+            if (!value) return;
+            if (!Array.isArray(state.todos)) state.todos = [];
+            state.todos.unshift({ text: value, done: false });
+            todoInput.value = '';
+            saveState();
+            renderTodoList();
+            const list = document.getElementById('todo-list');
+            if (list) list.scrollTop = 0;
+        };
+
+        todoForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            addTodoItem();
+        });
+
+        todoButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            addTodoItem();
+        });
+
+        todoInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addTodoItem();
+            }
+        });
+    }
 }
 
 function renderAll() {

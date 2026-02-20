@@ -55,10 +55,23 @@ const defaultState = {
         notifications: true,
         emailSummary: false,
         units: 'metric'
-    }
+    },
+    gymAttendance: {}
 };
 
 let state = loadState();
+const dashboardTodoPreset = [
+    'Train lan for running',
+    'Chest workout',
+    'Belly fat loss',
+    'Abs training for josh',
+    'Train lan for running'
+];
+
+function isDashboardTodoPreset(list) {
+    if (!Array.isArray(list) || list.length !== dashboardTodoPreset.length) return false;
+    return list.every((item, index) => String(item.text || '').trim() === dashboardTodoPreset[index]);
+}
 
 function cloneState(source) {
     return JSON.parse(JSON.stringify(source));
@@ -141,6 +154,68 @@ function getViewFromLocation() {
         'client-settings.html': 'settings'
     };
     return map[file] || '';
+}
+
+const calendarTitle = document.getElementById('calendar-title');
+const calendarGrid = document.getElementById('calendar-grid');
+const calendarPrev = document.getElementById('calendar-prev');
+const calendarNext = document.getElementById('calendar-next');
+let calendarCursor = new Date();
+
+function formatDateKey(year, month, day) {
+    const mm = String(month + 1).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
+    return `${year}-${mm}-${dd}`;
+}
+
+function renderCalendar() {
+    if (!calendarTitle || !calendarGrid) return;
+    if (!state.gymAttendance || typeof state.gymAttendance !== 'object') {
+        state.gymAttendance = {};
+    }
+
+    const year = calendarCursor.getFullYear();
+    const month = calendarCursor.getMonth();
+    const monthName = calendarCursor.toLocaleString('en-US', { month: 'long' });
+    calendarTitle.textContent = `${monthName} ${year}`;
+
+    const firstDay = new Date(year, month, 1);
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const offset = firstDay.getDay();
+    const today = new Date();
+
+    calendarGrid.innerHTML = '';
+
+    for (let i = 0; i < offset; i += 1) {
+        const blank = document.createElement('button');
+        blank.type = 'button';
+        blank.className = 'calendar-day empty';
+        blank.disabled = true;
+        calendarGrid.appendChild(blank);
+    }
+
+    for (let day = 1; day <= lastDate; day += 1) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'calendar-day';
+        btn.textContent = String(day);
+        btn.dataset.day = String(day);
+
+        if (
+            today.getFullYear() === year &&
+            today.getMonth() === month &&
+            today.getDate() === day
+        ) {
+            btn.classList.add('today');
+        }
+
+        const key = formatDateKey(year, month, day);
+        if (state.gymAttendance[key]) {
+            btn.classList.add('attended');
+        }
+
+        calendarGrid.appendChild(btn);
+    }
 }
 
 function drawGoalProcess() {
@@ -281,18 +356,15 @@ function renderTodoList() {
     if (!list) return;
     list.innerHTML = '';
 
-    if (!state.todos.length) {
-        const empty = document.createElement('li');
-        empty.className = 'todo-empty';
-        empty.textContent = 'Add workout task...';
-        list.appendChild(empty);
-        return;
+    if (!isDashboardTodoPreset(state.todos)) {
+        state.todos = dashboardTodoPreset.map((text) => ({ text, done: false }));
+        saveState();
     }
 
     state.todos.forEach((item, index) => {
         const li = document.createElement('li');
         li.className = item.done ? 'done' : '';
-        li.innerHTML = `<label><input type="checkbox" data-key="todos" data-index="${index}" ${item.done ? 'checked' : ''}> <span class="todo-text">${item.text}</span></label><button type="button" data-delete="todos" data-index="${index}">Delete</button>`;
+        li.innerHTML = `<label><input type="checkbox" data-key="todos" data-index="${index}" ${item.done ? 'checked' : ''}> <span class="todo-text">${item.text}</span></label><button type="button" class="todo-dots" aria-label="Task options">&#8942;</button>`;
         list.appendChild(li);
     });
 }
@@ -571,39 +643,29 @@ function bindStaticEvents() {
     bindAddForm('trainer-form', 'trainer-input', 'trainer', (text) => ({ text, done: false }));
     bindAddForm('today-goal-form', 'today-goal-input', 'todayGoals', (text) => ({ text, done: false }));
 
-    const todoForm = document.getElementById('dashboard-todo-form');
-    const todoInput = document.getElementById('dashboard-todo-input');
-    const todoButton = todoForm ? todoForm.querySelector('button') : null;
-    if (todoForm && todoInput && todoButton) {
-        const addTodoItem = () => {
-            const value = todoInput.value.trim();
-            if (!value) return;
-            if (!Array.isArray(state.todos)) state.todos = [];
-            state.todos.unshift({ text: value, done: false });
-            todoInput.value = '';
+    if (calendarPrev && calendarNext && calendarGrid) {
+        calendarPrev.addEventListener('click', () => {
+            calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() - 1, 1);
+            renderCalendar();
+        });
+        calendarNext.addEventListener('click', () => {
+            calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + 1, 1);
+            renderCalendar();
+        });
+        calendarGrid.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLButtonElement)) return;
+            const day = Number(target.dataset.day);
+            if (!day) return;
+            const year = calendarCursor.getFullYear();
+            const month = calendarCursor.getMonth();
+            const key = formatDateKey(year, month, day);
+            state.gymAttendance[key] = !state.gymAttendance[key];
             saveState();
-            renderTodoList();
-            const list = document.getElementById('todo-list');
-            if (list) list.scrollTop = 0;
-        };
-
-        todoForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            addTodoItem();
-        });
-
-        todoButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            addTodoItem();
-        });
-
-        todoInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                addTodoItem();
-            }
+            renderCalendar();
         });
     }
+
 }
 
 function renderAll() {
@@ -617,6 +679,7 @@ function renderAll() {
     renderMembers();
     renderFriends();
     renderConversation();
+    renderCalendar();
     if (state.view === 'dashboard') drawGoalProcess();
 }
 

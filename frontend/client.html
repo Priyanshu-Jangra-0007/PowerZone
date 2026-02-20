@@ -173,10 +173,7 @@
                         <article class="panel-lite mini-card todo-card">
                             <h2>To Do List</h2>
                             <ul id="todo-list"></ul>
-                            <form id="dashboard-todo-form" class="todo-add-form">
-                                <input id="dashboard-todo-input" type="text" placeholder="Add workout task">
-                                <button type="button">Add</button>
-                            </form>
+                            <a href="client-goals.html" class="view-more">View more &rarr;</a>
                         </article>
                     </section>
                 </section>
@@ -322,17 +319,14 @@
 
                 <article class="panel-lite calendar-card">
                     <div class="calendar-head">
-                        <button type="button" aria-label="Previous month">&lt;</button>
-                        <h3>September 2024</h3>
-                        <button type="button" aria-label="Next month">&gt;</button>
+                        <button type="button" id="calendar-prev" aria-label="Previous month">&lt;</button>
+                        <h3 id="calendar-title"></h3>
+                        <button type="button" id="calendar-next" aria-label="Next month">&gt;</button>
                     </div>
-                    <div class="calendar-grid" aria-hidden="true">
-                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
-                        <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
-                        <span>15</span><span>16</span><span class="today">17</span><span>18</span><span>19</span><span>20</span><span>21</span>
-                        <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
-                        <span>29</span><span>30</span>
+                    <div class="calendar-weekdays" aria-hidden="true">
+                        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
                     </div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
                 </article>
 
                 <article class="panel-lite map-card">
@@ -348,7 +342,7 @@
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="client.js?v=4"></script>
+    <script src="client.js?v=5"></script>
     <script src="theme.js"></script>
 </body>
 </html>

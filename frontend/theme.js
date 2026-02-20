@@ -53,18 +53,24 @@
     }
 
     function mountToggle() {
-        if (document.querySelector(".theme-toggle")) {
-            return;
+        let desktopToggle = document.querySelector(".theme-toggle:not(.theme-toggle-mobile)");
+        if (!desktopToggle) {
+            const navCta = document.querySelector(".nav-cta");
+            desktopToggle = makeToggleButton();
+            if (navCta) {
+                navCta.prepend(desktopToggle);
+            } else {
+                desktopToggle.classList.add("theme-toggle-floating");
+                document.body.appendChild(desktopToggle);
+            }
         }
 
-        const navCta = document.querySelector(".nav-cta");
-        const button = makeToggleButton();
-
-        if (navCta) {
-            navCta.prepend(button);
-        } else {
-            button.classList.add("theme-toggle-floating");
-            document.body.appendChild(button);
+        const navContainer = document.querySelector(".nav-container");
+        const mobileCta = navContainer ? navContainer.querySelector(".nav-mobile-cta") : null;
+        if (navContainer && mobileCta && !navContainer.querySelector(".theme-toggle-mobile")) {
+            const mobileToggle = makeToggleButton();
+            mobileToggle.classList.add("theme-toggle-mobile");
+            navContainer.insertBefore(mobileToggle, mobileCta);
         }
     }
 

@@ -382,6 +382,14 @@ html[data-theme="light"] .auth-bg {
     background: linear-gradient(180deg, #f4f7fc 0%, #ecf2fa 100%);
 }
 
+html[data-theme="light"] .hero-side {
+    background: linear-gradient(180deg, #f4f7fc 0%, #ecf2fa 100%);
+}
+
+html[data-theme="light"] .hero-side::after {
+    background: none;
+}
+
 html[data-theme="light"] .auth-card,
 html[data-theme="light"] .auth-box,
 html[data-theme="light"] .auth-panel {
@@ -404,6 +412,10 @@ html[data-theme="light"] .auth-tab {
     background: #ffffff;
     color: #182433;
     border-color: rgba(19, 31, 49, 0.17);
+}
+
+html[data-theme="light"] body[data-auth-page] .kicker.tail {
+    color: #172334;
 }
 
 .site-footer {
@@ -616,10 +628,7 @@ html[data-theme="light"] .site-footer-note {
 }
 
 html[data-theme="light"] .about-home {
-    background:
-        linear-gradient(180deg, rgba(247, 249, 252, 0.52) 0%, rgba(232, 239, 248, 0.48) 100%),
-        linear-gradient(90deg, rgba(241, 244, 249, 0.46) 0%, rgba(253, 239, 241, 0.38) 50%, rgba(241, 244, 249, 0.46) 100%),
-        url("images/about.jpg") center center / cover no-repeat;
+    background: linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
 }
 
 html[data-theme="light"] .about-home::after {
@@ -654,6 +663,10 @@ html[data-theme="light"] .about-home-content {
 
 html[data-theme="light"] .about-home-content h2 {
     color: #122137;
+}
+
+html[data-theme="light"] .about-home-kicker-about {
+    color: #172334;
 }
 
 html[data-theme="light"] .about-home-content p {

@@ -155,8 +155,6 @@ document.querySelectorAll('.feature-box').forEach(box => {
     observer.observe(box);
 });
 
-// Keep hero content static on scroll
-
 // Add hover glow effect to buttons
 document.querySelectorAll('.btn-primary, .btn-register').forEach(button => {
     button.addEventListener('mouseenter', function() {

@@ -407,7 +407,7 @@ html[data-theme="light"] .auth-tab {
 }
 
 .site-footer {
-    margin-top: 56px;
+    margin-top: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     background: linear-gradient(180deg, rgba(9, 9, 9, 0.9) 0%, rgba(8, 8, 8, 0.96) 100%);
     backdrop-filter: blur(10px);
@@ -614,3 +614,61 @@ html[data-theme="light"] .site-footer-note {
         gap: 6px;
     }
 }
+
+html[data-theme="light"] .about-home {
+    background:
+        linear-gradient(180deg, rgba(247, 249, 252, 0.52) 0%, rgba(232, 239, 248, 0.48) 100%),
+        linear-gradient(90deg, rgba(241, 244, 249, 0.46) 0%, rgba(253, 239, 241, 0.38) 50%, rgba(241, 244, 249, 0.46) 100%),
+        url("images/about.jpg") center center / cover no-repeat;
+}
+
+html[data-theme="light"] .about-home::after {
+    background:
+        linear-gradient(90deg, transparent 0%, rgba(19, 31, 48, 0.22) 50%, transparent 100%) top / 100% 1px no-repeat,
+        linear-gradient(90deg, transparent 0%, rgba(19, 31, 48, 0.18) 50%, transparent 100%) bottom / 100% 1px no-repeat;
+}
+
+html[data-theme="light"] .about-home-img {
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(22, 36, 55, 0.13);
+    filter: saturate(0.92) contrast(1) brightness(0.96);
+}
+
+html[data-theme="light"] .about-home-side-img {
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(22, 36, 55, 0.13);
+    filter: saturate(0.92) contrast(1) brightness(0.96);
+}
+
+html[data-theme="light"] .about-home-media::after,
+html[data-theme="light"] .about-home-side::after {
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0) 42%, rgba(22, 36, 55, 0.18) 100%),
+        linear-gradient(180deg, rgba(247, 249, 252, 0.2) 0%, rgba(247, 249, 252, 0.05) 45%, rgba(22, 36, 55, 0.18) 100%);
+}
+
+html[data-theme="light"] .about-home-content {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.56) 100%);
+    border-color: rgba(18, 33, 55, 0.12);
+}
+
+html[data-theme="light"] .about-home-content h2 {
+    color: #122137;
+}
+
+html[data-theme="light"] .about-home-content p {
+    color: #4d5d73;
+}
+
+html[data-theme="light"] .about-home-btn {
+    color: #cd1f25;
+    border-color: #cd1f25;
+    background: rgba(255, 255, 255, 0.92);
+}
+
+html[data-theme="light"] .about-home-btn:hover {
+    color: #ffffff;
+    background: #cd1f25;
+}
+
+

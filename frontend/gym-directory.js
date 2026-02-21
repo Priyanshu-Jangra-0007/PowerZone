@@ -1,313 +1,210 @@
-﻿const gyms = [
-    {
-        id: 1,
-        name: "Iron Forge Fitness",
-        address: { street: "221 Market St", city: "San Francisco", state: "CA" },
-        coordinates: { lat: 37.7936, lng: -122.3965 },
-        rating: 4.8,
-        reviewCount: 412,
-        priceTier: 3,
-        categories: ["Strength Training", "Bodybuilding", "Cardio"],
-        hours: { open: "05:00", close: "23:00" },
-        distanceKm: 2.1
-    },
-    {
-        id: 2,
-        name: "Pulse CrossFit Yard",
-        address: { street: "498 Mission Ave", city: "San Diego", state: "CA" },
-        coordinates: { lat: 32.7152, lng: -117.1611 },
-        rating: 4.6,
-        reviewCount: 286,
-        priceTier: 2,
-        categories: ["CrossFit", "Strength Training"],
-        hours: { open: "06:00", close: "22:00" },
-        distanceKm: 5.4
-    },
-    {
-        id: 3,
-        name: "Zen Flex Studio",
-        address: { street: "88 Lake Shore Dr", city: "Chicago", state: "IL" },
-        coordinates: { lat: 41.8858, lng: -87.6229 },
-        rating: 4.4,
-        reviewCount: 198,
-        priceTier: 2,
-        categories: ["Yoga", "Cardio"],
-        hours: { open: "06:30", close: "21:00" },
-        distanceKm: 7.9
-    },
-    {
-        id: 4,
-        name: "MMA District Hub",
-        address: { street: "410 Liberty St", city: "Austin", state: "TX" },
-        coordinates: { lat: 30.2674, lng: -97.7428 },
-        rating: 4.9,
-        reviewCount: 521,
-        priceTier: 4,
-        categories: ["MMA", "Strength Training", "Cardio"],
-        hours: { open: "05:30", close: "23:30" },
-        distanceKm: 1.8
-    },
-    {
-        id: 5,
-        name: "Coreline Athletic Club",
-        address: { street: "120 Main St", city: "Seattle", state: "WA" },
-        coordinates: { lat: 47.6075, lng: -122.3331 },
-        rating: 4.3,
-        reviewCount: 167,
-        priceTier: 1,
-        categories: ["Cardio", "Yoga", "Strength Training"],
-        hours: { open: "07:00", close: "21:30" },
-        distanceKm: 12.2
-    },
-    {
-        id: 6,
-        name: "Titan Body Lab",
-        address: { street: "15 Park Ave", city: "New York", state: "NY" },
-        coordinates: { lat: 40.7459, lng: -73.9844 },
-        rating: 4.7,
-        reviewCount: 603,
-        priceTier: 4,
-        categories: ["Bodybuilding", "Strength Training"],
-        hours: { open: "05:00", close: "00:00" },
-        distanceKm: 3.6
-    },
-    {
-        id: 7,
-        name: "Vital Motion Gym",
-        address: { street: "203 Elm St", city: "Denver", state: "CO" },
-        coordinates: { lat: 39.7428, lng: -104.9914 },
-        rating: 4.2,
-        reviewCount: 132,
-        priceTier: 1,
-        categories: ["Cardio", "CrossFit"],
-        hours: { open: "06:00", close: "20:00" },
-        distanceKm: 9.1
-    },
-    {
-        id: 8,
-        name: "Summit Barbell House",
-        address: { street: "640 Grand Ave", city: "Phoenix", state: "AZ" },
-        coordinates: { lat: 33.4484, lng: -112.074 },
-        rating: 4.5,
-        reviewCount: 248,
-        priceTier: 2,
-        categories: ["Bodybuilding", "Strength Training"],
-        hours: { open: "05:30", close: "22:30" },
-        distanceKm: 14.8
-    },
-    {
-        id: 9,
-        name: "Urban Warrior Center",
-        address: { street: "730 Broadway", city: "Nashville", state: "TN" },
-        coordinates: { lat: 36.1651, lng: -86.7819 },
-        rating: 4.1,
-        reviewCount: 94,
-        priceTier: 1,
-        categories: ["MMA", "CrossFit", "Cardio"],
-        hours: { open: "07:00", close: "22:00" },
-        distanceKm: 18.5
-    },
-    {
-        id: 10,
-        name: "Balance & Burn",
-        address: { street: "52 Bay St", city: "Boston", state: "MA" },
-        coordinates: { lat: 42.3559, lng: -71.0544 },
-        rating: 4.6,
-        reviewCount: 320,
-        priceTier: 3,
-        categories: ["Yoga", "Cardio", "Strength Training"],
-        hours: { open: "06:00", close: "22:00" },
-        distanceKm: 6.8
-    },
-    {
-        id: 11,
-        name: "Forge 24 Athletics",
-        address: { street: "915 River Rd", city: "Miami", state: "FL" },
-        coordinates: { lat: 25.7742, lng: -80.1936 },
-        rating: 4.4,
-        reviewCount: 208,
-        priceTier: 2,
-        categories: ["Cardio", "MMA", "Strength Training"],
-        hours: { open: "00:00", close: "23:59" },
-        distanceKm: 4.2
-    },
-    {
-        id: 12,
-        name: "Northside Conditioning",
-        address: { street: "402 Cedar Blvd", city: "Portland", state: "OR" },
-        coordinates: { lat: 45.5155, lng: -122.6793 },
-        rating: 3.9,
-        reviewCount: 73,
-        priceTier: 1,
-        categories: ["CrossFit", "Strength Training", "Yoga"],
-        hours: { open: "08:00", close: "20:00" },
-        distanceKm: 22.4
-    }
+const gyms = [
+    { id: 1, name: "The Forge Crossfit", category: "CrossFit", address: "Near Beta-2 Park, Greater Noida", rating: 4.9 },
+    { id: 2, name: "Crossfit Arena", category: "CrossFit", address: "Alpha-2, Greater Noida, UP", rating: 4.8 },
+    { id: 3, name: "Powerhouse Gym", category: "General Gym", address: "Alpha-1 Commercial Complex, Greater Noida", rating: 4.7 },
+    { id: 4, name: "Spartan Gym", category: "Bodybuilding", address: "Zeta-1, Greater Noida, UP", rating: 4.7 },
+    { id: 5, name: "Iron Temple Gym", category: "Bodybuilding", address: "Sector Alpha-1, Greater Noida, UP", rating: 4.6 },
+    { id: 6, name: "Elite Fitness Center", category: "Unisex Fitness", address: "Beta-2, Greater Noida, UP", rating: 4.6 },
+    { id: 7, name: "Muscle Factory", category: "Bodybuilding", address: "Near Alpha-2 Metro, Greater Noida", rating: 4.5 },
+    { id: 8, name: "The Fit Club", category: "Unisex Fitness", address: "Eta-1, Greater Noida, UP", rating: 4.5 },
+    { id: 9, name: "FitZone Unisex Fitness", category: "Unisex Fitness", address: "Near Pari Chowk, Alpha-1, Greater Noida", rating: 4.4 },
+    { id: 10, name: "Titan Gym", category: "Bodybuilding", address: "Beta-2 Commercial Area, Greater Noida", rating: 4.4 },
+    { id: 11, name: "Strength & Conditioning Hub", category: "General Gym", address: "Alpha-2 Market, Greater Noida", rating: 4.3 },
+    { id: 12, name: "Omega Fitness Zone", category: "General Gym", address: "Gamma-1, Greater Noida, UP", rating: 4.2 }
 ];
 
 const state = {
     query: "",
-    selectedCategories: new Set(),
+    sortBy: "rating",
     minRating: 0,
-    maxDistance: 25,
-    selectedPrices: new Set(),
-    openNowOnly: false,
-    sortBy: "distance"
+    locations: new Set(),
+    categories: new Set()
 };
 
 const elements = {
-    categoryChips: document.getElementById("category-chips"),
-    ratingFilter: document.getElementById("rating-filter"),
-    ratingValue: document.getElementById("rating-value"),
-    distanceFilter: document.getElementById("distance-filter"),
-    distanceValue: document.getElementById("distance-value"),
-    priceButtons: Array.from(document.querySelectorAll(".tier-btn")),
-    openNowToggle: document.getElementById("open-now-toggle"),
-    resetFilters: document.getElementById("reset-filters"),
-    sortSelect: document.getElementById("sort-select"),
     search: document.getElementById("gym-search"),
+    sortDropdown: document.getElementById("sort-dropdown"),
+    sortToggle: document.getElementById("sort-toggle"),
+    sortMenu: document.getElementById("sort-menu"),
+    sortCurrent: document.getElementById("sort-current"),
+    sortOptions: document.querySelectorAll(".sort-option"),
+    filtersToggle: document.getElementById("filters-toggle"),
+    filtersPanel: document.getElementById("filters-panel"),
+    locationFilters: document.getElementById("location-filters"),
+    categoryFilters: document.getElementById("category-filters"),
+    minRatingOptions: document.querySelectorAll("input[name='min-rating']"),
+    resetFilters: document.getElementById("reset-filters"),
     resultsGrid: document.getElementById("results-grid"),
     resultsCount: document.getElementById("results-count"),
-    resultsMeta: document.getElementById("results-meta"),
     emptyState: document.getElementById("empty-state")
 };
 
-function toMinutes(timeText) {
-    const [h, m] = timeText.split(":").map(Number);
-    return (h * 60) + m;
+const sortLabels = {
+    rating: "SORT BY: RATING",
+    name: "SORT BY: NAME (A-Z)",
+    proximity: "SORT BY: PROXIMITY"
+};
+
+const proximityTokens = ["pari chowk", "alpha-1", "alpha-2", "beta-2", "gamma-1", "eta-1", "zeta-1"];
+const locationOrder = ["Alpha-1", "Alpha-2", "Beta-2", "Others"];
+
+function escapeHtml(text) {
+    return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
 }
 
-function isOpenNow(gym, now = new Date()) {
-    const open = toMinutes(gym.hours.open);
-    const close = toMinutes(gym.hours.close);
-    const current = (now.getHours() * 60) + now.getMinutes();
-
-    if (open === close) {
-        return true;
-    }
-
-    if (close < open) {
-        return current >= open || current <= close;
-    }
-
-    return current >= open && current <= close;
+function getCategories() {
+    return [...new Set(gyms.map((gym) => gym.category))];
 }
 
-function getAllCategories() {
-    return [...new Set(gyms.flatMap((gym) => gym.categories))].sort((a, b) => a.localeCompare(b));
+function getGymLocation(address) {
+    const normalized = address.toLowerCase();
+    if (normalized.includes("alpha-1")) return "Alpha-1";
+    if (normalized.includes("alpha-2")) return "Alpha-2";
+    if (normalized.includes("beta-2")) return "Beta-2";
+    return "Others";
 }
 
-function formatAddress(address) {
-    return `${address.street}, ${address.city}, ${address.state}`;
-}
+function renderCheckboxFilters(container, options, selectedSet) {
+    container.innerHTML = "";
+    options.forEach((value) => {
+        const label = document.createElement("label");
+        label.className = "filter-checkbox-option";
 
-function formatHours(hours) {
-    return `${hours.open} - ${hours.close}`;
-}
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = selectedSet.has(value);
 
-function formatPriceTier(priceTier) {
-    return "$".repeat(priceTier);
-}
+        const text = document.createElement("span");
+        text.textContent = value;
 
-function matchesFilters(gym) {
-    const searchArea = `${gym.name} ${formatAddress(gym.address)}`.toLowerCase();
-    const matchesSearch = !state.query || searchArea.includes(state.query);
-    const matchesCategory = state.selectedCategories.size === 0 || gym.categories.some((category) => state.selectedCategories.has(category));
-    const matchesRating = gym.rating >= state.minRating;
-    const matchesDistance = gym.distanceKm <= state.maxDistance;
-    const matchesPrice = state.selectedPrices.size === 0 || state.selectedPrices.has(gym.priceTier);
-    const matchesOpenNow = !state.openNowOnly || isOpenNow(gym);
+        input.addEventListener("change", () => {
+            if (input.checked) {
+                selectedSet.add(value);
+            } else {
+                selectedSet.delete(value);
+            }
+            renderResults();
+        });
 
-    return matchesSearch && matchesCategory && matchesRating && matchesDistance && matchesPrice && matchesOpenNow;
-}
-
-function sortGyms(items) {
-    const sorted = [...items];
-
-    if (state.sortBy === "distance") {
-        sorted.sort((a, b) => a.distanceKm - b.distanceKm || b.rating - a.rating);
-    } else if (state.sortBy === "rating") {
-        sorted.sort((a, b) => b.rating - a.rating || a.distanceKm - b.distanceKm);
-    } else {
-        sorted.sort((a, b) => a.priceTier - b.priceTier || b.rating - a.rating);
-    }
-
-    return sorted;
-}
-
-function createCategoryChip(category) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "chip-btn";
-    button.textContent = category;
-
-    if (state.selectedCategories.has(category)) {
-        button.classList.add("active");
-    }
-
-    button.addEventListener("click", () => {
-        if (state.selectedCategories.has(category)) {
-            state.selectedCategories.delete(category);
-        } else {
-            state.selectedCategories.add(category);
-        }
-        render();
-    });
-
-    return button;
-}
-
-function renderCategoryChips() {
-    const categories = getAllCategories();
-    elements.categoryChips.innerHTML = "";
-    categories.forEach((category) => {
-        elements.categoryChips.appendChild(createCategoryChip(category));
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
     });
 }
 
-function gymCardTemplate(gym) {
-    const open = isOpenNow(gym);
-    const statusClass = open ? "status-open" : "status-closed";
-    const statusText = open ? "Open" : "Closed";
-    const categoryTags = gym.categories.map((category) => `<span class="category-tag">${category}</span>`).join("");
+function renderLocationFilters() {
+    const available = new Set(gyms.map((gym) => getGymLocation(gym.address)));
+    const locations = locationOrder.filter((location) => available.has(location));
+    renderCheckboxFilters(elements.locationFilters, locations, state.locations);
+}
 
+function renderCategoryFilters() {
+    renderCheckboxFilters(elements.categoryFilters, getCategories(), state.categories);
+}
+
+function cardTemplate(gym) {
     return `
         <article class="gym-card">
-            <div class="gym-top">
-                <h3 class="gym-title">${gym.name}</h3>
-                <span class="gym-distance">${gym.distanceKm.toFixed(1)} km</span>
+            <div class="gym-card-top">
+                <h3>${escapeHtml(gym.name)}</h3>
+                <p class="gym-rating">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 17.27-6.18 3.73 1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"></path></svg>
+                    ${gym.rating.toFixed(1)}
+                </p>
             </div>
-            <p class="gym-address">${formatAddress(gym.address)}</p>
-            <p class="gym-hours">Hours: ${formatHours(gym.hours)}</p>
-            <div class="gym-meta">
-                <span class="rating-pill">${gym.rating.toFixed(1)} / 5 (${gym.reviewCount} reviews)</span>
-                <span class="price-pill">${formatPriceTier(gym.priceTier)}</span>
-                <span class="status-pill ${statusClass}">${statusText}</span>
-            </div>
-            <div class="category-tags">${categoryTags}</div>
+            <p class="gym-category">${escapeHtml(gym.category)}</p>
+            <p class="gym-address">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 4.86 5.42 11.9 6.04 12.69a1.2 1.2 0 0 0 1.92 0C13.58 20.9 19 13.86 19 9a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"></path></svg>
+                <span>${escapeHtml(gym.address)}</span>
+            </p>
+            <button class="details-button" type="button">VIEW DETAILS</button>
         </article>
     `;
 }
 
-function getFilteredGyms() {
-    return sortGyms(gyms.filter(matchesFilters));
-}
-
-function updateCountMeta(filteredCount) {
-    elements.resultsCount.textContent = `${filteredCount} gym${filteredCount === 1 ? "" : "s"}`;
-    elements.resultsMeta.textContent = `${filteredCount} of ${gyms.length} shown`;
-}
-
-function updateTierButtons() {
-    elements.priceButtons.forEach((button) => {
-        const tier = Number(button.dataset.tier);
-        button.classList.toggle("active", state.selectedPrices.has(tier));
+function applyFilters(list) {
+    return list.filter((gym) => {
+        const matchesSearch = state.query === "" || `${gym.name} ${gym.category} ${gym.address}`.toLowerCase().includes(state.query);
+        const matchesLocation = state.locations.size === 0 || state.locations.has(getGymLocation(gym.address));
+        const matchesCategory = state.categories.size === 0 || state.categories.has(gym.category);
+        const matchesRating = gym.rating >= state.minRating;
+        return matchesSearch && matchesLocation && matchesCategory && matchesRating;
     });
 }
 
+function sortGyms(list) {
+    const sorted = [...list];
+
+    if (state.sortBy === "name") {
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        return sorted;
+    }
+
+    if (state.sortBy === "proximity") {
+        const rankByAddress = (address) => {
+            const normalized = address.toLowerCase();
+            const rank = proximityTokens.findIndex((token) => normalized.includes(token));
+            return rank === -1 ? Number.MAX_SAFE_INTEGER : rank;
+        };
+
+        sorted.sort((a, b) => {
+            const rankDelta = rankByAddress(a.address) - rankByAddress(b.address);
+            if (rankDelta !== 0) {
+                return rankDelta;
+            }
+            return b.rating - a.rating;
+        });
+        return sorted;
+    }
+
+    sorted.sort((a, b) => b.rating - a.rating);
+    return sorted;
+}
+
+function syncSortDropdown() {
+    elements.sortCurrent.textContent = sortLabels[state.sortBy] || sortLabels.rating;
+
+    elements.sortOptions.forEach((option) => {
+        const isSelected = option.dataset.sort === state.sortBy;
+        option.classList.toggle("is-active", isSelected);
+        option.setAttribute("aria-selected", String(isSelected));
+    });
+}
+
+function toggleSortDropdown(open) {
+    const nextOpen = typeof open === "boolean" ? open : elements.sortMenu.hidden;
+    elements.sortMenu.hidden = !nextOpen;
+    elements.sortToggle.setAttribute("aria-expanded", String(nextOpen));
+    elements.sortDropdown.classList.toggle("is-open", nextOpen);
+}
+
+function toggleFilters(open) {
+    const nextOpen = typeof open === "boolean" ? open : !elements.filtersPanel.classList.contains("is-open");
+    elements.filtersPanel.classList.toggle("is-open", nextOpen);
+    elements.filtersPanel.setAttribute("aria-hidden", String(!nextOpen));
+    elements.filtersToggle.setAttribute("aria-expanded", String(nextOpen));
+}
+
+function resetFilters() {
+    state.minRating = 0;
+    state.locations.clear();
+    state.categories.clear();
+    elements.minRatingOptions.forEach((option) => {
+        option.checked = option.value === "0";
+    });
+    renderLocationFilters();
+    renderCategoryFilters();
+    renderResults();
+}
+
 function renderResults() {
-    const filtered = getFilteredGyms();
-    updateCountMeta(filtered.length);
+    const filtered = sortGyms(applyFilters(gyms));
+    elements.resultsCount.textContent = String(filtered.length);
 
     if (filtered.length === 0) {
         elements.resultsGrid.innerHTML = "";
@@ -316,80 +213,76 @@ function renderResults() {
     }
 
     elements.emptyState.hidden = true;
-    elements.resultsGrid.innerHTML = filtered.map(gymCardTemplate).join("");
-}
-
-function resetState() {
-    state.query = "";
-    state.selectedCategories.clear();
-    state.minRating = 0;
-    state.maxDistance = 25;
-    state.selectedPrices.clear();
-    state.openNowOnly = false;
-    state.sortBy = "distance";
-
-    elements.search.value = "";
-    elements.ratingFilter.value = "0";
-    elements.distanceFilter.value = "25";
-    elements.openNowToggle.checked = false;
-    elements.sortSelect.value = "distance";
-}
-
-function syncControlLabels() {
-    elements.ratingValue.textContent = state.minRating.toFixed(1);
-    elements.distanceValue.textContent = `${state.maxDistance} km`;
+    elements.resultsGrid.innerHTML = filtered.map(cardTemplate).join("");
 }
 
 function bindEvents() {
     elements.search.addEventListener("input", (event) => {
         state.query = event.target.value.trim().toLowerCase();
-        render();
+        renderResults();
     });
 
-    elements.ratingFilter.addEventListener("input", (event) => {
-        state.minRating = Number(event.target.value);
-        render();
+    elements.sortToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleSortDropdown();
     });
 
-    elements.distanceFilter.addEventListener("input", (event) => {
-        state.maxDistance = Number(event.target.value);
-        render();
-    });
-
-    elements.priceButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const tier = Number(button.dataset.tier);
-            if (state.selectedPrices.has(tier)) {
-                state.selectedPrices.delete(tier);
-            } else {
-                state.selectedPrices.add(tier);
+    elements.sortOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+            const nextSort = option.dataset.sort;
+            if (!nextSort) {
+                return;
             }
-            render();
+            state.sortBy = nextSort;
+            syncSortDropdown();
+            renderResults();
+            toggleSortDropdown(false);
         });
     });
 
-    elements.openNowToggle.addEventListener("change", (event) => {
-        state.openNowOnly = event.target.checked;
-        render();
+    elements.filtersToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleFilters();
+        toggleSortDropdown(false);
     });
 
-    elements.sortSelect.addEventListener("change", (event) => {
-        state.sortBy = event.target.value;
-        render();
+    elements.minRatingOptions.forEach((option) => {
+        option.addEventListener("change", (event) => {
+            state.minRating = Number(event.target.value);
+            renderResults();
+        });
     });
 
     elements.resetFilters.addEventListener("click", () => {
-        resetState();
-        render();
+        resetFilters();
+    });
+
+    document.addEventListener("click", (event) => {
+        if (elements.filtersPanel.classList.contains("is-open")) {
+            const clickedInside = elements.filtersPanel.contains(event.target) || elements.filtersToggle.contains(event.target);
+            if (!clickedInside) {
+                toggleFilters(false);
+            }
+        }
+
+        if (!elements.sortMenu.hidden) {
+            const clickedInSort = elements.sortDropdown.contains(event.target);
+            if (!clickedInSort) {
+                toggleSortDropdown(false);
+            }
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            toggleSortDropdown(false);
+            toggleFilters(false);
+        }
     });
 }
 
-function render() {
-    syncControlLabels();
-    renderCategoryChips();
-    updateTierButtons();
-    renderResults();
-}
-
 bindEvents();
-render();
+syncSortDropdown();
+renderLocationFilters();
+renderCategoryFilters();
+renderResults();

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PowerZone Gym Directory</title>
     <link rel="stylesheet" href="styles.css?v=11">
-    <link rel="stylesheet" href="gym-directory.css">
     <link rel="stylesheet" href="theme.css?v=2">
+    <link rel="stylesheet" href="gym-directory.css?v=2">
 </head>
 <body class="gym-directory-body">
     <nav class="navbar" id="navbar">
@@ -52,83 +52,128 @@
     </nav>
 
     <main class="gym-page">
-        <header class="gym-page-header">
-            <p class="kicker">PowerZone Discovery</p>
-            <h1>Find The Right Gym In Minutes</h1>
-            <p class="subhead">Explore verified gyms with instant filtering by category, rating, price, distance, and open-now availability.</p>
-            <div class="search-wrap">
-                <label for="gym-search" class="visually-hidden">Search gyms by name or address</label>
-                <input id="gym-search" type="search" placeholder="Search by gym name, city, or address">
+        <section class="gym-hero-wrap">
+            <div class="gym-container">
+                <div class="location-badge" aria-label="Location">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2a7 7 0 0 0-7 7c0 4.86 5.42 11.9 6.04 12.69a1.2 1.2 0 0 0 1.92 0C13.58 20.9 19 13.86 19 9a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"></path>
+                    </svg>
+                    <span>GREATER NOIDA, UP</span>
+                </div>
+                <h1>FIND MY GYM</h1>
+                <p>Discover the best gyms in Greater Noida. Filter by location, category, and ratings to find your perfect training ground.</p>
             </div>
-        </header>
+        </section>
 
-        <section class="gym-layout" aria-label="Gym Directory Layout">
-            <aside class="filter-panel card-shell" aria-label="Filter Panel">
-                <div class="panel-head">
-                    <h2>Filters</h2>
-                    <button id="reset-filters" type="button">Reset</button>
-                </div>
-
-                <section class="filter-block">
-                    <h3>Categories</h3>
-                    <div id="category-chips" class="chip-grid"></div>
-                </section>
-
-                <section class="filter-block">
-                    <h3>Minimum Rating <span id="rating-value">0.0</span></h3>
-                    <input id="rating-filter" type="range" min="0" max="5" step="0.1" value="0">
-                </section>
-
-                <section class="filter-block">
-                    <h3>Distance Radius <span id="distance-value">25 km</span></h3>
-                    <input id="distance-filter" type="range" min="1" max="25" step="1" value="25">
-                </section>
-
-                <section class="filter-block">
-                    <h3>Price Tier</h3>
-                    <div id="price-tiers" class="tier-grid">
-                        <button type="button" class="tier-btn" data-tier="1">$</button>
-                        <button type="button" class="tier-btn" data-tier="2">$$</button>
-                        <button type="button" class="tier-btn" data-tier="3">$$$</button>
-                        <button type="button" class="tier-btn" data-tier="4">$$$$</button>
-                    </div>
-                </section>
-
-                <section class="filter-block">
-                    <label class="toggle-row" for="open-now-toggle">
-                        <span>Open Now</span>
-                        <input id="open-now-toggle" type="checkbox">
+        <section class="gym-tools-wrap">
+            <div class="gym-container">
+                <div class="gym-tools-row">
+                    <label class="search-field" for="gym-search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M10 3a7 7 0 1 0 4.4 12.43l4.59 4.58 1.41-1.41-4.58-4.59A7 7 0 0 0 10 3zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"></path>
+                        </svg>
+                        <input id="gym-search" type="search" placeholder="Search gyms by name, location, or type..." autocomplete="off">
                     </label>
-                </section>
-            </aside>
 
-            <section class="results-panel">
-                <div class="sort-bar card-shell" aria-label="Sort Bar">
-                    <div class="results-count">
-                        <strong id="results-count">0 gyms</strong>
-                        <span id="results-meta">Live results</span>
+                    <div id="sort-dropdown" class="sort-field sort-dropdown">
+                        <button
+                            id="sort-toggle"
+                            class="sort-toggle"
+                            type="button"
+                            aria-haspopup="listbox"
+                            aria-expanded="false"
+                            aria-controls="sort-menu"
+                        >
+                            <span id="sort-current">SORT BY: RATING</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m7 10 5 5 5-5z"></path>
+                            </svg>
+                        </button>
+                        <div id="sort-menu" class="sort-menu" role="listbox" aria-label="Sort gyms" hidden>
+                            <button type="button" class="sort-option is-active" data-sort="rating" role="option" aria-selected="true">
+                                SORT BY: RATING
+                            </button>
+                            <button type="button" class="sort-option" data-sort="name" role="option" aria-selected="false">
+                                SORT BY: NAME (A-Z)
+                            </button>
+                            <button type="button" class="sort-option" data-sort="proximity" role="option" aria-selected="false">
+                                SORT BY: PROXIMITY
+                            </button>
+                        </div>
                     </div>
-                    <label class="sort-control" for="sort-select">
-                        Sort by
-                        <select id="sort-select">
-                            <option value="distance">Distance (Nearest)</option>
-                            <option value="rating">Rating (Highest)</option>
-                            <option value="price">Price (Lowest)</option>
-                        </select>
-                    </label>
-                </div>
 
-                <div class="map-placeholder card-shell" aria-label="Map Placeholder">
-                    <h2>Map View Coming Soon</h2>
-                    <p>Interactive map integration will appear here in a future release.</p>
+                    <div class="filters-wrap">
+                        <button id="filters-toggle" class="filters-button" type="button" aria-expanded="false" aria-controls="filters-panel">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 7h10v2H3V7zm0 8h14v2H3v-2zm14-9h4v4h-4V6zm-8 8h4v4H9v-4z"></path>
+                            </svg>
+                            FILTERS
+                        </button>
+                    </div>
                 </div>
+                <div id="filters-panel" class="filters-panel" aria-hidden="true">
+                    <p class="filters-title">FILTER OPTIONS</p>
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <p>LOCATION</p>
+                            <div id="location-filters" class="filter-option-list"></div>
+                        </div>
+                        <div class="filter-group">
+                            <p>GYM TYPE</p>
+                            <div id="category-filters" class="filter-option-list"></div>
+                        </div>
+                        <fieldset class="filter-group rating-group">
+                            <legend>MINIMUM RATING</legend>
+                            <label class="filter-rating-option">
+                                <input type="radio" name="min-rating" value="4.5">
+                                <span class="rating-dot"></span>
+                                <span class="rating-star">&#9733;</span>
+                                <span>4.5+</span>
+                            </label>
+                            <label class="filter-rating-option">
+                                <input type="radio" name="min-rating" value="4">
+                                <span class="rating-dot"></span>
+                                <span class="rating-star">&#9733;</span>
+                                <span>4+</span>
+                            </label>
+                            <label class="filter-rating-option">
+                                <input type="radio" name="min-rating" value="3.5">
+                                <span class="rating-dot"></span>
+                                <span class="rating-star">&#9733;</span>
+                                <span>3.5+</span>
+                            </label>
+                            <label class="filter-rating-option">
+                                <input type="radio" name="min-rating" value="3">
+                                <span class="rating-dot"></span>
+                                <span class="rating-star">&#9733;</span>
+                                <span>3+</span>
+                            </label>
+                            <label class="filter-rating-option">
+                                <input type="radio" name="min-rating" value="0" checked>
+                                <span class="rating-dot"></span>
+                                <span>All Ratings</span>
+                            </label>
+                        </fieldset>
+                    </div>
+                    <button id="reset-filters" class="reset-button" type="button">RESET FILTERS</button>
+                </div>
+            </div>
+        </section>
 
+        <section class="results-head-wrap">
+            <div class="gym-container">
+                <p class="results-line">Found <strong id="results-count">0</strong> gyms</p>
+            </div>
+        </section>
+
+        <section class="results-wrap">
+            <div class="gym-container">
                 <div id="results-grid" class="results-grid" aria-live="polite"></div>
-                <div id="empty-state" class="empty-state card-shell" hidden>
+                <div id="empty-state" class="empty-state" hidden>
                     <h3>No gyms match your filters</h3>
-                    <p>Try lowering your rating requirement, increasing distance, or clearing categories.</p>
+                    <p>Try a different search term or clear filters.</p>
                 </div>
-            </section>
+            </div>
         </section>
     </main>
 

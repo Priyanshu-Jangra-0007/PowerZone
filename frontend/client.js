@@ -7,9 +7,12 @@ const profileName = document.getElementById('client-profile-name');
 const profileRole = document.getElementById('client-profile-role');
 const profileAvatar = document.getElementById('client-avatar');
 const hasSupabase = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
-const supabase = hasSupabase
+const clientSupabase = hasSupabase
     ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
     : null;
+const CLIENT_DISPLAY_NAME_KEY = 'powerzone-display-name';
+const CLIENT_AVATAR_URL_KEY = 'powerzone-avatar-url';
+const CLIENT_PROFILE_CACHE_KEY = 'powerzone-profile-cache';
 
 const defaultState = {
     view: 'dashboard',
@@ -143,7 +146,37 @@ function getLoginRedirectUrl() {
 
 function deriveDisplayName(user) {
     const metadata = user && typeof user === 'object' ? (user.user_metadata || {}) : {};
-    const candidates = [metadata.full_name, metadata.name, metadata.user_name, user?.email];
+    const identityData = Array.isArray(user && user.identities)
+        ? user.identities
+            .map((identity) => identity && identity.identity_data ? identity.identity_data : null)
+            .find((value) => value && typeof value === 'object')
+        : null;
+    let storedName = '';
+    let cachedName = '';
+    try {
+        storedName = localStorage.getItem(CLIENT_DISPLAY_NAME_KEY) || '';
+        const rawCache = localStorage.getItem(CLIENT_PROFILE_CACHE_KEY);
+        const profileCache = rawCache ? JSON.parse(rawCache) : {};
+        const normalizedEmail = String(user?.email || '').trim().toLowerCase();
+        cachedName = normalizedEmail && profileCache[normalizedEmail]
+            ? String(profileCache[normalizedEmail].name || '')
+            : '';
+    } catch (_error) {
+        storedName = '';
+        cachedName = '';
+    }
+    const candidates = [
+        cachedName,
+        metadata.full_name,
+        metadata.display_name,
+        metadata.name,
+        metadata.user_name,
+        identityData && identityData.full_name,
+        identityData && identityData.name,
+        identityData && identityData.user_name,
+        user?.email,
+        storedName
+    ];
     for (const candidate of candidates) {
         if (typeof candidate === 'string' && candidate.trim()) {
             return candidate.includes('@') ? candidate.split('@')[0] : candidate.trim();
@@ -162,10 +195,57 @@ function deriveInitials(name) {
     return parts.map((part) => part[0].toUpperCase()).join('');
 }
 
+function getFirstName(name) {
+    const trimmed = String(name || '').trim();
+    if (!trimmed) {
+        return 'Athlete';
+    }
+    return trimmed.split(/\s+/)[0];
+}
+
+function isEmailLikeName(name) {
+    return typeof name === 'string' && name.includes('@');
+}
+
+async function syncAccountDisplayName(user) {
+    if (!clientSupabase || !user) {
+        return user;
+    }
+
+    const metadata = user && typeof user === 'object' ? (user.user_metadata || {}) : {};
+    const resolvedName = deriveDisplayName(user);
+    if (!resolvedName || isEmailLikeName(resolvedName) || metadata.full_name === resolvedName) {
+        return user;
+    }
+
+    const { data, error } = await clientSupabase.auth.updateUser({
+        data: {
+            ...metadata,
+            full_name: resolvedName
+        }
+    });
+
+    return error ? user : (data.user || user);
+}
+
 function applyAuthenticatedUser(user) {
     const displayName = deriveDisplayName(user);
+    const metadata = user && typeof user === 'object' ? (user.user_metadata || {}) : {};
+    const avatarUrl = [metadata.avatar_url, metadata.picture, metadata.photo_url]
+        .find((value) => typeof value === 'string' && value.trim()) || '';
+    const firstName = getFirstName(displayName);
+    try {
+        localStorage.setItem(CLIENT_DISPLAY_NAME_KEY, displayName);
+        if (avatarUrl) {
+            localStorage.setItem(CLIENT_AVATAR_URL_KEY, avatarUrl);
+        } else {
+            localStorage.removeItem(CLIENT_AVATAR_URL_KEY);
+        }
+    } catch (_error) {
+        // Ignore storage failures.
+    }
     if (greetingHeading) {
-        greetingHeading.textContent = `Hi ${displayName}!`;
+        greetingHeading.textContent = `Hi ${firstName}!`;
     }
     if (profileName) {
         profileName.textContent = displayName;
@@ -179,19 +259,20 @@ function applyAuthenticatedUser(user) {
 }
 
 async function requireAuthenticatedUser() {
-    if (!supabase) {
+    if (!clientSupabase) {
         window.location.replace(getLoginRedirectUrl());
         return null;
     }
 
-    const { data, error } = await supabase.auth.getSession();
-    const user = data.session?.user || null;
-    if (error || !user?.email_confirmed_at) {
+    const { data, error } = await clientSupabase.auth.getSession();
+    const sessionUser = data.session?.user || null;
+    if (error || !sessionUser?.email_confirmed_at) {
         window.location.replace(getLoginRedirectUrl());
         return null;
     }
 
-    return user;
+    const userResponse = await clientSupabase.auth.getUser();
+    return userResponse.data?.user || sessionUser;
 }
 
 function setActiveView(view) {
@@ -754,15 +835,16 @@ function renderAll() {
 }
 
 async function initializeClientPage() {
-    const user = await requireAuthenticatedUser();
-    if (!user) {
+    const initialUser = await requireAuthenticatedUser();
+    if (!initialUser) {
         return;
     }
 
+    const user = await syncAccountDisplayName(initialUser);
     applyAuthenticatedUser(user);
 
-    if (supabase) {
-        supabase.auth.onAuthStateChange((_event, session) => {
+    if (clientSupabase) {
+        clientSupabase.auth.onAuthStateChange((_event, session) => {
             if (!session?.user) {
                 window.location.replace(getLoginRedirectUrl());
                 return;

@@ -3,6 +3,9 @@
     const statusEl = document.getElementById("auth-status");
     const hasSupabase = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
     const defaultRedirect = "client.html";
+    const DISPLAY_NAME_KEY = "powerzone-display-name";
+    const AVATAR_URL_KEY = "powerzone-avatar-url";
+    const PROFILE_CACHE_KEY = "powerzone-profile-cache";
 
     function setStatus(message, ok) {
         if (!statusEl) return;
@@ -25,6 +28,122 @@
         return rawTarget.startsWith("/") ? rawTarget.slice(1) : rawTarget;
     }
 
+    function saveDisplayName(name) {
+        const trimmed = String(name || "").trim();
+        if (!trimmed) return;
+        try {
+            localStorage.setItem(DISPLAY_NAME_KEY, trimmed);
+        } catch (_error) {
+            // Ignore storage failures.
+        }
+    }
+
+    function readProfileCache() {
+        try {
+            const raw = localStorage.getItem(PROFILE_CACHE_KEY);
+            return raw ? JSON.parse(raw) : {};
+        } catch (_error) {
+            return {};
+        }
+    }
+
+    function saveProfileCache(cache) {
+        try {
+            localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(cache));
+        } catch (_error) {
+            // Ignore storage failures.
+        }
+    }
+
+    function cacheProfile(email, name, avatarUrl) {
+        const normalizedEmail = String(email || "").trim().toLowerCase();
+        if (!normalizedEmail) return;
+        const cache = readProfileCache();
+        cache[normalizedEmail] = {
+            name: String(name || "").trim(),
+            avatarUrl: String(avatarUrl || "").trim()
+        };
+        saveProfileCache(cache);
+    }
+
+    function saveAvatarUrl(user) {
+        const metadata = user && typeof user === "object" ? (user.user_metadata || {}) : {};
+        const avatarUrl = [metadata.avatar_url, metadata.picture, metadata.photo_url]
+            .find((value) => typeof value === "string" && value.trim());
+        try {
+            if (avatarUrl) {
+                localStorage.setItem(AVATAR_URL_KEY, avatarUrl.trim());
+            } else {
+                localStorage.removeItem(AVATAR_URL_KEY);
+            }
+        } catch (_error) {
+            // Ignore storage failures.
+        }
+    }
+
+    function clearStoredProfile() {
+        try {
+            localStorage.removeItem(DISPLAY_NAME_KEY);
+            localStorage.removeItem(AVATAR_URL_KEY);
+        } catch (_error) {
+            // Ignore storage failures.
+        }
+    }
+
+    function deriveDisplayName(user, fallbackName) {
+        const metadata = user && typeof user === "object" ? (user.user_metadata || {}) : {};
+        const identityData = Array.isArray(user && user.identities)
+            ? user.identities
+                .map((identity) => identity && identity.identity_data ? identity.identity_data : null)
+                .find((value) => value && typeof value === "object")
+            : null;
+        const normalizedEmail = String(user && user.email ? user.email : "").trim().toLowerCase();
+        const cachedProfile = normalizedEmail ? readProfileCache()[normalizedEmail] : null;
+        const candidates = [
+            fallbackName,
+            cachedProfile && cachedProfile.name,
+            metadata.full_name,
+            metadata.display_name,
+            metadata.name,
+            metadata.user_name,
+            identityData && identityData.full_name,
+            identityData && identityData.name,
+            identityData && identityData.user_name,
+            user && user.email
+        ];
+        for (const candidate of candidates) {
+            if (typeof candidate === "string" && candidate.trim()) {
+                return candidate.includes("@") ? candidate.split("@")[0] : candidate.trim();
+            }
+        }
+        return "";
+    }
+
+    function isEmailLikeName(name) {
+        return typeof name === "string" && name.includes("@");
+    }
+
+    async function syncUserDisplayName(user, fallbackName) {
+        if (!supabase || !user) {
+            return user;
+        }
+
+        const metadata = user && typeof user === "object" ? (user.user_metadata || {}) : {};
+        const resolvedName = deriveDisplayName(user, fallbackName);
+        if (!resolvedName || isEmailLikeName(resolvedName) || metadata.full_name === resolvedName) {
+            return user;
+        }
+
+        const { data, error } = await supabase.auth.updateUser({
+            data: {
+                ...metadata,
+                full_name: resolvedName
+            }
+        });
+
+        return error ? user : (data.user || user);
+    }
+
     if (!hasSupabase) {
         setStatus("Supabase not configured. Add keys in supabase-config.js.");
     }
@@ -39,7 +158,19 @@
         const forgotRow = document.getElementById("forgot-row");
         const forgotSubmit = document.getElementById("forgot-submit");
         const forgotEmail = document.getElementById("forgot-email");
+        const searchParams = new URLSearchParams(window.location.search);
         const redirectTarget = getRedirectTarget();
+
+        if (searchParams.get("logout") === "1") {
+            clearStoredProfile();
+            if (hasSupabase) {
+                supabase.auth.signOut().finally(() => {
+                    setStatus("Logged out successfully.", true);
+                });
+            } else {
+                setStatus("Logged out successfully.", true);
+            }
+        }
 
         forgotToggle.addEventListener("click", () => {
             forgotRow.classList.toggle("active");
@@ -80,9 +211,18 @@
             }
             if (!data.user?.email_confirmed_at) {
                 await supabase.auth.signOut();
+                clearStoredProfile();
                 setStatus("Verify your email before accessing the client page.");
                 return;
             }
+            const syncedUser = await syncUserDisplayName(data.user);
+            const displayName = deriveDisplayName(syncedUser);
+            const metadata = syncedUser && typeof syncedUser === "object" ? (syncedUser.user_metadata || {}) : {};
+            const avatarUrl = [metadata.avatar_url, metadata.picture, metadata.photo_url]
+                .find((value) => typeof value === "string" && value.trim()) || "";
+            saveDisplayName(displayName);
+            saveAvatarUrl(syncedUser);
+            cacheProfile(email, displayName, avatarUrl);
             setStatus("Login successful. Redirecting...", true);
             setTimeout(() => {
                 window.location.href = redirectTarget;
@@ -133,10 +273,19 @@
             }
 
             if (!data.session?.user?.email_confirmed_at) {
+                cacheProfile(email, fullName, "");
                 setStatus("Account created. Verify from email, then login.", true);
                 return;
             }
 
+            const syncedUser = await syncUserDisplayName(data.session.user, fullName);
+            const displayName = deriveDisplayName(syncedUser, fullName);
+            const metadata = syncedUser && typeof syncedUser === "object" ? (syncedUser.user_metadata || {}) : {};
+            const avatarUrl = [metadata.avatar_url, metadata.picture, metadata.photo_url]
+                .find((value) => typeof value === "string" && value.trim()) || "";
+            saveDisplayName(displayName);
+            saveAvatarUrl(syncedUser);
+            cacheProfile(email, displayName, avatarUrl);
             setStatus("Account created. Redirecting...", true);
             setTimeout(() => {
                 window.location.href = redirectTarget;

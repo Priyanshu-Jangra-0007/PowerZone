@@ -3,6 +3,195 @@ const navbar = document.getElementById('navbar');
 const navContainer = document.querySelector('.nav-container');
 const menuToggle = document.querySelector('.nav-menu-toggle');
 const mobileMenuQuery = window.matchMedia('(max-width: 768px)');
+const navCta = document.querySelector('.nav-cta');
+const DISPLAY_NAME_KEY = 'powerzone-display-name';
+const AVATAR_URL_KEY = 'powerzone-avatar-url';
+const hasSupabaseAuth = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
+const navSupabase = hasSupabaseAuth
+    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+    : null;
+
+function loadStoredProfile() {
+    try {
+        return {
+            name: (localStorage.getItem(DISPLAY_NAME_KEY) || '').trim(),
+            avatarUrl: (localStorage.getItem(AVATAR_URL_KEY) || '').trim()
+        };
+    } catch (_error) {
+        return { name: '', avatarUrl: '' };
+    }
+}
+
+function createInitials(name) {
+    const parts = String(name || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2);
+    if (!parts.length) {
+        return 'A';
+    }
+    return parts.map((part) => part[0].toUpperCase()).join('');
+}
+
+function clearStoredProfile() {
+    try {
+        localStorage.removeItem(DISPLAY_NAME_KEY);
+        localStorage.removeItem(AVATAR_URL_KEY);
+    } catch (_error) {
+        // Ignore storage failures.
+    }
+}
+
+async function logoutUser() {
+    clearStoredProfile();
+    if (navSupabase) {
+        try {
+            await navSupabase.auth.signOut();
+        } catch (_error) {
+            // Ignore sign-out failures and continue to login.
+        }
+    }
+    window.location.href = 'login.html?logout=1';
+}
+
+function renderAuthenticatedNav() {
+    if (!navCta) {
+        return;
+    }
+
+    const profile = loadStoredProfile();
+    if (!profile.name) {
+        return;
+    }
+
+    navCta.querySelectorAll('.btn-outlined, .btn-register').forEach((element) => {
+        element.remove();
+    });
+
+    if (navCta.querySelector('.nav-profile-menu')) {
+        return;
+    }
+
+    const profileMenu = document.createElement('div');
+    profileMenu.className = 'nav-profile-menu';
+
+    const profileButton = document.createElement('button');
+    profileButton.type = 'button';
+    profileButton.className = 'nav-profile-badge';
+    profileButton.setAttribute('aria-label', `${profile.name} account menu`);
+    profileButton.setAttribute('aria-haspopup', 'menu');
+    profileButton.setAttribute('aria-expanded', 'false');
+    profileButton.title = profile.name;
+    if (profile.avatarUrl) {
+        const avatarImage = document.createElement('img');
+        avatarImage.src = profile.avatarUrl;
+        avatarImage.alt = `${profile.name} profile`;
+        profileButton.appendChild(avatarImage);
+    } else {
+        profileButton.textContent = createInitials(profile.name);
+    }
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'nav-profile-dropdown';
+    dropdown.setAttribute('role', 'menu');
+    dropdown.setAttribute('aria-label', 'Account options');
+
+    const profileLabel = document.createElement('p');
+    profileLabel.className = 'nav-profile-name';
+    profileLabel.textContent = profile.name;
+    dropdown.appendChild(profileLabel);
+
+    const dashboardLink = document.createElement('a');
+    dashboardLink.href = 'client.html';
+    dashboardLink.className = 'nav-profile-action';
+    dashboardLink.setAttribute('role', 'menuitem');
+    dashboardLink.textContent = 'Dashboard';
+    dropdown.appendChild(dashboardLink);
+
+    const logoutButton = document.createElement('button');
+    logoutButton.type = 'button';
+    logoutButton.className = 'nav-profile-action nav-profile-logout';
+    logoutButton.setAttribute('role', 'menuitem');
+    logoutButton.textContent = 'Log Out';
+    dropdown.appendChild(logoutButton);
+
+    const closeProfileMenu = () => {
+        profileMenu.classList.remove('open');
+        profileButton.setAttribute('aria-expanded', 'false');
+    };
+
+    const openProfileMenu = () => {
+        profileMenu.classList.add('open');
+        profileButton.setAttribute('aria-expanded', 'true');
+    };
+
+    profileButton.addEventListener('click', (event) => {
+        if (!mobileMenuQuery.matches) {
+            event.preventDefault();
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const isOpen = profileMenu.classList.toggle('open');
+        profileButton.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    profileMenu.addEventListener('mouseenter', () => {
+        if (!mobileMenuQuery.matches) {
+            openProfileMenu();
+        }
+    });
+
+    profileMenu.addEventListener('mouseleave', () => {
+        if (!mobileMenuQuery.matches) {
+            closeProfileMenu();
+        }
+    });
+
+    dashboardLink.addEventListener('click', () => {
+        closeProfileMenu();
+        if (mobileMenuQuery.matches) {
+            closeMobileMenu();
+        }
+    });
+
+    logoutButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        closeProfileMenu();
+        if (mobileMenuQuery.matches) {
+            closeMobileMenu();
+        }
+        await logoutUser();
+    });
+
+    [dashboardLink].forEach((link) => {
+        link.addEventListener('click', () => {
+            closeProfileMenu();
+            if (mobileMenuQuery.matches) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!profileMenu.contains(event.target)) {
+            closeProfileMenu();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeProfileMenu();
+        }
+    });
+
+    profileMenu.appendChild(profileButton);
+    profileMenu.appendChild(dropdown);
+    navCta.appendChild(profileMenu);
+}
+
+renderAuthenticatedNav();
 
 function closeMobileMenu() {
     if (!navContainer || !menuToggle) {

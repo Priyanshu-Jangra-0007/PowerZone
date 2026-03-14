@@ -206,6 +206,40 @@ html[data-theme="light"] .btn-register:hover {
     border-color: #d32127;
 }
 
+html[data-theme="light"] .nav-profile-badge {
+    color: #ffffff;
+    border-color: rgba(211, 33, 39, 0.18);
+    box-shadow: 0 12px 24px rgba(211, 33, 39, 0.18);
+}
+
+html[data-theme="light"] .nav-profile-dropdown {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(20, 29, 44, 0.12);
+    box-shadow: 0 18px 34px rgba(20, 29, 44, 0.14);
+}
+
+html[data-theme="light"] .nav-profile-name {
+    color: #182536;
+    border-bottom-color: rgba(20, 29, 44, 0.08);
+}
+
+html[data-theme="light"] .nav-profile-action {
+    color: #243446;
+}
+
+html[data-theme="light"] .nav-profile-action:hover {
+    background: rgba(20, 29, 44, 0.06);
+}
+
+html[data-theme="light"] .nav-profile-logout {
+    color: #c61f25;
+}
+
+html[data-theme="light"] .nav-profile-logout:hover {
+    background: rgba(211, 33, 39, 0.1);
+    color: #a5191e;
+}
+
 html[data-theme="light"] .hero-overlay {
     background: transparent;
 }

@@ -1795,7 +1795,6 @@ body {
 
 .about-home-btn:hover {
     background: #e31e24;
-    transform: translateY(-1px);
     box-shadow: 0 10px 22px rgba(227, 30, 36, 0.34);
 }
 

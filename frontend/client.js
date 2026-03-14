@@ -2,6 +2,14 @@ const STORAGE_KEY = 'powerzone-client-state-v1';
 const goalChart = document.getElementById('goal-process-chart');
 const sideNavLinks = Array.from(document.querySelectorAll('.side-nav a[data-view]'));
 const panels = Array.from(document.querySelectorAll('.dashboard-view[data-panel]'));
+const greetingHeading = document.getElementById('client-greeting');
+const profileName = document.getElementById('client-profile-name');
+const profileRole = document.getElementById('client-profile-role');
+const profileAvatar = document.getElementById('client-avatar');
+const hasSupabase = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
+const supabase = hasSupabase
+    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+    : null;
 
 const defaultState = {
     view: 'dashboard',
@@ -122,6 +130,68 @@ function normalizeChecklist(key) {
             return null;
         })
         .filter((item) => item && item.text);
+}
+
+function getLoginRedirectUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.toString();
+    const currentTarget = window.location.pathname.toLowerCase().includes('client.html')
+        ? `client.html${query ? `?${query}` : ''}`
+        : 'client.html';
+    return `login.html?redirect=${encodeURIComponent(currentTarget)}`;
+}
+
+function deriveDisplayName(user) {
+    const metadata = user && typeof user === 'object' ? (user.user_metadata || {}) : {};
+    const candidates = [metadata.full_name, metadata.name, metadata.user_name, user?.email];
+    for (const candidate of candidates) {
+        if (typeof candidate === 'string' && candidate.trim()) {
+            return candidate.includes('@') ? candidate.split('@')[0] : candidate.trim();
+        }
+    }
+    return 'Athlete';
+}
+
+function deriveInitials(name) {
+    const parts = String(name || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2);
+    if (!parts.length) return 'A';
+    return parts.map((part) => part[0].toUpperCase()).join('');
+}
+
+function applyAuthenticatedUser(user) {
+    const displayName = deriveDisplayName(user);
+    if (greetingHeading) {
+        greetingHeading.textContent = `Hi ${displayName}!`;
+    }
+    if (profileName) {
+        profileName.textContent = displayName;
+    }
+    if (profileRole) {
+        profileRole.textContent = user?.email || 'PowerZone member';
+    }
+    if (profileAvatar) {
+        profileAvatar.textContent = deriveInitials(displayName);
+    }
+}
+
+async function requireAuthenticatedUser() {
+    if (!supabase) {
+        window.location.replace(getLoginRedirectUrl());
+        return null;
+    }
+
+    const { data, error } = await supabase.auth.getSession();
+    const user = data.session?.user || null;
+    if (error || !user?.email_confirmed_at) {
+        window.location.replace(getLoginRedirectUrl());
+        return null;
+    }
+
+    return user;
 }
 
 function setActiveView(view) {
@@ -683,24 +753,45 @@ function renderAll() {
     if (state.view === 'dashboard') drawGoalProcess();
 }
 
-bindStaticEvents();
-const routeView = getViewFromLocation();
-const isMainClientPage = window.location.pathname.toLowerCase().endsWith('client.html');
-setActiveView(routeView || (isMainClientPage ? 'dashboard' : state.view) || 'dashboard');
-renderAll();
-const defaultGoal = document.getElementById('diet-goal');
-const defaultType = document.getElementById('diet-type');
-renderDietPlan(generateDietPlan(defaultGoal ? defaultGoal.value : 'fat-loss', defaultType ? defaultType.value : 'balanced'));
-drawGoalProcess();
-requestAnimationFrame(drawGoalProcess);
-setTimeout(drawGoalProcess, 120);
-window.addEventListener('resize', drawGoalProcess);
+async function initializeClientPage() {
+    const user = await requireAuthenticatedUser();
+    if (!user) {
+        return;
+    }
 
-if (goalChart && typeof ResizeObserver !== 'undefined') {
-    const chartObserver = new ResizeObserver(() => drawGoalProcess());
-    const chartContainer = goalChart.closest('.goal-process');
-    if (chartContainer) {
-        chartObserver.observe(chartContainer);
+    applyAuthenticatedUser(user);
+
+    if (supabase) {
+        supabase.auth.onAuthStateChange((_event, session) => {
+            if (!session?.user) {
+                window.location.replace(getLoginRedirectUrl());
+                return;
+            }
+            applyAuthenticatedUser(session.user);
+        });
+    }
+
+    bindStaticEvents();
+    const routeView = getViewFromLocation();
+    const isMainClientPage = window.location.pathname.toLowerCase().endsWith('client.html');
+    setActiveView(routeView || (isMainClientPage ? 'dashboard' : state.view) || 'dashboard');
+    renderAll();
+    const defaultGoal = document.getElementById('diet-goal');
+    const defaultType = document.getElementById('diet-type');
+    renderDietPlan(generateDietPlan(defaultGoal ? defaultGoal.value : 'fat-loss', defaultType ? defaultType.value : 'balanced'));
+    drawGoalProcess();
+    requestAnimationFrame(drawGoalProcess);
+    setTimeout(drawGoalProcess, 120);
+    window.addEventListener('resize', drawGoalProcess);
+
+    if (goalChart && typeof ResizeObserver !== 'undefined') {
+        const chartObserver = new ResizeObserver(() => drawGoalProcess());
+        const chartContainer = goalChart.closest('.goal-process');
+        if (chartContainer) {
+            chartObserver.observe(chartContainer);
+        }
     }
 }
+
+initializeClientPage();
 

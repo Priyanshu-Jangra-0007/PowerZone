@@ -1,5 +1,12 @@
 const gyms = [
-    { id: 1, name: "The Forge Crossfit", category: "CrossFit", address: "Near Beta-2 Park, Greater Noida", rating: 4.9 },
+    {
+        id: 1,
+        name: "Forge Fitness Gym",
+        category: "CrossFit",
+        address: "Ground Floor, THE FORGE GYM, A57, Zeta I, Greater Noida, Uttar Pradesh 201310",
+        rating: 4.9,
+        detailsUrl: "forge-fitness-gym.html"
+    },
     { id: 2, name: "Crossfit Arena", category: "CrossFit", address: "Alpha-2, Greater Noida, UP", rating: 4.8 },
     { id: 3, name: "Powerhouse Gym", category: "General Gym", address: "Alpha-1 Commercial Complex, Greater Noida", rating: 4.7 },
     { id: 4, name: "Spartan Gym", category: "Bodybuilding", address: "Zeta-1, Greater Noida, UP", rating: 4.7 },
@@ -108,6 +115,10 @@ function renderCategoryFilters() {
 }
 
 function cardTemplate(gym) {
+    const detailsCta = gym.detailsUrl
+        ? `<a class="details-button" href="${escapeHtml(gym.detailsUrl)}">VIEW MORE</a>`
+        : `<button class="details-button" type="button">VIEW MORE</button>`;
+
     return `
         <article class="gym-card">
             <div class="gym-card-top">
@@ -122,7 +133,7 @@ function cardTemplate(gym) {
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 4.86 5.42 11.9 6.04 12.69a1.2 1.2 0 0 0 1.92 0C13.58 20.9 19 13.86 19 9a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"></path></svg>
                 <span>${escapeHtml(gym.address)}</span>
             </p>
-            <button class="details-button" type="button">VIEW DETAILS</button>
+            ${detailsCta}
         </article>
     `;
 }

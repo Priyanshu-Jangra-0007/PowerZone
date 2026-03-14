@@ -266,7 +266,7 @@ async function requireAuthenticatedUser() {
 
     const { data, error } = await clientSupabase.auth.getSession();
     const sessionUser = data.session?.user || null;
-    if (error || !sessionUser?.email_confirmed_at) {
+    if (error || !sessionUser) {
         window.location.replace(getLoginRedirectUrl());
         return null;
     }

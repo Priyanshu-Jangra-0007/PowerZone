@@ -209,12 +209,6 @@
                 setStatus(formatAuthError(error));
                 return;
             }
-            if (!data.user?.email_confirmed_at) {
-                await supabase.auth.signOut();
-                clearStoredProfile();
-                setStatus("Verify your email before accessing the client page.");
-                return;
-            }
             const syncedUser = await syncUserDisplayName(data.user);
             const displayName = deriveDisplayName(syncedUser);
             const metadata = syncedUser && typeof syncedUser === "object" ? (syncedUser.user_metadata || {}) : {};
@@ -272,13 +266,17 @@
                 return;
             }
 
-            if (!data.session?.user?.email_confirmed_at) {
-                cacheProfile(email, fullName, "");
-                setStatus("Account created. Verify from email, then login.", true);
-                return;
+            let registeredUser = data.session?.user || null;
+            if (!registeredUser) {
+                const loginAttempt = await supabase.auth.signInWithPassword({ email, password });
+                if (loginAttempt.error) {
+                    setStatus(formatAuthError(loginAttempt.error));
+                    return;
+                }
+                registeredUser = loginAttempt.data.user || null;
             }
 
-            const syncedUser = await syncUserDisplayName(data.session.user, fullName);
+            const syncedUser = await syncUserDisplayName(registeredUser, fullName);
             const displayName = deriveDisplayName(syncedUser, fullName);
             const metadata = syncedUser && typeof syncedUser === "object" ? (syncedUser.user_metadata || {}) : {};
             const avatarUrl = [metadata.avatar_url, metadata.picture, metadata.photo_url]

@@ -13,7 +13,16 @@ const navSupabase = hasSupabaseAuth
 const defaultNavActions = navCta
     ? Array.from(navCta.querySelectorAll('.btn-outlined, .btn-register')).map((node) => node.cloneNode(true))
     : [];
-const clientEntryLinks = Array.from(document.querySelectorAll('a[href^="client.html"]'));
+const navLinksContainer = document.querySelector('.nav-links');
+const defaultNetworkDropdown = navLinksContainer
+    ? navLinksContainer.querySelector('.nav-dropdown')
+    : null;
+let isNavbarAuthenticated = false;
+let navbarAuthReady = Promise.resolve(false);
+
+function getClientEntryLinks() {
+    return Array.from(document.querySelectorAll('a[href^="client.html"], a[href^="login.html?redirect=client.html%3Fview%3Ddashboard"]'));
+}
 
 function loadStoredProfile() {
     try {
@@ -61,16 +70,52 @@ async function logoutUser() {
 }
 
 function updateClientEntryLinks(isAuthenticated) {
+    isNavbarAuthenticated = isAuthenticated;
     const nextHref = isAuthenticated
         ? 'client.html?view=dashboard'
         : 'login.html?redirect=client.html%3Fview%3Ddashboard';
-    clientEntryLinks.forEach((link) => {
+    getClientEntryLinks().forEach((link) => {
         link.href = nextHref;
     });
 }
 
+function renderGuestNetworkLink() {
+    if (!navLinksContainer || !defaultNetworkDropdown) {
+        return;
+    }
+
+    const dashboardLink = navLinksContainer.querySelector('.nav-auth-dashboard');
+    if (dashboardLink) {
+        dashboardLink.remove();
+    }
+
+    if (!navLinksContainer.querySelector('.nav-dropdown')) {
+        navLinksContainer.appendChild(defaultNetworkDropdown.cloneNode(true));
+    }
+    bindClientEntryRouting();
+}
+
+function renderAuthenticatedNetworkLink() {
+    if (!navLinksContainer) {
+        return;
+    }
+
+    navLinksContainer.querySelectorAll('.nav-dropdown').forEach((node) => node.remove());
+
+    if (navLinksContainer.querySelector('.nav-auth-dashboard')) {
+        return;
+    }
+
+    const dashboardLink = document.createElement('a');
+    dashboardLink.href = 'client.html?view=dashboard';
+    dashboardLink.className = 'nav-auth-dashboard';
+    dashboardLink.textContent = 'Dashboard';
+    navLinksContainer.appendChild(dashboardLink);
+    bindClientEntryRouting();
+}
+
 function bindClientEntryRouting() {
-    clientEntryLinks.forEach((link) => {
+    getClientEntryLinks().forEach((link) => {
         if (link.dataset.clientRouteBound === 'true') {
             return;
         }
@@ -80,9 +125,9 @@ function bindClientEntryRouting() {
                 return;
             }
             event.preventDefault();
+            await navbarAuthReady;
             try {
-                const { data } = await navSupabase.auth.getSession();
-                if (data.session?.user) {
+                if (isNavbarAuthenticated) {
                     window.location.href = 'client.html?view=dashboard';
                 } else {
                     clearStoredProfile();
@@ -110,6 +155,7 @@ function renderGuestNav() {
     defaultNavActions.forEach((node) => {
         navCta.appendChild(node.cloneNode(true));
     });
+    renderGuestNetworkLink();
     updateClientEntryLinks(false);
 }
 
@@ -125,6 +171,7 @@ function renderAuthenticatedNav() {
     }
 
     updateClientEntryLinks(true);
+    renderAuthenticatedNetworkLink();
 
     navCta.querySelectorAll('.btn-outlined, .btn-register').forEach((element) => {
         element.remove();
@@ -275,7 +322,7 @@ async function syncNavbarAuthState() {
     }
 }
 
-syncNavbarAuthState();
+navbarAuthReady = syncNavbarAuthState();
 bindClientEntryRouting();
 
 if (navSupabase) {

@@ -290,6 +290,108 @@
             flex-shrink: 0;
         }
 
+        .nav-profile-menu {
+            position: relative;
+        }
+
+        .nav-profile-badge {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-decoration: none;
+            background: linear-gradient(135deg, rgba(227, 30, 36, 0.96), rgba(122, 12, 16, 0.92));
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            box-shadow: 0 12px 24px rgba(227, 30, 36, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-profile-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 28px rgba(227, 30, 36, 0.34);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-profile-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .nav-profile-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            min-width: 188px;
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(10, 10, 10, 0.96);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+            z-index: 1200;
+        }
+
+        .nav-profile-menu.open .nav-profile-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-profile-name {
+            margin: 0 0 8px;
+            padding: 6px 8px 10px;
+            color: #f3f4f7;
+            font-size: 14px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-profile-action {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-height: 42px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            color: #f3f4f7;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.18s ease, color 0.18s ease;
+        }
+
+        .nav-profile-action:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-profile-logout {
+            color: #ff8b8f;
+        }
+
+        .nav-profile-logout:hover {
+            background: rgba(227, 30, 36, 0.14);
+            color: #ffffff;
+        }
+
         .btn-outlined {
             background: transparent;
             color: var(--white);
@@ -1069,126 +1171,6 @@
     </footer>
 
     <script>
-        const navbar = document.getElementById("navbar");
-        const navContainer = document.querySelector(".nav-container");
-        const menuToggle = document.querySelector(".nav-menu-toggle");
-        const mobileMenuQuery = window.matchMedia("(max-width: 768px)");
-
-        function closeMobileMenu() {
-            if (!navContainer || !menuToggle) {
-                return;
-            }
-            document.body.classList.remove("menu-open");
-            navContainer.classList.remove("menu-open");
-            menuToggle.setAttribute("aria-expanded", "false");
-        }
-
-        function setMobileMenuState(isOpen) {
-            if (!navContainer || !menuToggle) {
-                return;
-            }
-            navContainer.classList.toggle("menu-open", isOpen);
-            document.body.classList.toggle("menu-open", isOpen);
-            menuToggle.setAttribute("aria-expanded", String(isOpen));
-        }
-
-        if (navContainer && menuToggle) {
-            menuToggle.addEventListener("click", (event) => {
-                event.stopPropagation();
-                const isOpen = !navContainer.classList.contains("menu-open");
-                setMobileMenuState(isOpen);
-            });
-
-            document.addEventListener("click", (event) => {
-                if (!navContainer.contains(event.target)) {
-                    closeMobileMenu();
-                }
-            });
-
-            window.addEventListener("resize", () => {
-                if (!mobileMenuQuery.matches) {
-                    closeMobileMenu();
-                }
-            });
-
-            document.querySelectorAll(".nav-links a, .nav-dropdown-menu a, .nav-cta a").forEach(link => {
-                link.addEventListener("click", () => {
-                    if (mobileMenuQuery.matches) {
-                        closeMobileMenu();
-                    }
-                });
-            });
-        }
-
-        window.addEventListener("scroll", () => {
-            if (!navbar) {
-                return;
-            }
-            if (window.scrollY > 100) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        });
-
-        const navLinks = document.querySelectorAll(".nav-links > a, .nav-dropdown-toggle");
-        navLinks.forEach(link => {
-            link.addEventListener("mouseenter", function() {
-                this.style.transform = "translateY(-2px) scale(1.05)";
-            });
-
-            link.addEventListener("mouseleave", function() {
-                this.style.transform = "translateY(0) scale(1)";
-            });
-        });
-
-        const networkDropdown = document.querySelector(".nav-dropdown");
-        const networkToggle = document.querySelector(".nav-dropdown-toggle");
-
-        if (networkDropdown && networkToggle) {
-            const closeNetworkDropdown = () => {
-                networkDropdown.classList.remove("open");
-                networkToggle.setAttribute("aria-expanded", "false");
-            };
-
-            const openNetworkDropdown = () => {
-                networkDropdown.classList.add("open");
-                networkToggle.setAttribute("aria-expanded", "true");
-            };
-
-            networkDropdown.addEventListener("mouseenter", () => {
-                if (!mobileMenuQuery.matches) {
-                    openNetworkDropdown();
-                }
-            });
-
-            networkDropdown.addEventListener("mouseleave", () => {
-                if (!mobileMenuQuery.matches) {
-                    closeNetworkDropdown();
-                }
-            });
-
-            networkToggle.addEventListener("click", (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                const isOpen = networkDropdown.classList.toggle("open");
-                networkToggle.setAttribute("aria-expanded", String(isOpen));
-            });
-
-            document.addEventListener("click", (event) => {
-                if (!networkDropdown.contains(event.target)) {
-                    closeNetworkDropdown();
-                }
-            });
-
-            document.addEventListener("keydown", (event) => {
-                if (event.key === "Escape") {
-                    closeNetworkDropdown();
-                    closeMobileMenu();
-                }
-            });
-        }
-
         const uploadFloatingBtn = document.getElementById("upload-floating-btn");
         const uploadInput = document.getElementById("upload-input");
         const previewBox = document.getElementById("preview-box");
@@ -1348,7 +1330,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js?v=10"></script>
+    <script src="script.js?v=12"></script>
     <script src="theme.js"></script>
 </body>
 </html>

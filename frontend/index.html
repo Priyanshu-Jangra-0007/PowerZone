@@ -36,7 +36,7 @@
                             <span class="dropdown-caret" aria-hidden="true"></span>
                         </button>
                         <div class="nav-dropdown-menu" role="menu" aria-label="Join Our Network">
-                            <a href="client.html" role="menuitem">Client</a>
+                            <a href="login.html?redirect=client.html%3Fview%3Ddashboard" role="menuitem">Client</a>
                             <a href="franchise.html" role="menuitem">Join Our Franchise</a>
                         </div>
                     </div>
@@ -261,7 +261,7 @@
             </div>
             <div class="site-footer-col">
                 <h4>Programs</h4>
-                <a href="client.html">Client Dashboard</a>
+                <a href="login.html?redirect=client.html%3Fview%3Ddashboard">Client Dashboard</a>
                 <a href="franchise.html">Franchise</a>
                 <a href="login.html">Login</a>
                 <a href="register.html">Register</a>
@@ -282,7 +282,9 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="script.js?v=5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js?v=10"></script>
     <script src="theme.js"></script>
 </body>
 </html>

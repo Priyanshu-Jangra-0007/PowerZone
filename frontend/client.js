@@ -140,7 +140,7 @@ function getLoginRedirectUrl() {
     const query = params.toString();
     const currentTarget = window.location.pathname.toLowerCase().includes('client.html')
         ? `client.html${query ? `?${query}` : ''}`
-        : 'client.html';
+        : 'client.html?view=dashboard';
     return `login.html?redirect=${encodeURIComponent(currentTarget)}`;
 }
 
@@ -264,9 +264,34 @@ async function requireAuthenticatedUser() {
         return null;
     }
 
-    const { data, error } = await clientSupabase.auth.getSession();
-    const sessionUser = data.session?.user || null;
-    if (error || !sessionUser) {
+    const resolveSessionUser = async () => {
+        const { data, error } = await clientSupabase.auth.getSession();
+        if (error) {
+            return null;
+        }
+        return data.session?.user || null;
+    };
+
+    let sessionUser = await resolveSessionUser();
+
+    if (!sessionUser) {
+        sessionUser = await new Promise((resolve) => {
+            const timeoutId = window.setTimeout(() => {
+                subscription.data.subscription.unsubscribe();
+                resolve(null);
+            }, 1200);
+
+            const subscription = clientSupabase.auth.onAuthStateChange((_event, session) => {
+                if (session?.user) {
+                    window.clearTimeout(timeoutId);
+                    subscription.data.subscription.unsubscribe();
+                    resolve(session.user);
+                }
+            });
+        });
+    }
+
+    if (!sessionUser) {
         window.location.replace(getLoginRedirectUrl());
         return null;
     }

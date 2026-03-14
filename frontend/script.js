@@ -10,6 +10,10 @@ const hasSupabaseAuth = Boolean(window.supabase && window.SUPABASE_URL && window
 const navSupabase = hasSupabaseAuth
     ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
     : null;
+const defaultNavActions = navCta
+    ? Array.from(navCta.querySelectorAll('.btn-outlined, .btn-register')).map((node) => node.cloneNode(true))
+    : [];
+const clientEntryLinks = Array.from(document.querySelectorAll('a[href^="client.html"]'));
 
 function loadStoredProfile() {
     try {
@@ -45,6 +49,7 @@ function clearStoredProfile() {
 
 async function logoutUser() {
     clearStoredProfile();
+    renderGuestNav();
     if (navSupabase) {
         try {
             await navSupabase.auth.signOut();
@@ -55,6 +60,59 @@ async function logoutUser() {
     window.location.href = 'login.html?logout=1';
 }
 
+function updateClientEntryLinks(isAuthenticated) {
+    const nextHref = isAuthenticated
+        ? 'client.html?view=dashboard'
+        : 'login.html?redirect=client.html%3Fview%3Ddashboard';
+    clientEntryLinks.forEach((link) => {
+        link.href = nextHref;
+    });
+}
+
+function bindClientEntryRouting() {
+    clientEntryLinks.forEach((link) => {
+        if (link.dataset.clientRouteBound === 'true') {
+            return;
+        }
+        link.dataset.clientRouteBound = 'true';
+        link.addEventListener('click', async (event) => {
+            if (!navSupabase) {
+                return;
+            }
+            event.preventDefault();
+            try {
+                const { data } = await navSupabase.auth.getSession();
+                if (data.session?.user) {
+                    window.location.href = 'client.html?view=dashboard';
+                } else {
+                    clearStoredProfile();
+                    renderGuestNav();
+                    window.location.href = 'login.html?redirect=client.html%3Fview%3Ddashboard';
+                }
+            } catch (_error) {
+                window.location.href = 'login.html?redirect=client.html%3Fview%3Ddashboard';
+            }
+        });
+    });
+}
+
+function renderGuestNav() {
+    if (!navCta) {
+        return;
+    }
+
+    navCta.querySelectorAll('.nav-profile-menu').forEach((node) => node.remove());
+
+    if (navCta.querySelector('.btn-outlined, .btn-register')) {
+        return;
+    }
+
+    defaultNavActions.forEach((node) => {
+        navCta.appendChild(node.cloneNode(true));
+    });
+    updateClientEntryLinks(false);
+}
+
 function renderAuthenticatedNav() {
     if (!navCta) {
         return;
@@ -62,8 +120,11 @@ function renderAuthenticatedNav() {
 
     const profile = loadStoredProfile();
     if (!profile.name) {
+        renderGuestNav();
         return;
     }
+
+    updateClientEntryLinks(true);
 
     navCta.querySelectorAll('.btn-outlined, .btn-register').forEach((element) => {
         element.remove();
@@ -103,7 +164,7 @@ function renderAuthenticatedNav() {
     dropdown.appendChild(profileLabel);
 
     const dashboardLink = document.createElement('a');
-    dashboardLink.href = 'client.html';
+    dashboardLink.href = 'client.html?view=dashboard';
     dashboardLink.className = 'nav-profile-action';
     dashboardLink.setAttribute('role', 'menuitem');
     dashboardLink.textContent = 'Dashboard';
@@ -191,7 +252,42 @@ function renderAuthenticatedNav() {
     navCta.appendChild(profileMenu);
 }
 
-renderAuthenticatedNav();
+async function syncNavbarAuthState() {
+    if (!navSupabase) {
+        if (loadStoredProfile().name) {
+            renderAuthenticatedNav();
+        } else {
+            renderGuestNav();
+        }
+        return;
+    }
+
+    try {
+        const { data } = await navSupabase.auth.getSession();
+        if (data.session?.user) {
+            renderAuthenticatedNav();
+        } else {
+            clearStoredProfile();
+            renderGuestNav();
+        }
+    } catch (_error) {
+        renderGuestNav();
+    }
+}
+
+syncNavbarAuthState();
+bindClientEntryRouting();
+
+if (navSupabase) {
+    navSupabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+            renderAuthenticatedNav();
+        } else {
+            clearStoredProfile();
+            renderGuestNav();
+        }
+    });
+}
 
 function closeMobileMenu() {
     if (!navContainer || !menuToggle) {

@@ -2,7 +2,7 @@
     const page = document.body.dataset.authPage;
     const statusEl = document.getElementById("auth-status");
     const hasSupabase = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
-    const defaultRedirect = "client.html";
+    const defaultRedirect = "client.html?view=dashboard";
     const DISPLAY_NAME_KEY = "powerzone-display-name";
     const AVATAR_URL_KEY = "powerzone-avatar-url";
     const PROFILE_CACHE_KEY = "powerzone-profile-cache";

@@ -702,6 +702,14 @@ html[data-theme="light"] .auth-tab {
     border-color: rgba(19, 31, 49, 0.17);
 }
 
+html[data-theme="light"] .auth-form input:-webkit-autofill,
+html[data-theme="light"] .auth-form input:-webkit-autofill:hover,
+html[data-theme="light"] .auth-form input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #182433;
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+    box-shadow: 0 0 0 1000px #ffffff inset;
+}
+
 html[data-theme="light"] body[data-auth-page] .kicker.tail {
     color: #172334;
 }
@@ -967,7 +975,8 @@ html[data-theme="light"] .about-home-btn {
     background: rgba(255, 255, 255, 0.92);
 }
 
-html[data-theme="light"] .about-home-btn:hover {
+html[data-theme="light"] .about-home-more[open] .about-home-btn,
+html[data-theme="light"] .about-home-btn:focus-visible {
     color: #ffffff;
     background: #cd1f25;
 }

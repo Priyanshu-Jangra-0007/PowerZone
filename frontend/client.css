@@ -69,36 +69,6 @@
     color: #ffffff;
 }
 
-.sidebar-promo {
-    margin-top: 6px;
-    background: #121a27;
-    border: 1px solid #283245;
-    border-radius: 10px;
-    padding: 12px;
-}
-
-.sidebar-promo h4 {
-    margin: 0;
-    font-size: 14px;
-}
-
-.sidebar-promo p {
-    margin: 6px 0 12px;
-    font-size: 12px;
-    color: #9fa9bc;
-}
-
-.sidebar-promo button {
-    border: 0;
-    border-radius: 8px;
-    background: #4eb784;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 12px;
-    padding: 7px 12px;
-    cursor: pointer;
-}
-
 .dashboard-main {
     display: grid;
     gap: 12px;
@@ -130,21 +100,6 @@
     margin: 2px 0 0;
     color: #a6b0c2;
     font-size: 13px;
-}
-
-.search-shell {
-    display: block;
-}
-
-.search-shell input {
-    width: 290px;
-    max-width: 100%;
-    border: 1px solid #2a3445;
-    background: #0f151f;
-    color: #e9effa;
-    border-radius: 8px;
-    padding: 11px 12px;
-    outline: none;
 }
 
 .activity-cards {
@@ -437,8 +392,47 @@
     outline: none;
 }
 
+.inline-form input[type="number"],
+.functional-card input[type="number"] {
+    color-scheme: dark;
+}
+
+.inline-form input[type="number"]::-webkit-outer-spin-button,
+.inline-form input[type="number"]::-webkit-inner-spin-button,
+.functional-card input[type="number"]::-webkit-outer-spin-button,
+.functional-card input[type="number"]::-webkit-inner-spin-button {
+    background: transparent;
+    filter: invert(0.85);
+    opacity: 1;
+    margin: 0;
+}
+
+.inline-form input:-webkit-autofill,
+.inline-form input:-webkit-autofill:hover,
+.inline-form input:-webkit-autofill:focus,
+.functional-card input:-webkit-autofill,
+.functional-card input:-webkit-autofill:hover,
+.functional-card input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #e9effa;
+    -webkit-box-shadow: 0 0 0 1000px #0f151f inset;
+    box-shadow: 0 0 0 1000px #0f151f inset;
+    transition: background-color 9999s ease-out 0s;
+}
+
 .goal-form {
-    grid-template-columns: 1fr 140px auto;
+    grid-template-columns: minmax(0, 1fr) 110px 110px auto;
+}
+
+.goal-number-input {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.goal-number-input::-webkit-outer-spin-button,
+.goal-number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 .diet-profile-form {
@@ -502,6 +496,77 @@
 .goal-tracker {
     display: grid;
     gap: 10px;
+}
+
+.goal-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #273246;
+    border-radius: 10px;
+}
+
+.goal-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+    background: #121926;
+}
+
+.goal-table th,
+.goal-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #273246;
+    font-size: 13px;
+}
+
+.goal-table th {
+    color: #f1f5ff;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.goal-table td {
+    color: #d7dfed;
+}
+
+.goal-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.goal-table tbody tr.is-achieved td {
+    color: #8dd7a2;
+}
+
+.goal-status-btn,
+.goal-delete-btn {
+    border: 1px solid #34415a;
+    background: #141d2a;
+    color: #c7d2e6;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.goal-status-btn {
+    min-width: 96px;
+}
+
+.goal-table tbody tr.is-achieved .goal-status-btn {
+    border-color: #2f7d4a;
+    background: rgba(54, 145, 84, 0.18);
+    color: #9ae0ae;
+}
+
+.goal-delete-btn {
+    color: #ffb8bb;
+}
+
+.goal-table-empty {
+    text-align: center;
+    color: #93a0b7;
 }
 
 .goal-entry {
@@ -683,44 +748,16 @@
     align-content: start;
 }
 
-.profile-card {
-    padding: 14px;
-    text-align: center;
-}
-
-.profile-card h2 {
-    margin: 0;
-    text-align: left;
-    font-size: 20px;
-}
-
-.avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    margin: 14px auto 10px;
-    background: linear-gradient(145deg, #ffe8cc, #dce8ff);
-    color: #2f3650;
-    font-size: 30px;
-    font-weight: 700;
-    display: grid;
-    place-items: center;
-}
-
-.profile-card h3 {
-    margin: 0;
-    font-size: 19px;
-}
-
-.profile-card p {
-    margin: 6px 0 0;
-    color: #a7b0c3;
-    font-size: 13px;
-}
-
 .calendar-card {
     padding: 12px;
     min-height: 280px;
+}
+
+.calendar-card-embedded {
+    padding: 0;
+    min-height: auto;
+    border: 0;
+    background: transparent;
 }
 
 .calendar-head {
@@ -829,13 +866,8 @@
 .dashboard-main h2,
 .dashboard-main h3,
 .dashboard-right h2,
-.dashboard-right h3,
-.sidebar-promo h4 {
+.dashboard-right h3 {
     color: #f1f5ff;
-}
-
-.search-shell input::placeholder {
-    color: #8f9cb3;
 }
 
 .pin {
@@ -890,11 +922,6 @@
         grid-template-columns: 1fr;
     }
 
-    .dashboard-header-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
     .inline-form {
         grid-template-columns: 1fr;
     }
@@ -939,14 +966,6 @@
         font-size: 22px;
     }
 
-    .search-shell {
-        width: 100%;
-    }
-
-    .search-shell input {
-        width: 100%;
-    }
-
     .activity-card {
         padding: 12px;
         min-height: 84px;
@@ -961,7 +980,6 @@
     .today-goal,
     .mini-card,
     .todo-card,
-    .profile-card,
     .calendar-card,
     .map-card {
         padding: 10px;
@@ -992,8 +1010,7 @@
 
     .panel-top h2,
     .mini-card h2,
-    .map-card h2,
-    .profile-card h2 {
+    .map-card h2 {
         font-size: 16px;
     }
 
@@ -1026,8 +1043,7 @@ html[data-theme="light"] .dashboard-main h1,
 html[data-theme="light"] .dashboard-main h2,
 html[data-theme="light"] .dashboard-main h3,
 html[data-theme="light"] .dashboard-right h2,
-html[data-theme="light"] .dashboard-right h3,
-html[data-theme="light"] .sidebar-promo h4 {
+html[data-theme="light"] .dashboard-right h3 {
     color: #1f2430;
 }
 
@@ -1035,27 +1051,14 @@ html[data-theme="light"] .side-nav a {
     color: #72798c;
 }
 
-html[data-theme="light"] .sidebar-promo {
-    background: #f7f9ff;
-    border-color: #e8ecff;
-}
-
-html[data-theme="light"] .sidebar-promo p,
 html[data-theme="light"] .dashboard-header-card p,
 html[data-theme="light"] .goal-item p,
-html[data-theme="light"] .profile-card p,
 html[data-theme="light"] .calendar-weekdays span,
 html[data-theme="light"] .activity-card p,
 html[data-theme="light"] .mini-card li span,
 html[data-theme="light"] .muted,
 html[data-theme="light"] .action-list .meta {
     color: #7d879a;
-}
-
-html[data-theme="light"] .search-shell input {
-    background: #ffffff;
-    color: #1f2430;
-    border-color: #e6e9f1;
 }
 
 html[data-theme="light"] .inline-form input,
@@ -1066,6 +1069,30 @@ html[data-theme="light"] .setting-row {
     background: #f9fbff;
     border-color: #e4e8f1;
     color: #1f2430;
+}
+
+html[data-theme="light"] .inline-form input[type="number"],
+html[data-theme="light"] .functional-card input[type="number"] {
+    color-scheme: light;
+}
+
+html[data-theme="light"] .inline-form input[type="number"]::-webkit-outer-spin-button,
+html[data-theme="light"] .inline-form input[type="number"]::-webkit-inner-spin-button,
+html[data-theme="light"] .functional-card input[type="number"]::-webkit-outer-spin-button,
+html[data-theme="light"] .functional-card input[type="number"]::-webkit-inner-spin-button {
+    background: transparent;
+    filter: none;
+}
+
+html[data-theme="light"] .inline-form input:-webkit-autofill,
+html[data-theme="light"] .inline-form input:-webkit-autofill:hover,
+html[data-theme="light"] .inline-form input:-webkit-autofill:focus,
+html[data-theme="light"] .functional-card input:-webkit-autofill,
+html[data-theme="light"] .functional-card input:-webkit-autofill:hover,
+html[data-theme="light"] .functional-card input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #1f2430;
+    -webkit-box-shadow: 0 0 0 1000px #f9fbff inset;
+    box-shadow: 0 0 0 1000px #f9fbff inset;
 }
 
 html[data-theme="light"] .action-list button {
@@ -1126,6 +1153,34 @@ html[data-theme="light"] .goal-entry-bar {
     background: #e8edf5;
 }
 
+html[data-theme="light"] .goal-table {
+    background: #ffffff;
+}
+
+html[data-theme="light"] .goal-table th,
+html[data-theme="light"] .goal-table td {
+    border-bottom-color: #e4e8f1;
+}
+
+html[data-theme="light"] .goal-table th {
+    color: #334055;
+}
+
+html[data-theme="light"] .goal-table td {
+    color: #3b4a61;
+}
+
+html[data-theme="light"] .goal-table-wrap {
+    border-color: #e4e8f1;
+}
+
+html[data-theme="light"] .goal-status-btn,
+html[data-theme="light"] .goal-delete-btn {
+    background: #ffffff;
+    border-color: #dbe2ef;
+    color: #334055;
+}
+
 html[data-theme="light"] .goal-static-chart .grid-lines line {
     stroke: #e5eaf3;
 }
@@ -1135,10 +1190,6 @@ html[data-theme="light"] .goal-static-chart .x-labels text,
 html[data-theme="light"] .goal-static-legend {
     fill: #7d879a;
     color: #7d879a;
-}
-
-html[data-theme="light"] .search-shell input::placeholder {
-    color: #a0a7b6;
 }
 
 html[data-theme="light"] .activity-card.purple {

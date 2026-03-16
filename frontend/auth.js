@@ -56,7 +56,9 @@
         return;
     }
 
-    const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const supabase = typeof window.getPowerzoneSupabaseClient === "function"
+        ? window.getPowerzoneSupabaseClient()
+        : null;
 
     async function handleRecoveryLink() {
         const hashParams = parseHashParams();

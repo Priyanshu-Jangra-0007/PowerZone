@@ -1,14 +1,12 @@
 const STORAGE_KEY = 'powerzone-client-state-v1';
+const GOALS_STORAGE_KEY = 'powerzone-client-goals-v1';
 const goalChart = document.getElementById('goal-process-chart');
 const sideNavLinks = Array.from(document.querySelectorAll('.side-nav a[data-view]'));
 const panels = Array.from(document.querySelectorAll('.dashboard-view[data-panel]'));
 const greetingHeading = document.getElementById('client-greeting');
-const profileName = document.getElementById('client-profile-name');
-const profileRole = document.getElementById('client-profile-role');
-const profileAvatar = document.getElementById('client-avatar');
 const hasSupabase = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
-const clientSupabase = hasSupabase
-    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+const clientSupabase = hasSupabase && typeof window.getPowerzoneSupabaseClient === 'function'
+    ? window.getPowerzoneSupabaseClient()
     : null;
 const CLIENT_DISPLAY_NAME_KEY = 'powerzone-display-name';
 const CLIENT_AVATAR_URL_KEY = 'powerzone-avatar-url';
@@ -16,7 +14,6 @@ const CLIENT_PROFILE_CACHE_KEY = 'powerzone-profile-cache';
 
 const defaultState = {
     view: 'dashboard',
-    todos: [],
     diets: [
         { text: '7:30 AM Oats + egg whites', done: false },
         { text: '2:00 PM Grilled chicken + rice', done: false }
@@ -25,43 +22,11 @@ const defaultState = {
         { text: 'Strength lower body block', done: false },
         { text: '20 min incline treadmill', done: true }
     ],
-    supplements: [
-        { text: 'Whey isolate - post workout', done: false },
-        { text: 'Omega-3 - with lunch', done: false }
-    ],
-    goals: [
-        { title: 'Body fat to 16%', progress: 58 },
-        { title: 'Deadlift 120kg', progress: 44 }
-    ],
+    goals: [],
     todayGoals: [
         { text: 'Complete warmup and mobility', done: false },
         { text: 'Hit protein target (140g+)', done: false }
     ],
-    trainer: [
-        { text: 'Mobility review - Tue 7:00 PM', done: false },
-        { text: 'Form correction - Thu 8:00 PM', done: false }
-    ],
-    appointments: [
-        { title: 'Training', time: '10:00 AM' },
-        { title: 'Nutrition', time: '11:30 AM' },
-        { title: 'Diet & Health', time: '4:00 PM' },
-        { title: 'Muscles guide', time: '6:00 PM' }
-    ],
-    members: ['Priyanshu', 'Anika', 'Rahul', 'Nisha', 'Kabir'],
-    friends: ['Rohan', 'Aarav', 'Siya'],
-    activeFriend: 'Rohan',
-    conversations: {
-        Rohan: [
-            { from: 'friend', text: 'Bro, leg day complete?' },
-            { from: 'you', text: 'Yes, done. Finishing cooldown now.' }
-        ],
-        Aarav: [
-            { from: 'friend', text: 'Need your meal prep list.' }
-        ],
-        Siya: [
-            { from: 'friend', text: 'Let us do yoga class tomorrow.' }
-        ]
-    },
     settings: {
         notifications: true,
         emailSummary: false,
@@ -71,18 +36,6 @@ const defaultState = {
 };
 
 let state = loadState();
-const dashboardTodoPreset = [
-    'Train lan for running',
-    'Chest workout',
-    'Belly fat loss',
-    'Abs training for josh',
-    'Train lan for running'
-];
-
-function isDashboardTodoPreset(list) {
-    if (!Array.isArray(list) || list.length !== dashboardTodoPreset.length) return false;
-    return list.every((item, index) => String(item.text || '').trim() === dashboardTodoPreset[index]);
-}
 
 function cloneState(source) {
     return JSON.parse(JSON.stringify(source));
@@ -91,11 +44,23 @@ function cloneState(source) {
 function loadState() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return cloneState(defaultState);
+        const rawGoals = localStorage.getItem(GOALS_STORAGE_KEY);
+        if (!raw) {
+            const fallback = cloneState(defaultState);
+            if (rawGoals) {
+                const parsedGoals = JSON.parse(rawGoals);
+                if (Array.isArray(parsedGoals)) {
+                    fallback.goals = parsedGoals;
+                }
+            }
+            return fallback;
+        }
         const parsed = JSON.parse(raw);
+        const parsedGoals = rawGoals ? JSON.parse(rawGoals) : null;
         return {
             ...cloneState(defaultState),
             ...parsed,
+            goals: Array.isArray(parsedGoals) ? parsedGoals : (Array.isArray(parsed.goals) ? parsed.goals : []),
             settings: {
                 ...defaultState.settings,
                 ...(parsed.settings || {})
@@ -111,6 +76,43 @@ function saveState() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (_error) {
         // Ignore storage failures.
+    }
+}
+
+function getStoredGoals() {
+    try {
+        const rawGoals = localStorage.getItem(GOALS_STORAGE_KEY);
+        if (!rawGoals) return [];
+        const parsedGoals = JSON.parse(rawGoals);
+        return Array.isArray(parsedGoals) ? parsedGoals : [];
+    } catch (_error) {
+        return [];
+    }
+}
+
+function setStoredGoals(goals) {
+    try {
+        localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(goals || []));
+    } catch (_error) {
+        // Ignore storage failures.
+    }
+}
+
+function hydrateGoalsFromStorage() {
+    state.goals = getStoredGoals();
+}
+
+function commitGoals(goals) {
+    state.goals = Array.isArray(goals) ? goals : [];
+    setStoredGoals(state.goals);
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : cloneState(defaultState);
+        parsed.goals = state.goals;
+        parsed.view = state.view;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+    } catch (_error) {
+        saveState();
     }
 }
 
@@ -133,6 +135,31 @@ function normalizeChecklist(key) {
             return null;
         })
         .filter((item) => item && item.text);
+}
+
+function normalizeGoals() {
+    if (!Array.isArray(state.goals)) {
+        state.goals = [];
+        return;
+    }
+    state.goals = state.goals
+        .map((goal) => {
+            if (!goal || typeof goal !== 'object') {
+                return null;
+            }
+            const title = String(goal.title || '').trim();
+            const sets = Math.max(1, Number(goal.sets) || 1);
+            const reps = Math.max(1, Number(goal.reps) || 1);
+            return title
+                ? {
+                    title,
+                    sets,
+                    reps,
+                    achieved: Boolean(goal.achieved)
+                }
+                : null;
+        })
+        .filter(Boolean);
 }
 
 function getLoginRedirectUrl() {
@@ -247,15 +274,6 @@ function applyAuthenticatedUser(user) {
     if (greetingHeading) {
         greetingHeading.textContent = `Hi ${firstName}!`;
     }
-    if (profileName) {
-        profileName.textContent = displayName;
-    }
-    if (profileRole) {
-        profileRole.textContent = user?.email || 'PowerZone member';
-    }
-    if (profileAvatar) {
-        profileAvatar.textContent = deriveInitials(displayName);
-    }
 }
 
 async function requireAuthenticatedUser() {
@@ -310,6 +328,7 @@ function setActiveView(view) {
         window.history.replaceState({}, '', nextUrl);
     }
     if (normalized === 'dashboard') drawGoalProcess();
+    renderAll();
     saveState();
 }
 
@@ -322,12 +341,9 @@ function getViewFromLocation() {
         'client-dashboard.html': 'dashboard',
         'client-diets.html': 'diets',
         'client-workouts.html': 'workouts',
-        'client-supplements.html': 'supplements',
         'client-goals.html': 'goals',
-        'client-trainer.html': 'trainer',
-        'client-members.html': 'members',
-        'client-messages.html': 'messages',
-        'client-settings.html': 'settings'
+        'client-calendar.html': 'calendar',
+        'client-settings.html': 'dashboard'
     };
     return map[file] || '';
 }
@@ -336,6 +352,10 @@ const calendarTitle = document.getElementById('calendar-title');
 const calendarGrid = document.getElementById('calendar-grid');
 const calendarPrev = document.getElementById('calendar-prev');
 const calendarNext = document.getElementById('calendar-next');
+const calendarTitleView = document.getElementById('calendar-title-view');
+const calendarGridView = document.getElementById('calendar-grid-view');
+const calendarPrevView = document.getElementById('calendar-prev-view');
+const calendarNextView = document.getElementById('calendar-next-view');
 let calendarCursor = new Date();
 
 function formatDateKey(year, month, day) {
@@ -345,7 +365,6 @@ function formatDateKey(year, month, day) {
 }
 
 function renderCalendar() {
-    if (!calendarTitle || !calendarGrid) return;
     if (!state.gymAttendance || typeof state.gymAttendance !== 'object') {
         state.gymAttendance = {};
     }
@@ -360,38 +379,45 @@ function renderCalendar() {
     const offset = firstDay.getDay();
     const today = new Date();
 
-    calendarGrid.innerHTML = '';
+    [
+        { title: calendarTitle, grid: calendarGrid },
+        { title: calendarTitleView, grid: calendarGridView }
+    ].forEach(({ title, grid }) => {
+        if (!title || !grid) return;
+        title.textContent = `${monthName} ${year}`;
+        grid.innerHTML = '';
 
-    for (let i = 0; i < offset; i += 1) {
-        const blank = document.createElement('button');
-        blank.type = 'button';
-        blank.className = 'calendar-day empty';
-        blank.disabled = true;
-        calendarGrid.appendChild(blank);
-    }
-
-    for (let day = 1; day <= lastDate; day += 1) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'calendar-day';
-        btn.textContent = String(day);
-        btn.dataset.day = String(day);
-
-        if (
-            today.getFullYear() === year &&
-            today.getMonth() === month &&
-            today.getDate() === day
-        ) {
-            btn.classList.add('today');
+        for (let i = 0; i < offset; i += 1) {
+            const blank = document.createElement('button');
+            blank.type = 'button';
+            blank.className = 'calendar-day empty';
+            blank.disabled = true;
+            grid.appendChild(blank);
         }
 
-        const key = formatDateKey(year, month, day);
-        if (state.gymAttendance[key]) {
-            btn.classList.add('attended');
-        }
+        for (let day = 1; day <= lastDate; day += 1) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'calendar-day';
+            btn.textContent = String(day);
+            btn.dataset.day = String(day);
 
-        calendarGrid.appendChild(btn);
-    }
+            if (
+                today.getFullYear() === year &&
+                today.getMonth() === month &&
+                today.getDate() === day
+            ) {
+                btn.classList.add('today');
+            }
+
+            const key = formatDateKey(year, month, day);
+            if (state.gymAttendance[key]) {
+                btn.classList.add('attended');
+            }
+
+            grid.appendChild(btn);
+        }
+    });
 }
 
 function drawGoalProcess() {
@@ -527,20 +553,30 @@ function renderToggleList(listId, dataKey, options = {}) {
 }
 
 function renderTodoList() {
-    normalizeChecklist('todos');
     const list = document.getElementById('todo-list');
     if (!list) return;
+    hydrateGoalsFromStorage();
+    normalizeGoals();
+    setStoredGoals(state.goals);
     list.innerHTML = '';
 
-    if (!isDashboardTodoPreset(state.todos)) {
-        state.todos = dashboardTodoPreset.map((text) => ({ text, done: false }));
-        saveState();
+    if (!state.goals.length) {
+        const li = document.createElement('li');
+        li.className = 'todo-empty';
+        li.textContent = 'No goals added yet.';
+        list.appendChild(li);
+        return;
     }
 
-    state.todos.forEach((item, index) => {
+    state.goals.forEach((goal, index) => {
         const li = document.createElement('li');
-        li.className = item.done ? 'done' : '';
-        li.innerHTML = `<label><input type="checkbox" data-key="todos" data-index="${index}" ${item.done ? 'checked' : ''}> <span class="todo-text">${item.text}</span></label><button type="button" class="todo-dots" aria-label="Task options">&#8942;</button>`;
+        li.className = goal.achieved ? 'done' : '';
+        li.innerHTML = `
+            <label>
+                <input type="checkbox" data-goal-toggle="${index}" ${goal.achieved ? 'checked' : ''}>
+                <span class="todo-text">${goal.title} - ${goal.sets} sets x ${goal.reps} reps</span>
+            </label>
+        `;
         list.appendChild(li);
     });
 }
@@ -548,13 +584,33 @@ function renderTodoList() {
 function renderGoals() {
     const target = document.getElementById('goal-tracker');
     if (!target) return;
+    hydrateGoalsFromStorage();
+    normalizeGoals();
+    setStoredGoals(state.goals);
     target.innerHTML = '';
-    state.goals.forEach((goal) => {
-        const row = document.createElement('div');
-        row.className = 'goal-entry';
+
+    if (!state.goals.length) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td colspan="5" class="goal-table-empty">No goals added yet.</td>';
+        target.appendChild(row);
+        return;
+    }
+
+    state.goals.forEach((goal, index) => {
+        const row = document.createElement('tr');
+        row.className = goal.achieved ? 'is-achieved' : '';
         row.innerHTML = `
-            <div class="goal-entry-head"><strong>${goal.title}</strong><span>${goal.progress}%</span></div>
-            <div class="goal-entry-bar"><span style="width:${goal.progress}%"></span></div>
+            <td>${goal.title}</td>
+            <td>${goal.sets}</td>
+            <td>${goal.reps}</td>
+            <td>
+                <button type="button" class="goal-status-btn" data-goal-toggle="${index}">
+                    ${goal.achieved ? 'Achieved' : 'In Progress'}
+                </button>
+            </td>
+            <td>
+                <button type="button" class="goal-delete-btn" data-goal-delete="${index}">Remove</button>
+            </td>
         `;
         target.appendChild(row);
     });
@@ -605,32 +661,41 @@ function renderDietPlan(plan) {
     `;
 }
 
-function renderMembers(filterText = '') {
-    const list = document.getElementById('members-list');
-    if (!list) return;
-    const q = filterText.trim().toLowerCase();
-    const members = state.members.filter((name) => name.toLowerCase().includes(q));
-    list.innerHTML = members.map((name) => `<li>${name}</li>`).join('');
+function getChecklistCompletion(list) {
+    if (!Array.isArray(list) || !list.length) {
+        return { done: 0, total: 0, percent: 0 };
+    }
+    const done = list.filter((item) => item.done).length;
+    return {
+        done,
+        total: list.length,
+        percent: Math.round((done / list.length) * 100)
+    };
 }
 
-function renderFriends() {
-    const list = document.getElementById('friends-list');
-    if (!list) return;
-    list.innerHTML = state.friends
-        .map((name) => `<li data-friend="${name}" class="${name === state.activeFriend ? 'active-friend' : ''}">${name}</li>`)
-        .join('');
-}
+function renderDashboardSummary() {
+    const workoutSummary = getChecklistCompletion(state.workouts);
+    const dietSummary = getChecklistCompletion(state.diets);
+    hydrateGoalsFromStorage();
+    normalizeGoals();
+    setStoredGoals(state.goals);
+    const goalDone = state.goals.filter((goal) => goal.achieved).length;
+    const goalTotal = state.goals.length;
+    const goalPercent = goalTotal ? Math.round((goalDone / goalTotal) * 100) : 0;
 
-function renderConversation() {
-    const title = document.getElementById('chat-title');
-    const history = document.getElementById('chat-history');
-    if (!title || !history) return;
-    const friend = state.activeFriend || state.friends[0];
-    title.textContent = friend ? `Conversation with ${friend}` : 'Conversation';
-    const messages = friend ? (state.conversations[friend] || []) : [];
-    history.innerHTML = messages
-        .map((msg) => `<li class="${msg.from === 'you' ? 'from-you' : 'from-friend'}"><span>${msg.from === 'you' ? 'You' : friend}: ${msg.text}</span></li>`)
-        .join('');
+    const workoutCount = document.getElementById('dashboard-workout-count');
+    const dietCount = document.getElementById('dashboard-diet-count');
+    const goalCount = document.getElementById('dashboard-goal-count');
+    const workoutProgress = document.getElementById('dashboard-workout-progress');
+    const dietProgress = document.getElementById('dashboard-diet-progress');
+    const goalProgress = document.getElementById('dashboard-goal-progress');
+
+    if (workoutCount) workoutCount.textContent = `${workoutSummary.total} active sessions`;
+    if (dietCount) dietCount.textContent = `${dietSummary.total} meals tracked`;
+    if (goalCount) goalCount.textContent = `${state.goals.length} goals planned`;
+    if (workoutProgress) workoutProgress.style.width = `${workoutSummary.percent}%`;
+    if (dietProgress) dietProgress.style.width = `${dietSummary.percent}%`;
+    if (goalProgress) goalProgress.style.width = `${goalPercent}%`;
 }
 
 function bindAddForm(formId, inputId, key, mapFn, options = {}) {
@@ -717,35 +782,47 @@ function bindStaticEvents() {
             renderAll();
         }
 
-        const friend = target.getAttribute('data-friend');
-        if (friend) {
-            state.activeFriend = friend;
-            saveState();
-            renderFriends();
-            renderConversation();
+        const goalToggleAttr = target.getAttribute('data-goal-toggle');
+        const goalToggleIndex = goalToggleAttr === null ? NaN : Number(goalToggleAttr);
+        if (goalToggleAttr !== null && Number.isInteger(goalToggleIndex) && state.goals[goalToggleIndex]) {
+            const nextGoals = getStoredGoals();
+            const goal = nextGoals[goalToggleIndex];
+            if (!goal) return;
+            goal.achieved = !goal.achieved;
+            commitGoals(nextGoals);
+            renderAll();
         }
+
+        const goalDeleteAttr = target.getAttribute('data-goal-delete');
+        const goalDeleteIndex = goalDeleteAttr === null ? NaN : Number(goalDeleteAttr);
+        if (goalDeleteAttr !== null && Number.isInteger(goalDeleteIndex) && state.goals[goalDeleteIndex]) {
+            const nextGoals = getStoredGoals();
+            nextGoals.splice(goalDeleteIndex, 1);
+            commitGoals(nextGoals);
+            renderAll();
+        }
+
     });
 
     const goalForm = document.getElementById('goal-form');
     const goalTitle = document.getElementById('goal-title');
-    const goalProgress = document.getElementById('goal-progress');
-    if (goalForm && goalTitle && goalProgress) {
+    const goalSets = document.getElementById('goal-sets');
+    const goalReps = document.getElementById('goal-reps');
+    if (goalForm && goalTitle && goalSets && goalReps) {
         goalForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const title = goalTitle.value.trim();
-            const progress = Math.max(0, Math.min(100, Number(goalProgress.value) || 0));
+            const sets = Math.max(1, Number(goalSets.value) || 1);
+            const reps = Math.max(1, Number(goalReps.value) || 1);
             if (!title) return;
-            state.goals.push({ title, progress });
+            const nextGoals = getStoredGoals();
+            nextGoals.push({ title, sets, reps, achieved: false });
             goalTitle.value = '';
-            goalProgress.value = '';
-            saveState();
+            goalSets.value = '';
+            goalReps.value = '';
+            commitGoals(nextGoals);
             renderAll();
         });
-    }
-
-    const membersFilter = document.getElementById('members-filter');
-    if (membersFilter) {
-        membersFilter.addEventListener('input', () => renderMembers(membersFilter.value));
     }
 
     const dietProfileForm = document.getElementById('diet-profile-form');
@@ -759,76 +836,21 @@ function bindStaticEvents() {
         });
     }
 
-    const messageForm = document.getElementById('message-form');
-    const messageInput = document.getElementById('message-input');
-    if (messageForm && messageInput) {
-        messageForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const text = messageInput.value.trim();
-            const friend = state.activeFriend;
-            if (!text || !friend) return;
-            state.conversations[friend] = state.conversations[friend] || [];
-            state.conversations[friend].push({ from: 'you', text });
-            messageInput.value = '';
-            saveState();
-            renderConversation();
-        });
-    }
-
-    const friendForm = document.getElementById('friend-form');
-    const friendInput = document.getElementById('friend-input');
-    if (friendForm && friendInput) {
-        friendForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const name = friendInput.value.trim();
-            if (!name) return;
-            if (!state.friends.includes(name)) state.friends.push(name);
-            state.conversations[name] = state.conversations[name] || [];
-            state.activeFriend = name;
-            friendInput.value = '';
-            saveState();
-            renderFriends();
-            renderConversation();
-        });
-    }
-
-    const notif = document.getElementById('notif-setting');
-    const email = document.getElementById('email-setting');
-    const units = document.getElementById('units-setting');
-    if (notif && email && units) {
-        notif.checked = !!state.settings.notifications;
-        email.checked = !!state.settings.emailSummary;
-        units.value = state.settings.units || 'metric';
-        notif.addEventListener('change', () => {
-            state.settings.notifications = notif.checked;
-            saveState();
-        });
-        email.addEventListener('change', () => {
-            state.settings.emailSummary = email.checked;
-            saveState();
-        });
-        units.addEventListener('change', () => {
-            state.settings.units = units.value;
-            saveState();
-        });
-    }
-
     bindAddForm('diet-form', 'diet-input', 'diets', (text) => ({ text, done: false }));
     bindAddForm('workout-form', 'workout-input', 'workouts', (text) => ({ text, done: false }));
-    bindAddForm('supplement-form', 'supplement-input', 'supplements', (text) => ({ text, done: false }));
-    bindAddForm('trainer-form', 'trainer-input', 'trainer', (text) => ({ text, done: false }));
-    bindAddForm('today-goal-form', 'today-goal-input', 'todayGoals', (text) => ({ text, done: false }));
+    const moveCalendar = (delta) => {
+        calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + delta, 1);
+        renderCalendar();
+    };
 
-    if (calendarPrev && calendarNext && calendarGrid) {
-        calendarPrev.addEventListener('click', () => {
-            calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() - 1, 1);
-            renderCalendar();
-        });
-        calendarNext.addEventListener('click', () => {
-            calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + 1, 1);
-            renderCalendar();
-        });
-        calendarGrid.addEventListener('click', (event) => {
+    [
+        { prev: calendarPrev, next: calendarNext, grid: calendarGrid },
+        { prev: calendarPrevView, next: calendarNextView, grid: calendarGridView }
+    ].forEach(({ prev, next, grid }) => {
+        if (!prev || !next || !grid) return;
+        prev.addEventListener('click', () => moveCalendar(-1));
+        next.addEventListener('click', () => moveCalendar(1));
+        grid.addEventListener('click', (event) => {
             const target = event.target;
             if (!(target instanceof HTMLButtonElement)) return;
             const day = Number(target.dataset.day);
@@ -840,7 +862,7 @@ function bindStaticEvents() {
             saveState();
             renderCalendar();
         });
-    }
+    });
 
 }
 
@@ -848,14 +870,9 @@ function renderAll() {
     renderTodoList();
     renderToggleList('diet-list', 'diets');
     renderToggleList('workout-list', 'workouts');
-    renderToggleList('supplement-list', 'supplements');
-    renderToggleList('trainer-list', 'trainer');
-    renderToggleList('today-goal-list', 'todayGoals');
     renderGoals();
-    renderMembers();
-    renderFriends();
-    renderConversation();
     renderCalendar();
+    renderDashboardSummary();
     if (state.view === 'dashboard') drawGoalProcess();
 }
 
@@ -878,11 +895,13 @@ async function initializeClientPage() {
         });
     }
 
+    hydrateGoalsFromStorage();
+    normalizeGoals();
+    commitGoals(state.goals);
     bindStaticEvents();
     const routeView = getViewFromLocation();
     const isMainClientPage = window.location.pathname.toLowerCase().endsWith('client.html');
     setActiveView(routeView || (isMainClientPage ? 'dashboard' : state.view) || 'dashboard');
-    renderAll();
     const defaultGoal = document.getElementById('diet-goal');
     const defaultType = document.getElementById('diet-type');
     renderDietPlan(generateDietPlan(defaultGoal ? defaultGoal.value : 'fat-loss', defaultType ? defaultType.value : 'balanced'));

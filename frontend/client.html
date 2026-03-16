@@ -59,20 +59,9 @@
                 </div>
                 <nav class="side-nav" aria-label="Client Dashboard Menu">
                     <a href="client-dashboard.html" class="active" data-view="dashboard">Dashboard</a>
-                    <a href="client-diets.html" data-view="diets">Diets</a>
-                    <a href="client-workouts.html" data-view="workouts">Workouts</a>
-                    <a href="client-supplements.html" data-view="supplements">Supplements</a>
-                    <a href="client-goals.html" data-view="goals">My Goal</a>
-                    <a href="client-trainer.html" data-view="trainer">Trainer</a>
-                    <a href="client-members.html" data-view="members">Members</a>
-                    <a href="client-messages.html" data-view="messages">Messages</a>
-                    <a href="client-settings.html" data-view="settings">Setting</a>
+                    <a href="client-diets.html" data-view="diets">Diet</a>
+                    <a href="client-goals.html" data-view="goals">Goals</a>
                 </nav>
-                <div class="sidebar-promo">
-                    <h4>Get Premium Now!</h4>
-                    <p>Reach your goals faster with expert plans.</p>
-                    <button type="button">Subscribe</button>
-                </div>
             </aside>
 
             <section class="dashboard-main">
@@ -80,33 +69,30 @@
                     <header class="dashboard-header-card panel-lite">
                         <div>
                             <h1 id="client-greeting">Hi Athlete!</h1>
-                            <p>Train hard, turn up, run your best!</p>
+                            <p>Your focused training space for gym, meals, goals, and consistency.</p>
                         </div>
-                        <label class="search-shell">
-                            <input id="member-search" type="search" placeholder="Search anything here...">
-                        </label>
                     </header>
 
                     <section class="activity-cards">
                         <article class="activity-card purple">
-                            <h3>Body Building</h3>
-                            <p>24 Sessions</p>
+                            <h3>Gym Plan</h3>
+                            <p id="dashboard-workout-count">0 active sessions</p>
                         </article>
                         <article class="activity-card sand">
-                            <h3>Yoga class</h3>
-                            <p>12 Sessions</p>
+                            <h3>Diet Plan</h3>
+                            <p id="dashboard-diet-count">0 meals tracked</p>
                         </article>
                         <article class="activity-card green">
-                            <h3>Fat Reduction</h3>
-                            <p>58 Sessions</p>
+                            <h3>Goals</h3>
+                            <p id="dashboard-goal-count">0 goals in progress</p>
                         </article>
                     </section>
 
                     <section class="middle-grid">
                         <article class="panel-lite goal-process">
                             <div class="panel-top">
-                                <h2>Goal Process</h2>
-                                <span>This week</span>
+                                <h2>Weekly Goal Progress</h2>
+                                <span>Current week</span>
                             </div>
                             <div class="goal-static-chart" aria-label="Weekly goal process chart" role="img">
                                 <svg viewBox="0 0 680 250" preserveAspectRatio="none">
@@ -148,42 +134,42 @@
                                     </g>
                                 </svg>
                                 <div class="goal-static-legend">
-                                    <span><i class="lg-purple"></i>Body Building</span>
-                                    <span><i class="lg-orange"></i>Yoga class</span>
-                                    <span><i class="lg-green"></i>Fat Reduction</span>
+                                    <span><i class="lg-purple"></i>Training</span>
+                                    <span><i class="lg-orange"></i>Meal discipline</span>
+                                    <span><i class="lg-green"></i>Goal completion</span>
                                 </div>
                             </div>
                         </article>
                         <article class="panel-lite today-goal">
-                            <h2>Today Goal</h2>
+                            <h2>Today Snapshot</h2>
                             <div class="goal-item">
-                                <p>Build Muscles</p>
-                                <div class="goal-progress"><span style="width:75%"></span></div>
+                                <p>Workout completion</p>
+                                <div class="goal-progress"><span id="dashboard-workout-progress" style="width:0%"></span></div>
                             </div>
                             <div class="goal-item">
-                                <p>3 reps of 5kg Dumbbells</p>
-                                <div class="goal-progress"><span style="width:52%"></span></div>
+                                <p>Meal completion</p>
+                                <div class="goal-progress"><span id="dashboard-diet-progress" style="width:0%"></span></div>
                             </div>
                             <div class="goal-item">
-                                <p>5 reps of butterfly game</p>
-                                <div class="goal-progress"><span style="width:68%"></span></div>
+                                <p>Goal checklist</p>
+                                <div class="goal-progress"><span id="dashboard-goal-progress" style="width:0%"></span></div>
                             </div>
                         </article>
                     </section>
 
                     <section class="bottom-grid">
                         <article class="panel-lite mini-card">
-                            <h2>Recommended Food</h2>
+                            <h2>Focus Areas</h2>
                             <ul>
-                                <li>Veggies and hummus <span>7 days</span></li>
-                                <li>Bowl of salad <span>12 days</span></li>
-                                <li>Green variety foods <span>16 days</span></li>
+                                <li>Gym consistency <span>Build weekly rhythm</span></li>
+                                <li>Meal discipline <span>Keep protein and timing steady</span></li>
+                                <li>Goal review <span>Adjust progress every week</span></li>
                             </ul>
                         </article>
                         <article class="panel-lite mini-card todo-card">
-                            <h2>To Do List</h2>
+                            <h2>Goal Tracker</h2>
                             <ul id="todo-list"></ul>
-                            <a href="client-goals.html" class="view-more">View more &rarr;</a>
+                            <a href="client-goals.html" class="view-more">Manage goals &rarr;</a>
                         </article>
                     </section>
                 </section>
@@ -216,117 +202,64 @@
 
                 <section class="dashboard-view" data-panel="workouts">
                     <article class="panel-lite functional-card">
-                        <h2>Workouts</h2>
-                        <p class="muted">Track planned sessions.</p>
+                        <h2>Gym</h2>
+                        <p class="muted">Track your workout sessions and keep the gym plan simple.</p>
                         <form id="workout-form" class="inline-form">
-                            <input id="workout-input" type="text" placeholder="Add workout">
+                            <input id="workout-input" type="text" placeholder="Add workout session">
                             <button type="submit">Add</button>
                         </form>
                         <ul id="workout-list" class="action-list"></ul>
                     </article>
                 </section>
 
-                <section class="dashboard-view" data-panel="supplements">
-                    <article class="panel-lite functional-card">
-                        <h2>Supplements</h2>
-                        <p class="muted">Plan supplements and dosage reminders.</p>
-                        <form id="supplement-form" class="inline-form">
-                            <input id="supplement-input" type="text" placeholder="Add supplement">
-                            <button type="submit">Add</button>
-                        </form>
-                        <ul id="supplement-list" class="action-list"></ul>
-                    </article>
-                </section>
-
                 <section class="dashboard-view" data-panel="goals">
                     <article class="panel-lite functional-card">
-                        <h2>My Goal</h2>
-                        <p class="muted">Set your goals and maintain today's checklist.</p>
+                        <h2>Goals</h2>
+                        <p class="muted">Track your exercise targets with sets and reps, then mark them achieved.</p>
                         <form id="goal-form" class="inline-form goal-form">
-                            <input id="goal-title" type="text" placeholder="Goal title">
-                            <input id="goal-progress" type="number" min="0" max="100" placeholder="Progress %">
-                            <button type="submit">Save</button>
-                        </form>
-                        <div id="goal-tracker" class="goal-tracker"></div>
-                        <h3>Today's Goal Checklist</h3>
-                        <form id="today-goal-form" class="inline-form">
-                            <input id="today-goal-input" type="text" placeholder="Add today's goal task">
+                            <input id="goal-title" type="text" placeholder="Exercise name">
+                            <input id="goal-sets" class="goal-number-input" type="number" min="1" placeholder="Sets">
+                            <input id="goal-reps" class="goal-number-input" type="number" min="1" placeholder="Reps">
                             <button type="submit">Add</button>
                         </form>
-                        <ul id="today-goal-list" class="action-list"></ul>
-                    </article>
-                </section>
-
-                <section class="dashboard-view" data-panel="trainer">
-                    <article class="panel-lite functional-card">
-                        <h2>Trainer</h2>
-                        <p class="muted">Book and manage trainer sessions.</p>
-                        <form id="trainer-form" class="inline-form">
-                            <input id="trainer-input" type="text" placeholder="Session title and time">
-                            <button type="submit">Book</button>
-                        </form>
-                        <ul id="trainer-list" class="action-list"></ul>
-                    </article>
-                </section>
-
-                <section class="dashboard-view" data-panel="members">
-                    <article class="panel-lite functional-card">
-                        <h2>Members</h2>
-                        <p class="muted">Search your team.</p>
-                        <input id="members-filter" type="search" placeholder="Search members">
-                        <ul id="members-list" class="action-list plain-list"></ul>
-                    </article>
-                </section>
-
-                <section class="dashboard-view" data-panel="messages">
-                    <article class="panel-lite functional-card">
-                        <h2>Messages</h2>
-                        <p class="muted">Chat with multiple friends.</p>
-                        <div class="messages-shell">
-                            <aside class="friends-pane">
-                                <ul id="friends-list" class="action-list plain-list"></ul>
-                                <form id="friend-form" class="inline-form">
-                                    <input id="friend-input" type="text" placeholder="Add friend">
-                                    <button type="submit">Add</button>
-                                </form>
-                            </aside>
-                            <section class="chat-pane">
-                                <h3 id="chat-title">Conversation</h3>
-                                <ul id="chat-history" class="action-list chat-history"></ul>
-                                <form id="message-form" class="inline-form">
-                                    <input id="message-input" type="text" placeholder="Write a message">
-                                    <button type="submit">Send</button>
-                                </form>
-                            </section>
+                        <div class="goal-table-wrap">
+                            <table class="goal-table">
+                                <thead>
+                                    <tr>
+                                        <th>Exercise</th>
+                                        <th>Sets</th>
+                                        <th>Reps</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="goal-tracker"></tbody>
+                            </table>
                         </div>
                     </article>
                 </section>
 
-                <section class="dashboard-view" data-panel="settings">
+                <section class="dashboard-view" data-panel="calendar">
                     <article class="panel-lite functional-card">
-                        <h2>Setting</h2>
-                        <p class="muted">Preferences</p>
-                        <label class="setting-row"><input id="notif-setting" type="checkbox"> Enable notifications</label>
-                        <label class="setting-row"><input id="email-setting" type="checkbox"> Daily summary email</label>
-                        <label class="setting-row">
-                            Units
-                            <select id="units-setting">
-                                <option value="metric">Metric</option>
-                                <option value="imperial">Imperial</option>
-                            </select>
-                        </label>
+                        <h2>Calendar</h2>
+                        <p class="muted">Mark gym days and review your monthly consistency.</p>
+                        <article class="calendar-card calendar-card-embedded">
+                            <div class="calendar-head">
+                                <button type="button" id="calendar-prev-view" aria-label="Previous month">&lt;</button>
+                                <h3 id="calendar-title-view"></h3>
+                                <button type="button" id="calendar-next-view" aria-label="Next month">&gt;</button>
+                            </div>
+                            <div class="calendar-weekdays" aria-hidden="true">
+                                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                            </div>
+                            <div id="calendar-grid-view" class="calendar-grid"></div>
+                        </article>
                     </article>
                 </section>
+
             </section>
 
             <aside class="dashboard-right">
-                <article class="panel-lite profile-card">
-                    <h2>Profile</h2>
-                    <div class="avatar" id="client-avatar">A</div>
-                    <h3 id="client-profile-name">Athlete</h3>
-                    <p id="client-profile-role">PowerZone member</p>
-                </article>
-
                 <article class="panel-lite calendar-card">
                     <div class="calendar-head">
                         <button type="button" id="calendar-prev" aria-label="Previous month">&lt;</button>
@@ -339,12 +272,6 @@
                     <div id="calendar-grid" class="calendar-grid"></div>
                 </article>
 
-                <article class="panel-lite map-card">
-                    <h2>Gym near you</h2>
-                    <div class="map-mock">
-                        <span class="pin"></span>
-                    </div>
-                </article>
             </aside>
         </section>
     </main>

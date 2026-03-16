@@ -148,8 +148,8 @@
         setStatus("Supabase not configured. Add keys in supabase-config.js.");
     }
 
-    const supabase = hasSupabase
-        ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+    const supabase = hasSupabase && typeof window.getPowerzoneSupabaseClient === "function"
+        ? window.getPowerzoneSupabaseClient()
         : null;
 
     if (page === "login") {

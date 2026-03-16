@@ -7,8 +7,8 @@ const navCta = document.querySelector('.nav-cta');
 const DISPLAY_NAME_KEY = 'powerzone-display-name';
 const AVATAR_URL_KEY = 'powerzone-avatar-url';
 const hasSupabaseAuth = Boolean(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
-const navSupabase = hasSupabaseAuth
-    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+const navSupabase = hasSupabaseAuth && typeof window.getPowerzoneSupabaseClient === 'function'
+    ? window.getPowerzoneSupabaseClient()
     : null;
 const defaultNavActions = navCta
     ? Array.from(navCta.querySelectorAll('.btn-outlined, .btn-register')).map((node) => node.cloneNode(true))
@@ -19,6 +19,7 @@ const defaultNetworkDropdown = navLinksContainer
     : null;
 let isNavbarAuthenticated = false;
 let navbarAuthReady = Promise.resolve(false);
+let wasMobileNavbarLayout = mobileMenuQuery.matches;
 
 function getClientEntryLinks() {
     return Array.from(document.querySelectorAll('a[href^="client.html"], a[href^="login.html?redirect=client.html%3Fview%3Ddashboard"]'));
@@ -146,7 +147,7 @@ function renderGuestNav() {
         return;
     }
 
-    navCta.querySelectorAll('.nav-profile-menu').forEach((node) => node.remove());
+    document.querySelectorAll('.nav-profile-menu').forEach((node) => node.remove());
 
     if (navCta.querySelector('.btn-outlined, .btn-register')) {
         return;
@@ -177,12 +178,17 @@ function renderAuthenticatedNav() {
         element.remove();
     });
 
-    if (navCta.querySelector('.nav-profile-menu')) {
+    document.querySelectorAll('.nav-profile-menu').forEach((node) => node.remove());
+
+    if (navCta.querySelector('.nav-profile-menu') || (navLinksContainer && navLinksContainer.querySelector('.nav-profile-menu'))) {
         return;
     }
 
     const profileMenu = document.createElement('div');
     profileMenu.className = 'nav-profile-menu';
+    if (mobileMenuQuery.matches) {
+        profileMenu.classList.add('nav-mobile-profile-item');
+    }
 
     const profileButton = document.createElement('button');
     profileButton.type = 'button';
@@ -191,31 +197,31 @@ function renderAuthenticatedNav() {
     profileButton.setAttribute('aria-haspopup', 'menu');
     profileButton.setAttribute('aria-expanded', 'false');
     profileButton.title = profile.name;
+    const badgeMedia = document.createElement('span');
+    badgeMedia.className = 'nav-profile-badge-media';
     if (profile.avatarUrl) {
         const avatarImage = document.createElement('img');
+        avatarImage.className = 'nav-profile-badge-image';
         avatarImage.src = profile.avatarUrl;
         avatarImage.alt = `${profile.name} profile`;
-        profileButton.appendChild(avatarImage);
+        badgeMedia.appendChild(avatarImage);
     } else {
-        profileButton.textContent = createInitials(profile.name);
+        const badgeInitials = document.createElement('span');
+        badgeInitials.className = 'nav-profile-badge-initials';
+        badgeInitials.textContent = createInitials(profile.name);
+        badgeMedia.appendChild(badgeInitials);
     }
+    profileButton.appendChild(badgeMedia);
+
+    const badgeLabel = document.createElement('span');
+    badgeLabel.className = 'nav-profile-badge-label';
+    badgeLabel.textContent = profile.name;
+    profileButton.appendChild(badgeLabel);
 
     const dropdown = document.createElement('div');
     dropdown.className = 'nav-profile-dropdown';
     dropdown.setAttribute('role', 'menu');
     dropdown.setAttribute('aria-label', 'Account options');
-
-    const profileLabel = document.createElement('p');
-    profileLabel.className = 'nav-profile-name';
-    profileLabel.textContent = profile.name;
-    dropdown.appendChild(profileLabel);
-
-    const dashboardLink = document.createElement('a');
-    dashboardLink.href = 'client.html?view=dashboard';
-    dashboardLink.className = 'nav-profile-action';
-    dashboardLink.setAttribute('role', 'menuitem');
-    dashboardLink.textContent = 'Dashboard';
-    dropdown.appendChild(dashboardLink);
 
     const logoutButton = document.createElement('button');
     logoutButton.type = 'button';
@@ -257,13 +263,6 @@ function renderAuthenticatedNav() {
         }
     });
 
-    dashboardLink.addEventListener('click', () => {
-        closeProfileMenu();
-        if (mobileMenuQuery.matches) {
-            closeMobileMenu();
-        }
-    });
-
     logoutButton.addEventListener('click', async (event) => {
         event.preventDefault();
         closeProfileMenu();
@@ -271,15 +270,6 @@ function renderAuthenticatedNav() {
             closeMobileMenu();
         }
         await logoutUser();
-    });
-
-    [dashboardLink].forEach((link) => {
-        link.addEventListener('click', () => {
-            closeProfileMenu();
-            if (mobileMenuQuery.matches) {
-                closeMobileMenu();
-            }
-        });
     });
 
     document.addEventListener('click', (event) => {
@@ -296,7 +286,11 @@ function renderAuthenticatedNav() {
 
     profileMenu.appendChild(profileButton);
     profileMenu.appendChild(dropdown);
-    navCta.appendChild(profileMenu);
+    if (mobileMenuQuery.matches && navLinksContainer) {
+        navLinksContainer.appendChild(profileMenu);
+    } else {
+        navCta.appendChild(profileMenu);
+    }
 }
 
 async function syncNavbarAuthState() {
@@ -368,8 +362,17 @@ if (navContainer && menuToggle) {
     });
 
     window.addEventListener('resize', () => {
-        if (!mobileMenuQuery.matches) {
+        const isMobile = mobileMenuQuery.matches;
+        if (!isMobile) {
             closeMobileMenu();
+        }
+        if (isMobile !== wasMobileNavbarLayout) {
+            wasMobileNavbarLayout = isMobile;
+            if (isNavbarAuthenticated) {
+                renderAuthenticatedNav();
+            } else {
+                renderGuestNav();
+            }
         }
     });
 

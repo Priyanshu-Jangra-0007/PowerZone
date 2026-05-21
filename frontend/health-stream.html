@@ -711,6 +711,94 @@
             line-height: 1;
         }
 
+        .items-card {
+            min-height: 0;
+        }
+
+        .items-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .items-empty {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 12px 0 4px;
+        }
+
+        .food-item {
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 14px;
+            background: linear-gradient(180deg, #171717 0%, #121212 100%);
+            padding: 14px;
+        }
+
+        .food-item-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .food-item-name {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .food-item-portion {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .food-item-calories {
+            flex: 0 0 auto;
+            text-align: right;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .food-item-calories span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .food-item-macros {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .food-item-macro {
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px;
+        }
+
+        .food-item-macro label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .food-item-macro strong {
+            font-size: 20px;
+            line-height: 1;
+        }
+
         .hidden-input {
             display: none;
         }
@@ -1135,6 +1223,18 @@
             .nutri-grid strong {
                 font-size: 24px;
             }
+
+            .food-item-head {
+                flex-direction: column;
+            }
+
+            .food-item-calories {
+                text-align: left;
+            }
+
+            .food-item-macros {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
     <link rel="stylesheet" href="theme.css?v=2">
@@ -1248,6 +1348,13 @@
                         </article>
                     </div>
                 </article>
+
+                <article class="card items-card">
+                    <h3>Detected Items</h3>
+                    <div class="items-list" id="items-list">
+                        <p class="items-empty">Scan a meal to see nutrients for each detected food item.</p>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
@@ -1277,10 +1384,10 @@
             </div>
             <div class="site-footer-col">
                 <h4>Contact</h4>
-                <a href="mailto:team@powerzone.fit">team@powerzone.fit</a>
-                <a href="tel:+910000000000">+91 00000 00000</a>
-                <p>Mon-Sat: 6:00 AM - 10:00 PM</p>
-                <p>Support: 24/7 chat assistance</p>
+                <a href="tel:+918307623649">+91 83076 23649</a>
+                <a href="https://www.linkedin.com/in/priyanshu-a75140318/" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a href="https://www.instagram.com/priyanshujangra__/" target="_blank" rel="noreferrer">Instagram</a>
+                <a href="https://github.com/Priyanshu-Jangra-0007" target="_blank" rel="noreferrer">GitHub</a>
             </div>
         </div>
         <div class="site-footer-bottom">
@@ -1307,21 +1414,40 @@
         const fatValue = document.getElementById("fat-value");
         const fiberValue = document.getElementById("fiber-value");
         const scanTime = document.getElementById("scan-time");
+        const itemsList = document.getElementById("items-list");
 
         let selectedFile = null;
         let currentPreviewUrl = "";
 
-        const API_BASE = location.protocol.startsWith("http")
-            ? `${location.protocol}//${location.hostname}:8000`
-            : "http://127.0.0.1:8000";
-        const API_URL = `${API_BASE}/api/scan-food`;
+        const API_CANDIDATES = (() => {
+            const candidates = [];
+            if (location.protocol.startsWith("http")) {
+                candidates.push({
+                    name: "fastapi-local",
+                    url: `${location.protocol}//${location.hostname}:8000/api/scan-food`
+                });
+            } else {
+                candidates.push({ name: "fastapi-local", url: "http://127.0.0.1:8000/api/scan-food" });
+            }
+            return candidates.filter((candidate, index, array) =>
+                array.findIndex((entry) => entry.url === candidate.url) === index
+            );
+        })();
 
-        function estimateMacros(calories) {
-            const protein = Math.max(1, Math.round((calories * 0.2) / 4));
-            const carbs = Math.max(1, Math.round((calories * 0.42) / 4));
-            const fat = Math.max(1, Math.round((calories * 0.3) / 9));
-            const fiber = Math.max(1, Math.round(calories / 120));
-            return { protein, carbs, fat, fiber };
+        function estimateFiberFromItems(items, calories) {
+            if (Array.isArray(items) && items.length > 0) {
+                const fiberHint = items.reduce((total, item) => {
+                    const category = typeof item.category === "string" ? item.category.toLowerCase() : "";
+                    if (/(vegetable|fruit|grain|legume|bean|lentil|salad|whole)/.test(category)) {
+                        return total + 2;
+                    }
+                    return total;
+                }, 0);
+                if (fiberHint > 0) {
+                    return fiberHint;
+                }
+            }
+            return Math.max(1, Math.round(calories / 120));
         }
 
         function resetValues() {
@@ -1334,6 +1460,81 @@
             fatValue.textContent = "-";
             fiberValue.textContent = "-";
             scanTime.textContent = "-";
+            itemsList.innerHTML = '<p class="items-empty">Scan a meal to see nutrients for each detected food item.</p>';
+        }
+
+        function normalizeApiData(data) {
+            if (data && typeof data === "object" && "calories_kcal" in data) {
+                return {
+                    calories: Number(data.calories_kcal),
+                    confidence: Number(data.confidence),
+                    predictedLabel: typeof data.predicted_label === "string" ? data.predicted_label : "",
+                    modelUsed: typeof data.model_used === "string" ? data.model_used : "gemini",
+                    items: Array.isArray(data.items) ? data.items : [],
+                    itemsCount: Number(data.items_count),
+                    protein: Number(data.total_protein_g),
+                    carbs: Number(data.total_carbs_g),
+                    fat: Number(data.total_fat_g),
+                    suggestion: typeof data.suggestion === "string" ? data.suggestion : ""
+                };
+            }
+
+            if (data && typeof data === "object" && "total_calories" in data) {
+                const items = Array.isArray(data.items) ? data.items : [];
+                const protein = items.reduce((sum, item) => sum + Number(item.protein_g || 0), 0);
+                const carbs = items.reduce((sum, item) => sum + Number(item.carbs_g || 0), 0);
+                const fat = items.reduce((sum, item) => sum + Number(item.fat_g || 0), 0);
+                return {
+                    calories: Number(data.total_calories),
+                    confidence: Number(data.confidence) > 1 ? Number(data.confidence) / 100 : Number(data.confidence),
+                    predictedLabel: items[0] && typeof items[0].name === "string" ? items[0].name : "",
+                    modelUsed: "gemini",
+                    items,
+                    itemsCount: items.length,
+                    protein,
+                    carbs,
+                    fat,
+                    suggestion: typeof data.suggestion === "string" ? data.suggestion : ""
+                };
+            }
+
+            throw new Error("Unsupported API response shape");
+        }
+
+        async function callScannerApi(formData) {
+            let lastError = null;
+
+            for (const candidate of API_CANDIDATES) {
+                try {
+                    const response = await fetch(candidate.url, {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) {
+                        const apiError = new Error(data.detail || data.error || `Request failed (${response.status})`);
+                        apiError.isApiError = true;
+                        apiError.sourceName = candidate.name;
+                        throw apiError;
+                    }
+
+                    return {
+                        source: candidate,
+                        data: normalizeApiData(data)
+                    };
+                } catch (error) {
+                    if (error && error.isApiError) {
+                        throw error;
+                    }
+
+                    const networkError = new Error(`${candidate.name}: ${error.message}`);
+                    networkError.isNetworkError = true;
+                    lastError = networkError;
+                }
+            }
+
+            throw lastError || new Error("Scanner API is unreachable");
         }
 
         function formatLabel(label) {
@@ -1352,6 +1553,66 @@
                 hour: "2-digit",
                 minute: "2-digit"
             });
+        }
+
+        function formatNumber(value) {
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) {
+                return "-";
+            }
+            return Number.isInteger(numeric) ? String(numeric) : numeric.toFixed(1);
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function renderItems(items) {
+            if (!Array.isArray(items) || items.length === 0) {
+                itemsList.innerHTML = '<p class="items-empty">No individual food items were returned for this scan.</p>';
+                return;
+            }
+
+            itemsList.innerHTML = items.map((item) => {
+                const name = item && typeof item.name === "string" ? formatLabel(item.name) : "Unknown Item";
+                const portion = item && typeof item.portion === "string" && item.portion.trim()
+                    ? escapeHtml(item.portion.trim())
+                    : "Portion not available";
+
+                return `
+                    <article class="food-item">
+                        <div class="food-item-head">
+                            <div>
+                                <div class="food-item-name">${escapeHtml(name)}</div>
+                                <div class="food-item-portion">${portion}</div>
+                            </div>
+                            <div class="food-item-calories">
+                                ${formatNumber(item.calories)} kcal
+                                <span>Estimated</span>
+                            </div>
+                        </div>
+                        <div class="food-item-macros">
+                            <div class="food-item-macro">
+                                <label>Protein</label>
+                                <strong>${formatNumber(item.protein_g)}g</strong>
+                            </div>
+                            <div class="food-item-macro">
+                                <label>Carbs</label>
+                                <strong>${formatNumber(item.carbs_g)}g</strong>
+                            </div>
+                            <div class="food-item-macro">
+                                <label>Fat</label>
+                                <strong>${formatNumber(item.fat_g)}g</strong>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
         }
 
         function setSelectedFile(file) {
@@ -1379,47 +1640,49 @@
 
             scanBtn.disabled = true;
             scanBtn.textContent = "Analyzing...";
-            resultNote.textContent = "Running ML inference...";
-
-            const formData = new FormData();
-            formData.append("file", selectedFile);
+            resultNote.textContent = "Running food analysis...";
 
             try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    body: formData
-                });
+                const formData = new FormData();
+                formData.append("file", selectedFile);
 
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.detail || "Request failed");
-                }
-
-                const calories = Number(data.calories_kcal);
+                const { source, data } = await callScannerApi(formData);
+                const calories = Number(data.calories);
                 if (!Number.isFinite(calories) || calories <= 0) {
                     throw new Error("Invalid calories from API");
                 }
                 const confidence = Number(data.confidence);
-                const predictedLabel = typeof data.predicted_label === "string" ? data.predicted_label : "";
-                const caloriesSource = data.calories_source === "mapped" ? "mapped" : "estimated";
-                const modelUsed = typeof data.model_used === "string" ? data.model_used : "ml";
+                const predictedLabel = data.predictedLabel;
+                const modelUsed = data.modelUsed;
+                const items = data.items;
+                const protein = Number(data.protein);
+                const carbs = Number(data.carbs);
+                const fat = Number(data.fat);
+                const fiber = estimateFiberFromItems(items, calories);
+                const itemCount = items.length || data.itemsCount || 1;
 
-                const macros = estimateMacros(calories);
-                itemsCount.textContent = "1 item";
+                itemsCount.textContent = `${itemCount} item${itemCount === 1 ? "" : "s"}`;
                 caloriesValue.textContent = `${calories} kcal`;
                 labelValue.textContent = predictedLabel ? formatLabel(predictedLabel) : "Unknown";
                 confidenceValue.textContent = Number.isFinite(confidence)
                     ? `${(confidence * 100).toFixed(1)}%`
                     : "-";
-                proteinValue.textContent = `${macros.protein}g`;
-                carbValue.textContent = `${macros.carbs}g`;
-                fatValue.textContent = `${macros.fat}g`;
-                fiberValue.textContent = `${macros.fiber}g`;
+                proteinValue.textContent = Number.isFinite(protein) ? `${protein}g` : "-";
+                carbValue.textContent = Number.isFinite(carbs) ? `${carbs}g` : "-";
+                fatValue.textContent = Number.isFinite(fat) ? `${fat}g` : "-";
+                fiberValue.textContent = `${fiber}g`;
                 scanTime.textContent = formatScanTime();
-                resultNote.textContent = `Analysis complete (${caloriesSource} calories, ${modelUsed} model).`;
+                renderItems(items);
+                resultNote.textContent = typeof data.suggestion === "string" && data.suggestion.trim()
+                    ? `${data.suggestion.trim()} [${source.name}]`
+                    : `Analysis complete (${modelUsed} model via ${source.name}).`;
             } catch (error) {
                 resetValues();
-                resultNote.textContent = `${error.message}. Start backend at ${API_BASE}.`;
+                if (error && error.isApiError) {
+                    resultNote.textContent = error.message;
+                } else {
+                    resultNote.textContent = `${error.message}. Start FastAPI on :8000.`;
+                }
             } finally {
                 scanBtn.disabled = false;
                 scanBtn.textContent = "Analyze Food";

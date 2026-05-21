@@ -51,6 +51,54 @@ function resetResults() {
   ingredientsList.innerHTML = '<span class="data-label">No items detected yet.</span>';
 }
 
+function getScannerUrls() {
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return location.port === '5000'
+      ? ['/api/analyze', 'http://127.0.0.1:8000/api/scan']
+      : ['http://127.0.0.1:8000/api/scan', '/api/scan'];
+  }
+  return ['/api/scan', '/api/analyze'];
+}
+
+function normalizeScanData(data) {
+  const items = Array.isArray(data.items) ? data.items : [];
+  const confidencePercent = Number.isFinite(Number(data.confidence_percent))
+    ? Number(data.confidence_percent)
+    : Number(data.confidence) <= 1
+      ? Number(data.confidence || 0) * 100
+      : Number(data.confidence || 0);
+
+  return {
+    calories: Number(data.calories_kcal ?? data.total_calories ?? 0),
+    confidence: confidencePercent,
+    items,
+    protein: Number(data.total_protein_g ?? items.reduce((sum, item) => sum + Number(item.protein_g || 0), 0)),
+    carbs: Number(data.total_carbs_g ?? items.reduce((sum, item) => sum + Number(item.carbs_g || 0), 0)),
+    fat: Number(data.total_fat_g ?? items.reduce((sum, item) => sum + Number(item.fat_g || 0), 0)),
+  };
+}
+
+async function callScannerApi(formData) {
+  let lastError = null;
+
+  for (const url of getScannerUrls()) {
+    try {
+      const res = await fetch(url, { method: 'POST', body: formData });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.error || data.detail || `Failed to fetch. Server responded with ${res.status}.`);
+      }
+
+      return data;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Scanner API is unavailable.');
+}
+
 /* ── File Handling ────────────────────────────────────────────────────────── */
 function setFile(file) {
   const allowed = ['image/jpeg', 'image/png'];
@@ -136,20 +184,17 @@ analyzeBtn.addEventListener('click', async () => {
   formData.append('prompt', ''); // No prompt field in new UI
 
   try {
-    const res  = await fetch('/api/analyze', { method: 'POST', body: formData });
-    const data = await res.json();
+    const data = await callScannerApi(formData);
 
-    if (!res.ok) {
-      throw new Error(data.error || `Failed to fetch. Server responded with ${res.status}.`);
-    }
+    const normalized = normalizeScanData(data);
 
     // Populate data
-    valCalories.textContent = data.total_calories || 0;
-    valConfidence.textContent = (data.confidence || 0) + '%';
+    valCalories.textContent = normalized.calories || 0;
+    valConfidence.textContent = normalized.confidence.toFixed(1) + '%';
 
     // Render Ingredients List
-    if (data.items && data.items.length > 0) {
-      ingredientsList.innerHTML = data.items.map(i => `
+    if (normalized.items.length > 0) {
+      ingredientsList.innerHTML = normalized.items.map(i => `
         <div class="ingredient-item">
           <div>
             <div class="ingredient-name">${i.name}</div>
@@ -162,21 +207,10 @@ analyzeBtn.addEventListener('click', async () => {
       ingredientsList.innerHTML = '<span class="data-label">No items detected.</span>';
     }
 
-    // Sum macros
-    let p = 0, c = 0, f = 0, fiber = 0; // Fiber isn't parsed in backend typically, mock it if needed or 0
-    if (data.items) {
-      data.items.forEach(i => {
-        p += i.protein_g || 0;
-        c += i.carbs_g || 0;
-        f += i.fat_g || 0;
-        fiber += i.fiber_g || 0;
-      });
-    }
-
-    valProtein.textContent = p + 'g';
-    valCarbs.textContent = c + 'g';
-    valFat.textContent = f + 'g';
-    valFiber.textContent = fiber + 'g';
+    valProtein.textContent = normalized.protein + 'g';
+    valCarbs.textContent = normalized.carbs + 'g';
+    valFat.textContent = normalized.fat + 'g';
+    valFiber.textContent = '0g';
 
   } catch (err) {
     showError(err.message || 'Failed to fetch. Please try again.');

@@ -1423,10 +1423,20 @@
             const candidates = [];
             if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") {
                 candidates.push({ name: "fastapi-local", url: "http://127.0.0.1:8000/api/scan" });
+                candidates.push({ name: "fastapi-local-legacy", url: "http://127.0.0.1:8000/api/scan-food" });
+                candidates.push({ name: "fastapi-local-analyze", url: "http://127.0.0.1:8000/api/analyze" });
             } else {
                 candidates.push({
                     name: "production",
                     url: "/api/scan"
+                });
+                candidates.push({
+                    name: "production-legacy",
+                    url: "/api/scan-food"
+                });
+                candidates.push({
+                    name: "production-analyze",
+                    url: "/api/analyze"
                 });
             }
             return candidates;
@@ -1514,6 +1524,10 @@
                         const apiError = new Error(data.detail || data.error || `Request failed (${response.status})`);
                         apiError.isApiError = true;
                         apiError.sourceName = candidate.name;
+                        if (response.status === 404) {
+                            lastError = apiError;
+                            continue;
+                        }
                         throw apiError;
                     }
 

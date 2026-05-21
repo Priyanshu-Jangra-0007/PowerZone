@@ -213,6 +213,37 @@ def health():
     }
 
 
+def build_scan_response(result: dict) -> dict:
+    primary_item = result["items"][0] if result["items"] else {}
+
+    return {
+        "calories_kcal": result["total_calories"],
+        "total_calories": result["total_calories"],
+        "predicted_label": primary_item.get("name", "Unknown"),
+        "confidence": result["confidence"],
+        "confidence_score": result["confidence_score"],
+        "confidence_percent": result["confidence_score"],
+        "model_used": _active_model_name or "gemini",
+        "top_predictions": [
+            {
+                "label": item["name"],
+                "confidence": result["confidence"],
+            }
+            for item in result["items"][:3]
+        ],
+        "items": result["items"],
+        "items_count": len(result["items"]),
+        "total_protein_g": result["total_protein_g"],
+        "total_carbs_g": result["total_carbs_g"],
+        "total_fat_g": result["total_fat_g"],
+        "suggestion": result["suggestion"],
+        "raw": result["raw"],
+    }
+
+
+@app.post("/")
+@app.post("/api/analyze")
+@app.post("/api/scan-food")
 @app.post("/api/scan")
 async def scan_food(file: UploadFile = File(...)):
     if not file.content_type or not file.content_type.startswith("image/"):
@@ -243,26 +274,4 @@ async def scan_food(file: UploadFile = File(...)):
             ) from exc
         raise HTTPException(status_code=500, detail=err_text) from exc
 
-    primary_item = result["items"][0] if result["items"] else {}
-
-    return {
-        "calories_kcal": result["total_calories"],
-        "predicted_label": primary_item.get("name", "Unknown"),
-        "confidence": result["confidence"],
-        "confidence_score": result["confidence_score"],
-        "model_used": _active_model_name or "gemini",
-        "top_predictions": [
-            {
-                "label": item["name"],
-                "confidence": result["confidence"],
-            }
-            for item in result["items"][:3]
-        ],
-        "items": result["items"],
-        "items_count": len(result["items"]),
-        "total_protein_g": result["total_protein_g"],
-        "total_carbs_g": result["total_carbs_g"],
-        "total_fat_g": result["total_fat_g"],
-        "suggestion": result["suggestion"],
-        "raw": result["raw"],
-    }
+    return build_scan_response(result)

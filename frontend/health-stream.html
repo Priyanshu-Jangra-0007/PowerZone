@@ -1421,17 +1421,15 @@
 
         const API_CANDIDATES = (() => {
             const candidates = [];
-            if (location.protocol.startsWith("http")) {
-                candidates.push({
-                    name: "fastapi-local",
-                    url: `${location.protocol}//${location.hostname}:8000/api/scan-food`
-                });
-            } else {
+            if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") {
                 candidates.push({ name: "fastapi-local", url: "http://127.0.0.1:8000/api/scan-food" });
+            } else {
+                candidates.push({
+                    name: "production",
+                    url: "/api/scan-food"
+                });
             }
-            return candidates.filter((candidate, index, array) =>
-                array.findIndex((entry) => entry.url === candidate.url) === index
-            );
+            return candidates;
         })();
 
         function estimateFiberFromItems(items, calories) {

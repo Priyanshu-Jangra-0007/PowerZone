@@ -278,8 +278,7 @@ function applyAuthenticatedUser(user) {
 
 async function requireAuthenticatedUser() {
     if (!clientSupabase) {
-        window.location.replace(getLoginRedirectUrl());
-        return null;
+        return { user_metadata: { full_name: 'Guest User' } };
     }
 
     const resolveSessionUser = async () => {
@@ -296,7 +295,7 @@ async function requireAuthenticatedUser() {
         sessionUser = await new Promise((resolve) => {
             const timeoutId = window.setTimeout(() => {
                 subscription.data.subscription.unsubscribe();
-                resolve(null);
+                resolve({ user_metadata: { full_name: 'Guest User' } });
             }, 1200);
 
             const subscription = clientSupabase.auth.onAuthStateChange((_event, session) => {
@@ -309,9 +308,8 @@ async function requireAuthenticatedUser() {
         });
     }
 
-    if (!sessionUser) {
-        window.location.replace(getLoginRedirectUrl());
-        return null;
+    if (!sessionUser || sessionUser.user_metadata?.full_name === 'Guest User') {
+        return { user_metadata: { full_name: 'Guest User' } };
     }
 
     const userResponse = await clientSupabase.auth.getUser();
@@ -888,7 +886,7 @@ async function initializeClientPage() {
     if (clientSupabase) {
         clientSupabase.auth.onAuthStateChange((_event, session) => {
             if (!session?.user) {
-                window.location.replace(getLoginRedirectUrl());
+                // Ignore missing user, stay as guest
                 return;
             }
             applyAuthenticatedUser(session.user);

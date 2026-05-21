@@ -213,7 +213,7 @@ def health():
     }
 
 
-@app.post("/api/scan-food")
+@app.post("/api/scan")
 async def scan_food(file: UploadFile = File(...)):
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Please upload a valid image file.")

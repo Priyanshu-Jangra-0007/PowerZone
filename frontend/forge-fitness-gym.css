@@ -44,8 +44,8 @@
 
 .forge-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
     align-items: start;
 }
 
@@ -497,146 +497,272 @@
     font-size: 13px;
 }
 
-.forge-sidebar {
-    position: sticky;
-    top: 96px;
+.forge-pricing-section {
+    position: relative;
+    overflow: hidden;
+    margin-top: 4px;
+    padding: 38px 28px 34px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(10, 11, 13, 0.98) 0%, rgba(20, 21, 24, 0.97) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 22px 44px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-.forge-plan-card {
-    padding: 14px;
+.forge-pricing-section::before,
+.forge-pricing-section::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(6px);
+    pointer-events: none;
 }
 
-.forge-plan-card h2 {
-    margin: 0 0 10px;
-    font-size: clamp(28px, 3vw, 34px);
-    line-height: 1.08;
+.forge-pricing-section::before {
+    left: -70px;
+    bottom: -90px;
+    background: radial-gradient(circle, rgba(227, 30, 36, 0.18) 0%, rgba(227, 30, 36, 0) 72%);
 }
 
-.forge-main-plan {
-    border: 1px solid rgba(227, 30, 36, 0.42);
-    background: linear-gradient(180deg, rgba(227, 30, 36, 0.16) 0%, rgba(16, 20, 28, 0.72) 100%);
-    border-radius: 8px;
-    padding: 12px;
+.forge-pricing-section::after {
+    right: -80px;
+    top: -90px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0) 72%);
 }
 
-.forge-main-plan h3 {
-    margin: 0;
-    color: #ff6e74;
-    font-size: 26px;
-    line-height: 1.08;
-}
-
-.forge-plan-price {
-    margin: 7px 0 2px;
-    color: #adb6c3;
-    text-decoration: line-through;
-    font-size: 17px;
-    font-weight: 700;
-}
-
-.forge-plan-price span {
-    display: block;
-    margin-top: 2px;
-    color: #ff3a42;
-    font-size: 40px;
-    font-weight: 900;
-    line-height: 1;
-    text-decoration: none;
-}
-
-.forge-plan-price small {
-    color: #ffe6e8;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.forge-tax-note {
-    margin: 3px 0 10px;
-    color: #c5cfde;
-    font-size: 11px;
-}
-
-.forge-main-plan h4 {
-    margin: 0;
-    color: #ffffff;
-    font-size: 14px;
-}
-
-.forge-main-plan ul {
-    margin: 8px 0;
-    padding-left: 16px;
-}
-
-.forge-main-plan li {
-    margin: 6px 0;
-    color: #d3dce9;
-    font-size: 11px;
-    line-height: 1.36;
-}
-
-.forge-read-more {
-    display: inline-block;
-    color: #ffd8db;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.forge-buy-btn {
-    display: block;
-    margin-top: 10px;
+.forge-pricing-header {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto 30px;
     text-align: center;
-    border-radius: 5px;
-    background: linear-gradient(180deg, #ef3741 0%, #cb1520 100%);
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 800;
-    padding: 9px;
 }
 
-.forge-mini-plan {
-    margin-top: 10px;
-    border: 1px solid var(--forge-border);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
+.forge-pricing-kicker {
+    margin: 0;
+    color: #d65a61;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.forge-pricing-header h2 {
+    margin: 10px 0 10px;
+    color: #f4f5f7;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.04;
+}
+
+.forge-pricing-intro {
+    margin: 0 auto;
+    max-width: 580px;
+    color: #b6bec8;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.forge-pricing-header::after {
+    content: "";
+    display: block;
+    width: min(220px, 62%);
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, #8a1419 24%, #e31e24 56%, #f2f2f2 100%);
+}
+
+.forge-pricing-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.forge-pricing-card {
+    --plan-accent: #6b727b;
+    --plan-accent-dark: #3b4047;
+    --plan-accent-shadow: rgba(0, 0, 0, 0.28);
+    --plan-label-text: #f4f5f7;
+    --plan-button-text: #f4f5f7;
+    --plan-amount: #f4f5f7;
+    padding-top: 20px;
+}
+
+.forge-pricing-card-standard {
+    --plan-accent: #f1ede7;
+    --plan-accent-dark: #c9c2b7;
+    --plan-accent-shadow: rgba(255, 255, 255, 0.08);
+    --plan-label-text: #101215;
+    --plan-button-text: #101215;
+    --plan-amount: #f7f1ea;
+}
+
+.forge-pricing-card-elite {
+    --plan-accent: #8d181f;
+    --plan-accent-dark: #5a1015;
+    --plan-accent-shadow: rgba(141, 24, 31, 0.22);
+}
+
+.forge-pricing-card-premium {
+    --plan-accent: #d82b31;
+    --plan-accent-dark: #8d171c;
+    --plan-accent-shadow: rgba(216, 43, 49, 0.24);
+}
+
+.forge-pricing-label {
+    margin: 0 18px;
+    transform: translateY(18px);
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    border-radius: 10px 10px 4px 4px;
+    background: linear-gradient(135deg, var(--plan-accent) 0%, var(--plan-accent-dark) 100%);
+    box-shadow: 0 12px 24px var(--plan-accent-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--plan-label-text);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     padding: 11px 12px;
 }
 
-.forge-mini-plan h3 {
+.forge-pricing-card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(27, 29, 33, 0.98) 0%, rgba(15, 16, 18, 0.99) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    box-shadow:
+        0 18px 28px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    padding: 46px 18px 20px;
+}
+
+.forge-pricing-duration {
     margin: 0;
-    color: #ff6369;
-    font-size: 22px;
-    line-height: 1;
-}
-
-.forge-mini-plan p {
-    margin: 7px 0 0;
-    color: #ffffff;
-    font-size: 30px;
+    text-align: center;
+    color: #8e98a5;
+    font-size: 11px;
     font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.forge-pricing-amount {
+    margin: 12px 0 10px;
+    text-align: center;
+    color: var(--plan-amount);
+    font-size: clamp(36px, 3vw, 44px);
+    font-weight: 900;
     line-height: 1;
 }
 
-.forge-mini-plan span {
+.forge-pricing-deal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+}
+
+.forge-pricing-strike {
+    color: #7d8793;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: line-through;
+}
+
+.forge-pricing-discount {
+    border-radius: 999px;
+    background: rgba(227, 30, 36, 0.14);
+    border: 1px solid rgba(227, 30, 36, 0.26);
+    color: #ff8d92;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+}
+
+.forge-pricing-note {
+    margin: 0 0 18px;
+    text-align: center;
+    color: #b8c0ca;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.forge-pricing-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.forge-pricing-list li {
+    position: relative;
+    padding-left: 24px;
+    margin: 0 0 11px;
+    color: #d6dbe2;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.forge-pricing-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--plan-accent);
+    box-shadow: 0 0 0 4px var(--plan-accent-shadow);
+}
+
+.forge-pricing-list li.is-off {
+    color: #6f7782;
+}
+
+.forge-pricing-list li.is-off::before {
+    background: #4b5057;
+    box-shadow: none;
+}
+
+.forge-pricing-button {
+    display: block;
+    margin-top: auto;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--plan-accent) 0%, var(--plan-accent-dark) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--plan-button-text);
+    text-align: center;
     font-size: 12px;
-    color: #c7cfdb;
-    font-weight: 600;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 20px var(--plan-accent-shadow);
 }
 
 @media (max-width: 1150px) {
-    .forge-layout {
-        grid-template-columns: minmax(0, 1fr) 330px;
-    }
-
     .forge-row {
         font-size: 15px;
     }
 
-    .forge-main-plan h3 {
-        font-size: 22px;
+    .forge-pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .forge-plan-price span {
-        font-size: 34px;
+    .forge-pricing-section {
+        padding-inline: 24px;
     }
 }
 
@@ -645,24 +771,16 @@
         width: min(1200px, calc(100% - 28px));
     }
 
-    .forge-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .forge-sidebar {
-        position: static;
-    }
-
-    .forge-plan-card {
-        max-width: 440px;
-    }
-
     .forge-journey-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .forge-vibe-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .forge-pricing-section {
+        padding: 32px 22px 28px;
     }
 }
 
@@ -708,6 +826,19 @@
     .forge-services-grid {
         grid-template-columns: 1fr;
     }
+
+    .forge-pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .forge-pricing-section {
+        padding: 28px 16px 22px;
+        border-radius: 22px;
+    }
+
+    .forge-pricing-card-inner {
+        padding-inline: 16px;
+    }
 }
 
 @media (max-width: 520px) {
@@ -732,25 +863,33 @@ body[data-theme="light"].forge-gym-body {
 }
 
 html[data-theme="light"] .forge-gym-body .forge-info-head h1,
-html[data-theme="light"] .forge-gym-body .forge-section h2,
-html[data-theme="light"] .forge-gym-body .forge-plan-card h2 {
+html[data-theme="light"] .forge-gym-body .forge-section h2 {
     color: #18263c;
+}
+
+html[data-theme="light"] .forge-gym-body .forge-pricing-header h2 {
+    color: #f4f5f7;
 }
 
 html[data-theme="light"] .forge-gym-body .forge-address,
 html[data-theme="light"] .forge-gym-body .forge-row,
 html[data-theme="light"] .forge-gym-body .forge-include-item p,
 html[data-theme="light"] .forge-gym-body .forge-trainer-card p,
-html[data-theme="light"] .forge-gym-body .forge-service-card li,
-html[data-theme="light"] .forge-gym-body .forge-main-plan li {
+html[data-theme="light"] .forge-gym-body .forge-service-card li {
     color: #3d4f67;
 }
 
 html[data-theme="light"] .forge-gym-body .forge-section-headline p,
-html[data-theme="light"] .forge-gym-body .forge-class-copy p,
-html[data-theme="light"] .forge-gym-body .forge-tax-note,
-html[data-theme="light"] .forge-gym-body .forge-mini-plan span {
+html[data-theme="light"] .forge-gym-body .forge-class-copy p {
     color: #5e7088;
+}
+
+html[data-theme="light"] .forge-gym-body .forge-pricing-intro,
+html[data-theme="light"] .forge-gym-body .forge-pricing-duration,
+html[data-theme="light"] .forge-gym-body .forge-pricing-note,
+html[data-theme="light"] .forge-gym-body .forge-pricing-list li,
+html[data-theme="light"] .forge-gym-body .forge-pricing-strike {
+    color: #b6bec8;
 }
 
 html[data-theme="light"] .forge-gym-body .forge-tags span {
@@ -759,29 +898,28 @@ html[data-theme="light"] .forge-gym-body .forge-tags span {
 }
 
 html[data-theme="light"] .forge-gym-body .forge-class-copy h3,
-html[data-theme="light"] .forge-gym-body .forge-service-card h3,
-html[data-theme="light"] .forge-gym-body .forge-main-plan h4,
-html[data-theme="light"] .forge-gym-body .forge-mini-plan p {
+html[data-theme="light"] .forge-gym-body .forge-service-card h3 {
     color: #1a2b44;
 }
 
-html[data-theme="light"] .forge-gym-body .forge-main-plan {
-    background: linear-gradient(180deg, rgba(227, 30, 36, 0.08) 0%, rgba(255, 255, 255, 0.92) 100%);
-    border-color: rgba(227, 30, 36, 0.42);
+html[data-theme="light"] .forge-gym-body .forge-pricing-section {
+    background: linear-gradient(180deg, rgba(10, 11, 13, 0.98) 0%, rgba(20, 21, 24, 0.97) 100%);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 22px 44px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-html[data-theme="light"] .forge-gym-body .forge-main-plan h3,
-html[data-theme="light"] .forge-gym-body .forge-mini-plan h3,
-html[data-theme="light"] .forge-gym-body .forge-plan-price span {
-    color: #d21b24;
+html[data-theme="light"] .forge-gym-body .forge-pricing-card-inner {
+    background: linear-gradient(180deg, rgba(27, 29, 33, 0.98) 0%, rgba(15, 16, 18, 0.99) 100%);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 18px 28px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-html[data-theme="light"] .forge-gym-body .forge-plan-price small {
-    color: #1c2d46;
-}
-
-html[data-theme="light"] .forge-gym-body .forge-read-more {
-    color: #c51a23;
+html[data-theme="light"] .forge-gym-body .forge-pricing-list li.is-off {
+    color: #6f7782;
 }
 
 html[data-theme="light"] .forge-gym-body .forge-vibe-card button,

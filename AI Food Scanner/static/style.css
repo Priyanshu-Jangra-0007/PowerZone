@@ -1,0 +1,295 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PowerZone Food Scanner - UI Theme
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:            #050505;
+  --bg-gradient:   radial-gradient(circle at 0% 10%, rgba(50, 10, 10, 0.5) 0%, #050505 40%);
+  --surface:       #111111;
+  --card:          #161616;
+  --border:        #2a2a2a;
+  
+  --primary:       #f01e2c; /* Red */
+  --primary-hover: #d01522;
+  
+  --text-main:     #ffffff;
+  --text-muted:    #a0a0a0;
+
+  --font-base:     'Inter', sans-serif;
+  --radius:        12px;
+  --radius-sm:     8px;
+  --max-w:         1200px;
+}
+
+body {
+  font-family: var(--font-base);
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; }
+
+/* ── Utility ──────────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+.mt-4 { margin-top: 24px; }
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+.navbar {
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 8px;
+}
+.brand-logo {
+  font-weight: 800; font-size: 1.2rem;
+  background: #222; padding: 4px 8px; border-radius: 4px;
+  color: var(--text-main);
+}
+
+.nav-links {
+  display: flex; gap: 32px;
+  background: var(--card);
+  padding: 8px 32px;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+}
+.nav-links a {
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--text-muted);
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--text-main);
+}
+
+.nav-actions {
+  display: flex; align-items: center; gap: 16px;
+}
+.icon-btn {
+  background: var(--card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn {
+  padding: 8px 24px; border-radius: 30px;
+  font-size: 0.9rem; font-weight: 500;
+}
+.btn-outline {
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  background: transparent;
+}
+.btn-primary-outline {
+  border: 1px solid var(--primary);
+  color: var(--text-main);
+  background: transparent;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero {
+  padding: 40px 32px 20px;
+}
+.hero-content {
+  max-width: var(--max-w); margin: 0 auto;
+}
+.hero-title {
+  font-size: 2.2rem; font-weight: 700; margin-bottom: 8px;
+}
+.hero-subtitle {
+  font-size: 0.95rem; color: var(--text-muted);
+}
+
+/* ── Main Layout ──────────────────────────────────────────────────────────── */
+.container {
+  padding: 20px 32px 80px;
+  flex: 1;
+}
+.two-column-layout {
+  max-width: var(--max-w); margin: 0 auto;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Left Column (Scan Card) ──────────────────────────────────────────────── */
+.scan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.card-title {
+  font-size: 1.5rem; font-weight: 700; text-align: center;
+}
+
+.image-area {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  aspect-ratio: 4/3;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.upload-placeholder {
+  text-align: center; color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.upload-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+#previewImage {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.change-btn {
+  position: absolute; bottom: 12px; right: 12px;
+  background: rgba(0,0,0,0.7); color: #fff;
+  padding: 6px 12px; border-radius: 20px;
+  font-size: 0.8rem; border: 1px solid var(--border);
+}
+
+.analyze-btn {
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.1rem; font-weight: 700;
+  padding: 16px; border-radius: var(--radius-sm);
+  width: 100%; text-align: center;
+  transition: background 0.2s;
+}
+.analyze-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+.analyze-btn:disabled {
+  opacity: 0.6; cursor: not-allowed;
+}
+
+.error-msg {
+  color: var(--primary); font-size: 0.85rem; text-align: center;
+}
+
+/* ── Right Column (Data Cards) ────────────────────────────────────────────── */
+.data-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.card-title-sm {
+  font-size: 1.2rem; font-weight: 600; margin-bottom: 20px;
+}
+
+.data-list {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.data-row {
+  display: flex; justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.data-row:last-child { border-bottom: none; padding-bottom: 0; }
+.data-label { color: var(--text-muted); font-size: 0.9rem; }
+.data-val { font-weight: 600; font-size: 0.9rem; }
+
+.ingredients-list {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.ingredient-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--card);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.ingredient-name {
+  font-weight: 600; font-size: 0.95rem;
+}
+.ingredient-macros {
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.ingredient-cal {
+  font-weight: 700; color: #00e07a;
+}
+
+.macro-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.macro-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.macro-label { color: var(--text-muted); font-size: 0.85rem; }
+.macro-val { font-size: 1.1rem; font-weight: 700; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.footer {
+  background: #0a0a0a;
+  border-top: 1px solid var(--border);
+  padding: 48px 32px 24px;
+  margin-top: auto;
+}
+.footer-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px;
+}
+.footer-brand { color: var(--text-muted); font-size: 0.85rem; }
+.footer-logo { color: #fff; margin-bottom: 16px; }
+.footer-brand p { margin-bottom: 12px; line-height: 1.5; }
+.hq { color: #666; margin-top: 24px; }
+
+.footer-links h4, .footer-contact h4 {
+  color: #fff; font-size: 0.85rem; margin-bottom: 16px;
+  letter-spacing: 0.05em;
+}
+.footer-links ul li { margin-bottom: 12px; }
+.footer-links a {
+  color: var(--text-muted); font-size: 0.85rem;
+}
+.footer-links a:hover { color: #fff; }
+
+.footer-contact p {
+  color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;
+}
+
+.footer-bottom {
+  max-width: var(--max-w); margin: 32px auto 0;
+  padding-top: 24px; border-top: 1px solid #222;
+  display: flex; justify-content: space-between;
+  color: #666; font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .two-column-layout { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
+}

@@ -1,0 +1,4 @@
+INFO:     127.0.0.1:57898 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59658 - "POST /api/scan-food HTTP/1.1" 429 Too Many Requests
+INFO:     127.0.0.1:64394 - "POST /api/scan-food HTTP/1.1" 429 Too Many Requests
+INFO:     127.0.0.1:57355 - "POST /api/scan-food HTTP/1.1" 429 Too Many Requests

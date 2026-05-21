@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PowerZone Food Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-logo">PZ</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Gyms</a></li>
+        <li><a href="#" class="active">AI Food Scanner</a></li>
+        <li><a href="#">Join Our Network <span>▼</span></a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Toggle Theme">☼</button>
+        <a href="#" class="btn btn-outline">Login</a>
+        <a href="#" class="btn btn-primary-outline">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">PowerZone Food Scanner</h1>
+      <p class="hero-subtitle">Upload a food image and get calorie estimation with quick nutritional breakdown.</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="two-column-layout">
+      
+      <!-- Left Column: Upload & Scan -->
+      <section class="left-col">
+        <div class="scan-card">
+          <h2 class="card-title">Scan Your Food</h2>
+          
+          <div class="image-area" id="dropZone">
+            <div class="upload-placeholder" id="dropZoneContent">
+              <span class="upload-icon">📷</span>
+              <p>Drag & drop or click to upload</p>
+            </div>
+            <img id="previewImage" src="" alt="Food preview" class="hidden" />
+            <button class="change-btn hidden" id="removeBtn">Change</button>
+          </div>
+          
+          <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" class="hidden" />
+          
+          <button class="analyze-btn" id="analyzeBtn" disabled>
+            <span id="btnInner">Analyze Food</span>
+            <span id="btnLoader" class="hidden">Analyzing...</span>
+          </button>
+          
+          <p class="error-msg hidden" id="errorCard"><span id="errorMessage">Failed to fetch. Please try again.</span></p>
+        </div>
+      </section>
+
+      <!-- Right Column: Results -->
+      <section class="right-col">
+        
+        <!-- Food Analysis -->
+        <div class="data-card">
+          <h3 class="card-title-sm">Food Analysis</h3>
+          <div class="data-list">
+            <div class="data-row">
+              <span class="data-label">Total Calories</span>
+              <span class="data-val" id="valCalories">-</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Confidence</span>
+              <span class="data-val" id="valConfidence">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients List -->
+        <div class="data-card mt-4">
+          <h3 class="card-title-sm">Ingredients Breakdown</h3>
+          <div class="ingredients-list" id="ingredientsList">
+            <span class="data-label">No items detected yet.</span>
+          </div>
+        </div>
+
+        <!-- Nutritional Information -->
+        <div class="data-card mt-4">
+          <h3 class="card-title-sm">Nutritional Information</h3>
+          <div class="macro-grid">
+            <div class="macro-box">
+              <span class="macro-label">Protein</span>
+              <span class="macro-val" id="valProtein">-</span>
+            </div>
+            <div class="macro-box">
+              <span class="macro-label">Carbs</span>
+              <span class="macro-val" id="valCarbs">-</span>
+            </div>
+            <div class="macro-box">
+              <span class="macro-label">Fat</span>
+              <span class="macro-val" id="valFat">-</span>
+            </div>
+            <div class="macro-box">
+              <span class="macro-label">Fiber</span>
+              <span class="macro-val" id="valFiber">-</span>
+            </div>
+          </div>
+        </div>
+        
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">PZ <strong>PowerZone</strong></div>
+        <p>AI-powered training, nutrition intelligence, and recovery planning for every fitness journey.</p>
+        <p class="hq">HQ: New Delhi, India</p>
+      </div>
+      <div class="footer-links">
+        <h4>EXPLORE</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Gyms</a></li>
+          <li><a href="#">AI Food Scanner</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>PROGRAMS</h4>
+        <ul>
+          <li><a href="#">Client Dashboard</a></li>
+          <li><a href="#">Franchise</a></li>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>CONTACT</h4>
+        <p>team@powerzone.fit</p>
+        <p>+91 00000 00000</p>
+        <p>Mon-Sat: 6:00 AM - 10:00 PM</p>
+        <p>Support: 24/7 chat assistance</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>PowerZone. All rights reserved.</p>
+      <p>Train smarter with data-backed plans and AI guidance.</p>
+    </div>
+  </footer>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

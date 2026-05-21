@@ -97,7 +97,7 @@
                                 </ul>
                             </article>
                         </div>
-                        <img src="images/img1.jpg" alt="Inconsistent revenue">
+                        <img src="assets/inconsistent.png" alt="Inconsistent revenue">
                     </article>
                     <article class="soft-card">
                         <div class="soft-copy">
@@ -115,7 +115,7 @@
                                 </ul>
                             </article>
                         </div>
-                        <img src="images/img2.jpg" alt="Low retention">
+                        <img src="assets/lowretention.png" alt="Low retention">
                     </article>
                     <article class="soft-card">
                         <div class="soft-copy">
@@ -133,7 +133,7 @@
                                 </ul>
                             </article>
                         </div>
-                        <img src="images/club1.jpg" alt="Operational stress">
+                        <img src="assets/operationchaos.png" alt="Operational stress">
                     </article>
                     <article class="soft-card">
                         <div class="soft-copy">
@@ -151,7 +151,7 @@
                                 </ul>
                             </article>
                         </div>
-                        <img src="images/club2.jpg" alt="Marketing gaps">
+                        <img src="assets/marketingstruggle.png" alt="Marketing gaps">
                     </article>
                 </div>
                 <div class="cta-strip">
@@ -182,7 +182,7 @@
                     </article>
 
                     <article class="wtf-row reverse">
-                        <img src="images/img1.jpg" alt="More Revenue">
+                        <img src="images/morerevenue.png" alt="More Revenue">
                         <div class="wtf-copy">
                             <span class="wtf-icon">&#8600;</span>
                             <h3>More Revenue</h3>
@@ -230,7 +230,7 @@
                     </aside>
                     <div class="path-steps">
                         <article class="path-step active">
-                            <img src="images/img1.jpg" alt="Talk to us">
+                            <img src="images/TalkTous.jpeg" alt="Talk to us">
                             <div class="path-copy">
                                 <span class="path-day">Day 1</span>
                                 <h3>Talk To Us</h3>
@@ -248,7 +248,7 @@
                             </div>
                         </article>
                         <article class="path-step">
-                            <img src="images/img4.jpg" alt="Planning">
+                            <img src="images/plan.png" alt="Planning">
                             <div class="path-copy">
                                 <span class="path-day">Day 7</span>
                                 <h3>The Plan</h3>
@@ -266,7 +266,7 @@
                             </div>
                         </article>
                         <article class="path-step">
-                            <img src="images/food_scanner.jpg" alt="Launch">
+                            <img src="images/launch.png" alt="Launch">
                             <div class="path-copy">
                                 <span class="path-day">Day 45</span>
                                 <h3>Launch</h3>
@@ -301,15 +301,16 @@
                 <h2>Start Earning <span>Fixed Income</span></h2>
                 <p class="sub">Fill this form and our partnership team will call you.</p>
                 <form id="contact" class="form-grid">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                    <input type="email" placeholder="Email" required>
-                    <input type="text" placeholder="City" required>
-                    <input type="text" placeholder="Gym Name" required>
-                    <input type="number" placeholder="Gym Area (sqft)" required>
-                    <textarea placeholder="Tell us about your current setup"></textarea>
+                    <input type="text" name="fullName" placeholder="Full Name" autocomplete="name" required>
+                    <input type="tel" name="phoneNumber" placeholder="Phone Number" autocomplete="tel" inputmode="tel" required>
+                    <input type="email" name="email" placeholder="Email" autocomplete="email" required>
+                    <input type="text" name="city" placeholder="City" autocomplete="address-level2" required>
+                    <input type="text" name="gymName" placeholder="Gym Name" autocomplete="organization" required>
+                    <input type="number" name="gymAreaSqft" placeholder="Gym Area (sqft)" min="1" required>
+                    <textarea name="currentSetup" placeholder="Tell us about your current setup"></textarea>
                     <button class="btn-red" type="submit">Submit Application</button>
                 </form>
+                <p id="contact-status" class="form-status" role="status" aria-live="polite"></p>
             </div>
         </section>
     </main>
@@ -346,7 +347,7 @@
             </div>
         </div>
         <div class="site-footer-bottom">
-            <p class="site-footer-copy">PowerZone. All rights reserved.</p>
+            <p class="site-footer-copy">made with ❤︎ by Priyanshu Jangra</p>
             <p class="site-footer-note">Train smarter with data-backed plans and AI guidance.</p>
         </div>
     </footer>

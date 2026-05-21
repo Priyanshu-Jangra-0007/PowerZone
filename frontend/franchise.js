@@ -75,3 +75,71 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     init();
 })();
+
+(function () {
+    const form = document.getElementById("contact");
+    const status = document.getElementById("contact-status");
+    if (!form || !status) return;
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const supabaseClient = typeof window.getPowerzoneSupabaseClient === "function"
+        ? window.getPowerzoneSupabaseClient()
+        : null;
+
+    function setStatus(message, tone) {
+        status.textContent = message;
+        status.classList.remove("is-success", "is-error");
+        if (tone === "success") status.classList.add("is-success");
+        if (tone === "error") status.classList.add("is-error");
+    }
+
+    function getTrimmedValue(name) {
+        const field = form.elements.namedItem(name);
+        return field && "value" in field ? String(field.value || "").trim() : "";
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+            full_name: getTrimmedValue("fullName"),
+            phone_number: getTrimmedValue("phoneNumber"),
+            email: getTrimmedValue("email"),
+            city: getTrimmedValue("city"),
+            gym_name: getTrimmedValue("gymName"),
+            gym_area_sqft: Number(getTrimmedValue("gymAreaSqft")),
+            current_setup: getTrimmedValue("currentSetup"),
+        };
+
+        if (!payload.full_name || !payload.phone_number || !payload.email || !payload.city || !payload.gym_name || !payload.gym_area_sqft) {
+            setStatus("Please fill in all required fields before submitting.", "error");
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+        setStatus("Submitting your application...");
+
+        try {
+            if (!supabaseClient) {
+                throw new Error("Supabase is not configured on this page.");
+            }
+
+            const { error } = await supabaseClient
+                .from("franchise_applications")
+                .insert([payload]);
+
+            if (error) {
+                throw new Error(error.message || "We could not submit your application right now. Please try again.");
+            }
+
+            form.reset();
+            setStatus("Application submitted successfully. Our team will contact you soon.", "success");
+        } catch (error) {
+            setStatus(error.message || "Something went wrong while sending your application.", "error");
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Application";
+        }
+    });
+})();

@@ -754,6 +754,29 @@
     color: #f3f3f3;
 }
 
+.fr-page .form-grid input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.fr-page .form-grid input[type="number"]::-webkit-outer-spin-button,
+.fr-page .form-grid input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.fr-page .form-grid input:-webkit-autofill,
+.fr-page .form-grid input:-webkit-autofill:hover,
+.fr-page .form-grid input:-webkit-autofill:focus,
+.fr-page .form-grid textarea:-webkit-autofill,
+.fr-page .form-grid textarea:-webkit-autofill:hover,
+.fr-page .form-grid textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: #f3f3f3;
+    caret-color: #f3f3f3;
+    box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.98) inset;
+    -webkit-box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.98) inset;
+    transition: background-color 9999s ease-out 0s;
+}
+
 .fr-page .form-grid textarea {
     grid-column: 1 / -1;
     min-height: 90px;
@@ -763,6 +786,27 @@
 .fr-page .form-grid button {
     grid-column: 1 / -1;
     cursor: pointer;
+}
+
+.fr-page .form-grid button[disabled] {
+    cursor: wait;
+    opacity: 0.8;
+}
+
+.fr-page .form-status {
+    max-width: 760px;
+    margin: 12px auto 0;
+    min-height: 24px;
+    font-size: 14px;
+    color: #c8ced8;
+}
+
+.fr-page .form-status.is-success {
+    color: #80e4a5;
+}
+
+.fr-page .form-status.is-error {
+    color: #ff9ca0;
 }
 
 .fr-page .footer {

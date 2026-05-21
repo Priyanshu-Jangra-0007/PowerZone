@@ -2,12 +2,12 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/(?!api/)(.*)",
-      "destination": "/frontend/$1"
-    },
-    {
       "source": "/",
       "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/:path((?!api/).*)",
+      "destination": "/frontend/:path"
     }
   ]
 }

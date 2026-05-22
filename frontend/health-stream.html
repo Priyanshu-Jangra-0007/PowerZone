@@ -1236,449 +1236,7 @@
                 grid-template-columns: 1fr;
             }
         }
-    
-        /* Nutrition Dashboard Styles */
-        .page {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 104px 28px 42px;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 24px;
-        }
-
-        .dashboard-header h1 {
-            font-size: clamp(28px, 3.8vw, 40px);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -0.6px;
-        }
-
-        .dashboard-header p {
-            margin-top: 8px;
-            color: var(--muted);
-            font-size: 15px;
-        }
-
-        .dashboard-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn-scan-action {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
-        }
-        
-        .btn-scan-action:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-log-meal {
-            background: var(--red);
-            color: #ffffff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .btn-log-meal:hover {
-            background: var(--red-bright);
-            transform: translateY(-2px);
-        }
-
-        .nutrition-dashboard {
-            display: grid;
-            gap: 20px;
-        }
-
-        .macros-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .macro-card {
-            background: linear-gradient(180deg, var(--panel) 0%, #0d0d0d 100%);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .macro-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--muted);
-            font-weight: 600;
-            margin-bottom: 16px;
-            font-size: 15px;
-        }
-
-        .macro-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            display: grid;
-            place-items: center;
-        }
-
-        .icon-cal { background: rgba(227, 30, 36, 0.15); color: #e31e24; }
-        .icon-carb { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-        .icon-pro { background: rgba(234, 179, 8, 0.15); color: #eab308; }
-        .icon-fat { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
-
-        .macro-values {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            margin-bottom: 16px;
-        }
-
-        .macro-values strong {
-            font-size: 32px;
-            font-weight: 800;
-            color: #ffffff;
-        }
-
-        .macro-values span {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .progress-bar-container {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .bg-red { background: #e31e24; }
-        .bg-blue { background: #3b82f6; }
-        .bg-yellow { background: #eab308; }
-        .bg-purple { background: #a855f7; }
-
-        .macro-footer {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .middle-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-        }
-
-        .daily-intake, .todays-meals {
-            background: linear-gradient(180deg, var(--panel) 0%, #0d0d0d 100%);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 24px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .add-food-link {
-            color: #e31e24;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .donut-container {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .donut-chart {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #3b82f6 0% 64%,
-                #eab308 64% 85%,
-                #a855f7 85% 100%
-            );
-            position: relative;
-            display: grid;
-            place-items: center;
-        }
-
-        .donut-inner {
-            width: 110px;
-            height: 110px;
-            background: var(--panel);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .donut-inner strong {
-            font-size: 24px;
-            font-weight: 800;
-        }
-        
-        .donut-inner span {
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .donut-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .legend-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .legend-item.carbs { color: #3b82f6; }
-        .legend-item.protein { color: #eab308; }
-        .legend-item.fats { color: #a855f7; }
-
-        .legend-item span:last-child {
-            color: #ffffff;
-        }
-
-        .meals-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .meal-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .meal-icon {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-
-        .meal-title {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .meal-desc {
-            color: var(--muted);
-            font-size: 12px;
-            margin-bottom: 12px;
-            min-height: 34px;
-        }
-
-        .meal-stats {
-            display: flex;
-            gap: 10px;
-            font-size: 12px;
-            color: #a4a4a4;
-            font-weight: 600;
-        }
-        
-        .meal-stats span {
-            color: #ffffff;
-        }
-
-        .bottom-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .trends-card, .scan-card {
-            background: linear-gradient(180deg, var(--panel) 0%, #0d0d0d 100%);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 24px;
-        }
-        
-        .trends-header {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .trends-val {
-            font-size: 32px;
-            font-weight: 800;
-            margin-top: 8px;
-        }
-        
-        .trends-sub {
-            color: #22c55e;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .chart-placeholder {
-            height: 180px;
-            margin-top: 20px;
-            position: relative;
-            background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><path d="M0,150 L100,120 L200,160 L300,90 L400,110 L500,40 L600,130 L700,60" fill="none" stroke="%23e31e24" stroke-width="3"/></svg>') no-repeat center/cover;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .scan-card {
-            padding: 0;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            min-height: 340px;
-            cursor: pointer;
-        }
-        
-        #food-preview {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-            z-index: 1;
-        }
-
-        .scan-card-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=600') no-repeat center/cover;
-            filter: brightness(0.6);
-            z-index: 0;
-        }
-
-        .scan-card-content {
-            position: relative;
-            z-index: 2;
-            padding: 24px;
-            text-align: center;
-            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-        }
-
-        .scan-card h3 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .scan-card p {
-            color: #e0e0e0;
-            font-size: 14px;
-            margin-bottom: 20px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .btn-try-now {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s;
-        }
-        
-        .btn-try-now:hover {
-            transform: scale(1.02);
-        }
-
-        .hidden-input {
-            display: none;
-        }
-
-        /* Scanned items styling inside Todays meals */
-        .items-empty {
-            grid-column: 1 / -1;
-            color: var(--muted);
-            font-size: 14px;
-            padding: 20px;
-            text-align: center;
-            border: 1px dashed rgba(255,255,255,0.2);
-            border-radius: 12px;
-        }
-
-        .food-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 16px;
-        }
-        
-        .food-item-name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-        .food-item-portion { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
-        .food-item-calories { display: none; } /* Hide the duplicate calories */
-        .food-item-macros { display: flex; gap: 10px; font-size: 12px; color: #a4a4a4; }
-        .food-item-macro strong { color: #ffffff; margin-left: 2px;}
-        .food-item-macro label { display: none; }
-
-        @media (max-width: 1024px) {
-            .macros-row { grid-template-columns: repeat(2, 1fr); }
-            .middle-row { grid-template-columns: 1fr; }
-            .bottom-row { grid-template-columns: 1fr; }
-            .meals-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        @media (max-width: 640px) {
-            .macros-row { grid-template-columns: 1fr; }
-            .meals-grid { grid-template-columns: 1fr; }
-            .dashboard-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .dashboard-actions { width: 100%; }
-            .dashboard-actions button { flex: 1; justify-content: center; }
-        }
-</style>
+    </style>
     <link rel="stylesheet" href="theme.css?v=2">
 </head>
 <body>
@@ -1724,175 +1282,82 @@
         </div>
     </nav>
 
-    
     <main class="page">
-        <header class="dashboard-header">
-            <div>
-                <h1>Nutrition</h1>
-                <p>Track your daily intake and reach your macro goals</p>
-            </div>
-            <div class="dashboard-actions">
-                <button class="btn-scan-action" onclick="document.getElementById('upload-input').click()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                    Scan Food with AI
-                </button>
-                <button class="btn-log-meal">+ Log Meal</button>
-            </div>
+        <header class="page-head">
+            <h1>PowerZone Food Scanner</h1>
+            <p>Upload a food image and get calorie estimation with quick nutritional breakdown.</p>
         </header>
 
-        <section class="nutrition-dashboard">
-            <!-- Top Macros Row -->
-            <div class="macros-row">
-                <div class="macro-card">
-                    <div class="macro-header">
-                        Calories
-                        <div class="macro-icon icon-cal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19c2.5-2.5 2.5-6.5 0-9-1-1-2.5-1.5-4.5-2-2-.5-3.5-1-4.5-2-2.5-2.5-2.5-6.5 0-9 0 0-4.5 2-4.5 8 0 2 1.5 3.5 3.5 4.5 2 .5 3.5 1 4.5 2 2.5 2.5 2.5 6.5 0 9Z"></path></svg></div>
-                    </div>
-                    <div class="macro-values">
-                        <strong id="calories-value">0 kcal</strong>
-                        <span>/ 2200 kcal</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar bg-red" style="width: 10%"></div>
-                    </div>
-                    <div class="macro-footer">Update goals in settings</div>
-                </div>
-
-                <div class="macro-card">
-                    <div class="macro-header">
-                        Carbs
-                        <div class="macro-icon icon-carb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
-                    </div>
-                    <div class="macro-values">
-                        <strong id="carb-value">0g</strong>
-                        <span>/ 275 g</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar bg-blue" style="width: 10%"></div>
-                    </div>
-                    <div class="macro-footer">Remaining calculation pending</div>
-                </div>
-
-                <div class="macro-card">
-                    <div class="macro-header">
-                        Protein
-                        <div class="macro-icon icon-pro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"></path></svg></div>
-                    </div>
-                    <div class="macro-values">
-                        <strong id="protein-value">0g</strong>
-                        <span>/ 165 g</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar bg-yellow" style="width: 10%"></div>
-                    </div>
-                    <div class="macro-footer">Remaining calculation pending</div>
-                </div>
-
-                <div class="macro-card">
-                    <div class="macro-header">
-                        Fats
-                        <div class="macro-icon icon-fat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg></div>
-                    </div>
-                    <div class="macro-values">
-                        <strong id="fat-value">0g</strong>
-                        <span>/ 73 g</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar bg-purple" style="width: 10%"></div>
-                    </div>
-                    <div class="macro-footer">Remaining calculation pending</div>
-                </div>
-            </div>
-
-            <!-- Middle Row -->
-            <div class="middle-row">
-                <div class="daily-intake">
-                    <h2 class="section-title">Daily Calorie Intake</h2>
-                    <div class="donut-container">
-                        <div class="donut-chart">
-                            <div class="donut-inner">
-                                <strong>1850</strong>
-                                <span>Total Calories</span>
-                            </div>
-                        </div>
-                        <div class="donut-legend">
-                            <div class="legend-item carbs">
-                                <span>● Carbs</span>
-                                <span>64%</span>
-                            </div>
-                            <div class="legend-item protein">
-                                <span>● Protein</span>
-                                <span>21%</span>
-                            </div>
-                            <div class="legend-item fats">
-                                <span>● Fats</span>
-                                <span>15%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="todays-meals">
-                    <h2 class="section-title">
-                        Today's Meals
-                        <a href="#" class="add-food-link">+ Add Food</a>
-                    </h2>
-                    
-                    <div class="meals-grid" id="items-list">
-                        <!-- Default placeholders when empty -->
-                        <div class="items-empty">Scan a meal using AI to log your food items here automatically.</div>
-                        <div class="meal-card" style="display:none;">
-                            <div class="meal-icon">☕</div>
-                            <div class="meal-title">Breakfast</div>
-                            <div class="meal-desc">Oatmeal - Banana - Protein Shake</div>
-                            <div class="meal-stats">520 kcal <span>P:</span>35g <span>C:</span>55g <span>F:</span>18g</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Row -->
-            <div class="bottom-row">
-                <div class="trends-card">
-                    <div class="trends-header">
-                        <div>
-                            <h2 class="section-title" style="margin-bottom:0;">Nutrition Trends</h2>
-                            <div class="trends-val">14300 kcal</div>
-                            <div class="trends-sub">↑ 252 kcal since last week</div>
-                        </div>
-                        <select style="background:transparent; color:#fff; border:1px solid #333; border-radius:6px; padding:6px 12px; height:max-content;">
-                            <option>This Week</option>
-                            <option>Last Week</option>
-                        </select>
-                    </div>
-                    <div class="chart-placeholder"></div>
-                </div>
-
-                <div class="scan-card" id="preview-box" role="button" tabindex="0">
-                    <div class="scan-card-bg"></div>
+        <section class="layout">
+            <article class="scan-card">
+                <h2>Scan Your Food</h2>
+                <div class="preview-box" id="preview-box" role="button" tabindex="0" aria-label="Upload food image">
                     <img id="food-preview" alt="Food preview">
-                    <div class="scan-card-content">
-                        <h3>Scan Your Food</h3>
-                        <p id="result-note">Snap a photo and let AI analyze your nutrition</p>
-                        <button id="scan-btn" class="btn-try-now" type="button">Try It Now</button>
-                        <button id="upload-floating-btn" style="display:none;">Change</button>
+                    <div class="preview-empty" id="preview-empty">
+                        <p>Upload an image to analyze calories.</p>
                     </div>
-                    <input id="upload-input" class="hidden-input" type="file" accept="image/*">
+                    <button id="upload-floating-btn" class="upload-floating" type="button">Change</button>
                 </div>
+                <input id="upload-input" class="hidden-input" type="file" accept="image/*">
+                <button id="scan-btn" class="scan-btn" type="button">Analyze Food</button>
+                <p class="meta" id="result-note">Ready to scan.</p>
+            </article>
+
+            <div class="result-stack">
+                <article class="card">
+                    <h3>Food Analysis</h3>
+                    <div class="analysis-row">
+                        <span>Food Items</span>
+                        <strong id="items-count">-</strong>
+                    </div>
+                    <div class="analysis-row">
+                        <span>Calories</span>
+                        <strong id="calories-value">-</strong>
+                    </div>
+                    <div class="analysis-row">
+                        <span>Detected Food</span>
+                        <strong id="label-value" class="value-text">-</strong>
+                    </div>
+                    <div class="analysis-row">
+                        <span>Confidence</span>
+                        <strong id="confidence-value" class="value-text">-</strong>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="nutri-head">
+                        <h3>Nutritional Information</h3>
+                        <small id="scan-time">-</small>
+                    </div>
+                    <div class="nutri-grid">
+                        <article>
+                            <label>Protein</label>
+                            <strong id="protein-value">-</strong>
+                        </article>
+                        <article>
+                            <label>Carbs</label>
+                            <strong id="carb-value">-</strong>
+                        </article>
+                        <article>
+                            <label>Fat</label>
+                            <strong id="fat-value">-</strong>
+                        </article>
+                        <article>
+                            <label>Fiber</label>
+                            <strong id="fiber-value">-</strong>
+                        </article>
+                    </div>
+                </article>
+
+                <article class="card items-card">
+                    <h3>Detected Items</h3>
+                    <div class="items-list" id="items-list">
+                        <p class="items-empty">Scan a meal to see nutrients for each detected food item.</p>
+                    </div>
+                </article>
             </div>
         </section>
-
-        <!-- Hidden elements needed for JS to not crash -->
-        <div style="display:none;">
-            <div id="preview-empty"></div>
-            <div id="items-count">-</div>
-            <div id="label-value">-</div>
-            <div id="confidence-value">-</div>
-            <div id="fiber-value">-</div>
-            <div id="scan-time">-</div>
-        </div>
     </main>
-
 
     <footer class="site-footer">
         <div class="site-footer-inner">
@@ -2003,17 +1468,7 @@
             fatValue.textContent = "-";
             fiberValue.textContent = "-";
             scanTime.textContent = "-";
-            itemsList.innerHTML = '<div class="items-empty">Scan a meal using AI to log your food items here automatically.</div>';
-            
-            const bgRed = document.querySelector('.bg-red');
-            const bgBlue = document.querySelector('.bg-blue');
-            const bgYellow = document.querySelector('.bg-yellow');
-            const bgPurple = document.querySelector('.bg-purple');
-
-            if (bgRed) bgRed.style.width = '0%';
-            if (bgBlue) bgBlue.style.width = '0%';
-            if (bgYellow) bgYellow.style.width = '0%';
-            if (bgPurple) bgPurple.style.width = '0%';
+            itemsList.innerHTML = '<p class="items-empty">Scan a meal to see nutrients for each detected food item.</p>';
         }
 
         function normalizeApiData(data) {
@@ -2131,7 +1586,7 @@
 
         function renderItems(items) {
             if (!Array.isArray(items) || items.length === 0) {
-                itemsList.innerHTML = '<div class="items-empty">No individual food items were returned for this scan.</div>';
+                itemsList.innerHTML = '<p class="items-empty">No individual food items were returned for this scan.</p>';
                 return;
             }
 
@@ -2142,12 +1597,32 @@
                     : "Portion not available";
 
                 return `
-                    <div class="meal-card">
-                        <div class="meal-icon">🍽️</div>
-                        <div class="meal-title">${escapeHtml(name)}</div>
-                        <div class="meal-desc">${portion}</div>
-                        <div class="meal-stats">${formatNumber(item.calories)} kcal <span>P:</span>${formatNumber(item.protein_g)}g <span>C:</span>${formatNumber(item.carbs_g)}g <span>F:</span>${formatNumber(item.fat_g)}g</div>
-                    </div>
+                    <article class="food-item">
+                        <div class="food-item-head">
+                            <div>
+                                <div class="food-item-name">${escapeHtml(name)}</div>
+                                <div class="food-item-portion">${portion}</div>
+                            </div>
+                            <div class="food-item-calories">
+                                ${formatNumber(item.calories)} kcal
+                                <span>Estimated</span>
+                            </div>
+                        </div>
+                        <div class="food-item-macros">
+                            <div class="food-item-macro">
+                                <label>Protein</label>
+                                <strong>${formatNumber(item.protein_g)}g</strong>
+                            </div>
+                            <div class="food-item-macro">
+                                <label>Carbs</label>
+                                <strong>${formatNumber(item.carbs_g)}g</strong>
+                            </div>
+                            <div class="food-item-macro">
+                                <label>Fat</label>
+                                <strong>${formatNumber(item.fat_g)}g</strong>
+                            </div>
+                        </div>
+                    </article>
                 `;
             }).join("");
         }
@@ -2209,22 +1684,6 @@
                 fatValue.textContent = Number.isFinite(fat) ? `${fat}g` : "-";
                 fiberValue.textContent = `${fiber}g`;
                 scanTime.textContent = formatScanTime();
-
-                const calPercent = Math.min(100, Math.round((calories / 2200) * 100));
-                const carbPercent = Math.min(100, Math.round((carbs / 275) * 100));
-                const proPercent = Math.min(100, Math.round((protein / 165) * 100));
-                const fatPercent = Math.min(100, Math.round((fat / 73) * 100));
-                
-                const bgRed = document.querySelector('.bg-red');
-                const bgBlue = document.querySelector('.bg-blue');
-                const bgYellow = document.querySelector('.bg-yellow');
-                const bgPurple = document.querySelector('.bg-purple');
-
-                if (bgRed) bgRed.style.width = `${calPercent}%`;
-                if (bgBlue) bgBlue.style.width = `${carbPercent}%`;
-                if (bgYellow) bgYellow.style.width = `${proPercent}%`;
-                if (bgPurple) bgPurple.style.width = `${fatPercent}%`;
-
                 renderItems(items);
                 resultNote.textContent = typeof data.suggestion === "string" && data.suggestion.trim()
                     ? `${data.suggestion.trim()} [${source.name}]`

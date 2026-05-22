@@ -1678,26 +1678,7 @@
             .dashboard-actions { width: 100%; }
             .dashboard-actions button { flex: 1; justify-content: center; }
         }
-
-        .dashboard-split {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-        }
-        @media (max-width: 980px) {
-            .dashboard-split {
-                grid-template-columns: 1fr;
-            }
-            .macros-row, .meals-grid {
-                grid-template-columns: 1fr !important;
-            }
-        }
-        
-        /* Make the scan card take full height */
-        .scan-column .scan-card {
-            height: 100%;
-        }
-    </style>
+</style>
     <link rel="stylesheet" href="theme.css?v=2">
 </head>
 <body>
@@ -1744,101 +1725,159 @@
     </nav>
 
     
-    
     <main class="page">
         <header class="dashboard-header">
             <div>
-                <h1>Food Scanner</h1>
+                <h1>Nutrition</h1>
                 <p>Track your daily intake and reach your macro goals</p>
+            </div>
+            <div class="dashboard-actions">
+                <button class="btn-scan-action" onclick="document.getElementById('upload-input').click()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    Scan Food with AI
+                </button>
+                <button class="btn-log-meal">+ Log Meal</button>
             </div>
         </header>
 
         <section class="nutrition-dashboard">
-            <div class="dashboard-split">
-                <!-- Left: Scan Box -->
-                <div class="scan-column">
-                    <div class="scan-card" id="preview-box" role="button" tabindex="0">
-                        <div class="scan-card-bg"></div>
-                        <img id="food-preview" alt="Food preview">
-                        <div class="scan-card-content">
-                            <h3>Scan Your Food</h3>
-                            <p id="result-note">Snap a photo and let AI analyze your nutrition</p>
-                            <button id="scan-btn" class="btn-try-now" type="button">Analyze Food</button>
-                            <button id="upload-floating-btn" style="display:none;">Change</button>
+            <!-- Top Macros Row -->
+            <div class="macros-row">
+                <div class="macro-card">
+                    <div class="macro-header">
+                        Calories
+                        <div class="macro-icon icon-cal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19c2.5-2.5 2.5-6.5 0-9-1-1-2.5-1.5-4.5-2-2-.5-3.5-1-4.5-2-2.5-2.5-2.5-6.5 0-9 0 0-4.5 2-4.5 8 0 2 1.5 3.5 3.5 4.5 2 .5 3.5 1 4.5 2 2.5 2.5 2.5 6.5 0 9Z"></path></svg></div>
+                    </div>
+                    <div class="macro-values">
+                        <strong id="calories-value">0 kcal</strong>
+                        <span>/ 2200 kcal</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-red" style="width: 10%"></div>
+                    </div>
+                    <div class="macro-footer">Update goals in settings</div>
+                </div>
+
+                <div class="macro-card">
+                    <div class="macro-header">
+                        Carbs
+                        <div class="macro-icon icon-carb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                    </div>
+                    <div class="macro-values">
+                        <strong id="carb-value">0g</strong>
+                        <span>/ 275 g</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-blue" style="width: 10%"></div>
+                    </div>
+                    <div class="macro-footer">Remaining calculation pending</div>
+                </div>
+
+                <div class="macro-card">
+                    <div class="macro-header">
+                        Protein
+                        <div class="macro-icon icon-pro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"></path></svg></div>
+                    </div>
+                    <div class="macro-values">
+                        <strong id="protein-value">0g</strong>
+                        <span>/ 165 g</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-yellow" style="width: 10%"></div>
+                    </div>
+                    <div class="macro-footer">Remaining calculation pending</div>
+                </div>
+
+                <div class="macro-card">
+                    <div class="macro-header">
+                        Fats
+                        <div class="macro-icon icon-fat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg></div>
+                    </div>
+                    <div class="macro-values">
+                        <strong id="fat-value">0g</strong>
+                        <span>/ 73 g</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-purple" style="width: 10%"></div>
+                    </div>
+                    <div class="macro-footer">Remaining calculation pending</div>
+                </div>
+            </div>
+
+            <!-- Middle Row -->
+            <div class="middle-row">
+                <div class="daily-intake">
+                    <h2 class="section-title">Daily Calorie Intake</h2>
+                    <div class="donut-container">
+                        <div class="donut-chart">
+                            <div class="donut-inner">
+                                <strong>1850</strong>
+                                <span>Total Calories</span>
+                            </div>
                         </div>
-                        <input id="upload-input" class="hidden-input" type="file" accept="image/*">
+                        <div class="donut-legend">
+                            <div class="legend-item carbs">
+                                <span>● Carbs</span>
+                                <span>64%</span>
+                            </div>
+                            <div class="legend-item protein">
+                                <span>● Protein</span>
+                                <span>21%</span>
+                            </div>
+                            <div class="legend-item fats">
+                                <span>● Fats</span>
+                                <span>15%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right: Results -->
-                <div class="results-column">
-                    <div class="todays-meals" style="margin-bottom: 20px;">
-                        <h2 class="section-title">Nutrients Overview</h2>
-                        <div class="macros-row" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 0;">
-                            <div class="macro-card">
-                                <div class="macro-header">
-                                    Calories
-                                    <div class="macro-icon icon-cal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19c2.5-2.5 2.5-6.5 0-9-1-1-2.5-1.5-4.5-2-2-.5-3.5-1-4.5-2-2.5-2.5-2.5-6.5 0-9 0 0-4.5 2-4.5 8 0 2 1.5 3.5 3.5 4.5 2 .5 3.5 1 4.5 2 2.5 2.5 2.5 6.5 0 9Z"></path></svg></div>
-                                </div>
-                                <div class="macro-values">
-                                    <strong id="calories-value">0 kcal</strong>
-                                    <span>/ 2200 kcal</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar bg-red" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <div class="macro-card">
-                                <div class="macro-header">
-                                    Carbs
-                                    <div class="macro-icon icon-carb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
-                                </div>
-                                <div class="macro-values">
-                                    <strong id="carb-value">0g</strong>
-                                    <span>/ 275 g</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar bg-blue" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <div class="macro-card">
-                                <div class="macro-header">
-                                    Protein
-                                    <div class="macro-icon icon-pro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"></path></svg></div>
-                                </div>
-                                <div class="macro-values">
-                                    <strong id="protein-value">0g</strong>
-                                    <span>/ 165 g</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar bg-yellow" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <div class="macro-card">
-                                <div class="macro-header">
-                                    Fats
-                                    <div class="macro-icon icon-fat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg></div>
-                                </div>
-                                <div class="macro-values">
-                                    <strong id="fat-value">0g</strong>
-                                    <span>/ 73 g</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar bg-purple" style="width: 0%"></div>
-                                </div>
-                            </div>
+                <div class="todays-meals">
+                    <h2 class="section-title">
+                        Today's Meals
+                        <a href="#" class="add-food-link">+ Add Food</a>
+                    </h2>
+                    
+                    <div class="meals-grid" id="items-list">
+                        <!-- Default placeholders when empty -->
+                        <div class="items-empty">Scan a meal using AI to log your food items here automatically.</div>
+                        <div class="meal-card" style="display:none;">
+                            <div class="meal-icon">☕</div>
+                            <div class="meal-title">Breakfast</div>
+                            <div class="meal-desc">Oatmeal - Banana - Protein Shake</div>
+                            <div class="meal-stats">520 kcal <span>P:</span>35g <span>C:</span>55g <span>F:</span>18g</div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="todays-meals">
-                        <h2 class="section-title">Detected Food Items</h2>
-                        <div class="meals-grid" id="items-list" style="grid-template-columns: repeat(2, 1fr);">
-                            <div class="items-empty">Scan a meal using AI to log your food items here automatically.</div>
+            <!-- Bottom Row -->
+            <div class="bottom-row">
+                <div class="trends-card">
+                    <div class="trends-header">
+                        <div>
+                            <h2 class="section-title" style="margin-bottom:0;">Nutrition Trends</h2>
+                            <div class="trends-val">14300 kcal</div>
+                            <div class="trends-sub">↑ 252 kcal since last week</div>
                         </div>
+                        <select style="background:transparent; color:#fff; border:1px solid #333; border-radius:6px; padding:6px 12px; height:max-content;">
+                            <option>This Week</option>
+                            <option>Last Week</option>
+                        </select>
                     </div>
+                    <div class="chart-placeholder"></div>
+                </div>
+
+                <div class="scan-card" id="preview-box" role="button" tabindex="0">
+                    <div class="scan-card-bg"></div>
+                    <img id="food-preview" alt="Food preview">
+                    <div class="scan-card-content">
+                        <h3>Scan Your Food</h3>
+                        <p id="result-note">Snap a photo and let AI analyze your nutrition</p>
+                        <button id="scan-btn" class="btn-try-now" type="button">Try It Now</button>
+                        <button id="upload-floating-btn" style="display:none;">Change</button>
+                    </div>
+                    <input id="upload-input" class="hidden-input" type="file" accept="image/*">
                 </div>
             </div>
         </section>
@@ -1853,7 +1892,6 @@
             <div id="scan-time">-</div>
         </div>
     </main>
-
 
 
     <footer class="site-footer">

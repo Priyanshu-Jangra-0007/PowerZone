@@ -72,7 +72,9 @@ async function logoutUser() {
 
 function updateClientEntryLinks(isAuthenticated) {
     isNavbarAuthenticated = isAuthenticated;
-    const nextHref = 'client.html?view=dashboard';
+    const nextHref = isAuthenticated 
+        ? 'client.html?view=dashboard' 
+        : 'login.html?redirect=client.html%3Fview%3Ddashboard';
     getClientEntryLinks().forEach((link) => {
         link.href = nextHref;
     });
@@ -121,7 +123,11 @@ function bindClientEntryRouting() {
         link.dataset.clientRouteBound = 'true';
         link.addEventListener('click', async (event) => {
             event.preventDefault();
-            window.location.href = 'client.html?view=dashboard';
+            if (isNavbarAuthenticated) {
+                window.location.href = 'client.html?view=dashboard';
+            } else {
+                window.location.href = 'login.html?redirect=client.html%3Fview%3Ddashboard';
+            }
         });
     });
 }

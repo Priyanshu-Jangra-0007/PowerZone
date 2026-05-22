@@ -15,39 +15,41 @@
             </a>
 
             <div class="auth-headline">
-                <p class="kicker">START YOUR</p>
-                <h1>POWERZONE</h1>
-                <p class="kicker tail">JOURNEY</p>
+                <h1>Welcome!</h1>
             </div>
 
             <section class="auth-box">
-                <h2>Create Account</h2>
                 <p id="auth-status" class="auth-status" aria-live="polite"></p>
                 <form id="register-form" class="auth-form" novalidate>
-                    <label>Full Name
-                        <input type="text" name="fullName" autocomplete="name" placeholder="Your full name" required>
-                    </label>
-                    <label>Email
-                        <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
-                    </label>
-                    <label>Password
-                        <input type="password" name="password" autocomplete="new-password" placeholder="Min 8 characters" minlength="8" required>
-                    </label>
-                    <label>Confirm Password
-                        <input type="password" name="confirmPassword" autocomplete="new-password" placeholder="Repeat password" minlength="8" required>
-                    </label>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" name="fullName" autocomplete="name" placeholder="" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" autocomplete="email" placeholder="" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" name="password" autocomplete="new-password" placeholder="" minlength="8" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirmPassword" autocomplete="new-password" placeholder="" minlength="8" required>
+                    </div>
                     <label class="terms">
                         <input type="checkbox" name="terms" required>
                         I agree to Terms and Privacy Policy.
                     </label>
                     <div class="btn-row">
-                        <button type="submit" class="btn-red">Create Account</button>
-                        <a class="btn-light" href="login.html">Back To Login</a>
+                        <button type="submit" class="btn-red">REGISTER</button>
+                    </div>
+                    <div class="switch-link">
+                        Already have an account? <a href="login.html">Login now</a>
                     </div>
                 </form>
             </section>
         </div>
-        <div class="hero-side"></div>
     </main>
 
     <footer class="site-footer">

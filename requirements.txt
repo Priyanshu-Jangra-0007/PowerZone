@@ -4,3 +4,5 @@ python-multipart==0.0.20
 google-genai
 python-dotenv
 pillow==11.3.0
+requests
+supabase

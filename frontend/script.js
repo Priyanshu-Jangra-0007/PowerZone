@@ -21,6 +21,33 @@ let isNavbarAuthenticated = false;
 let navbarAuthReady = Promise.resolve(false);
 let wasMobileNavbarLayout = mobileMenuQuery.matches;
 
+function ensureForgeAiNavLink() {
+    if (!navLinksContainer) {
+        return;
+    }
+
+    let forgeLink = navLinksContainer.querySelector('[data-nav-forge-ai="true"], a[href="forge-ai.html"]');
+    if (!forgeLink) {
+        forgeLink = document.createElement('a');
+        forgeLink.href = 'forge-ai.html';
+        forgeLink.textContent = 'ForgeAi';
+    }
+    forgeLink.dataset.navForgeAi = 'true';
+
+    const insertionPoint = navLinksContainer.querySelector('.nav-dropdown, .nav-auth-dashboard');
+    if (insertionPoint) {
+        navLinksContainer.insertBefore(forgeLink, insertionPoint);
+    } else if (!forgeLink.parentElement) {
+        navLinksContainer.appendChild(forgeLink);
+    }
+
+    if (window.location.pathname.toLowerCase().endsWith('/forge-ai.html') || window.location.pathname.toLowerCase().endsWith('forge-ai.html')) {
+        forgeLink.classList.add('is-active');
+    } else {
+        forgeLink.classList.remove('is-active');
+    }
+}
+
 function getClientEntryLinks() {
     return Array.from(document.querySelectorAll('a[href^="client.html"], a[href^="login.html?redirect=client.html%3Fview%3Ddashboard"]'));
 }
@@ -91,6 +118,7 @@ function renderGuestNetworkLink() {
     if (!navLinksContainer.querySelector('.nav-dropdown')) {
         navLinksContainer.appendChild(defaultNetworkDropdown.cloneNode(true));
     }
+    ensureForgeAiNavLink();
     bindClientEntryRouting();
 }
 
@@ -110,6 +138,7 @@ function renderAuthenticatedNetworkLink() {
     dashboardLink.className = 'nav-auth-dashboard';
     dashboardLink.textContent = 'Dashboard';
     navLinksContainer.appendChild(dashboardLink);
+    ensureForgeAiNavLink();
     bindClientEntryRouting();
 }
 
@@ -301,6 +330,7 @@ async function syncNavbarAuthState() {
 }
 
 navbarAuthReady = syncNavbarAuthState();
+ensureForgeAiNavLink();
 bindClientEntryRouting();
 
 if (navSupabase) {

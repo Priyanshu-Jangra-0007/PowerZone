@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForgeAi | PowerZone</title>
+    <link rel="stylesheet" href="styles.css?v=11">
+    <link rel="stylesheet" href="theme.css?v=2">
+    <link rel="stylesheet" href="forge-ai.css?v=1">
+</head>
+<body class="forge-ai-body">
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="PowerZone Logo" class="logo-img">
+                </a>
+            </div>
+            <a class="nav-mobile-cta" href="register.html">Get Started</a>
+            <button
+                class="nav-menu-toggle"
+                type="button"
+                aria-label="Toggle navigation menu"
+                aria-expanded="false"
+            >
+                <span class="nav-menu-line" aria-hidden="true"></span>
+                <span class="nav-menu-line" aria-hidden="true"></span>
+                <span class="nav-menu-line" aria-hidden="true"></span>
+            </button>
+            <div class="nav-center">
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="gym-directory.html">Gyms</a>
+                    <a href="health-stream.html">AI Food Scanner</a>
+                    <a href="forge-ai.html" class="is-active" data-nav-forge-ai="true">ForgeAi</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                            Join Our Network
+                            <span class="dropdown-caret" aria-hidden="true"></span>
+                        </button>
+                        <div class="nav-dropdown-menu" role="menu" aria-label="Join Our Network">
+                            <a href="client.html?view=dashboard" role="menuitem">Client</a>
+                            <a href="franchise.html" role="menuitem">Join Our Franchise</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-cta">
+                <a class="btn-outlined" href="login.html">Login</a>
+                <a class="btn-register" href="register.html">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="forge-ai-main">
+        <section class="forge-ai-hero">
+            <div class="forge-ai-copy">
+                <p class="forge-ai-kicker">PowerZone Agent</p>
+                <h1>ForgeAi builds your next workout with context, progression, and recovery in mind.</h1>
+                <p class="forge-ai-subtitle">
+                    Ask for a full workout, target a muscle group, get exercise details, or swap movements you have already completed.
+                </p>
+
+                <form id="coachForm" class="forge-ai-form">
+                    <label for="message">What should ForgeAi build for you?</label>
+                    <div class="forge-ai-input-row">
+                        <input
+                            id="message"
+                            name="message"
+                            type="text"
+                            placeholder="Try: give me a pull-day workout with dumbbells"
+                            autocomplete="off"
+                        >
+                        <button id="submitButton" type="submit">Generate</button>
+                    </div>
+                </form>
+
+                <div class="forge-ai-quick-actions" aria-label="Example prompts">
+                    <button type="button" data-prompt="Give me the full workout route for today.">Today's workout</button>
+                    <button type="button" data-prompt="Give me 3 chest exercises.">Chest</button>
+                    <button type="button" data-prompt="Give me 3 leg exercises.">Legs</button>
+                    <button type="button" data-prompt="Already did barbell curl, give me another.">Replacement</button>
+                </div>
+
+                <p id="status" class="forge-ai-status" role="status"></p>
+            </div>
+
+            <aside class="forge-ai-sidecard">
+                <p class="forge-ai-side-label">Built for PowerZone athletes</p>
+                <ul class="forge-ai-benefits">
+                    <li>Adapts to prior sessions and recent fatigue.</li>
+                    <li>Suggests replacements without repeating movements.</li>
+                    <li>Returns structured output you can act on quickly.</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="forge-ai-results">
+            <article class="forge-ai-panel">
+                <div class="forge-ai-panel-head">
+                    <div>
+                        <p class="forge-ai-kicker">Coach Output</p>
+                        <h2 id="resultTitle">Waiting for your request</h2>
+                    </div>
+                    <button id="clearButton" type="button" class="forge-ai-clear">Clear</button>
+                </div>
+                <div id="summary" class="forge-ai-summary forge-ai-summary-empty">
+                    Type a request above to generate a personalized workout response.
+                </div>
+                <div id="exerciseList" class="forge-ai-exercise-grid"></div>
+            </article>
+
+            <article class="forge-ai-panel forge-ai-json-panel">
+                <div class="forge-ai-panel-head">
+                    <div>
+                        <p class="forge-ai-kicker">Raw Response</p>
+                        <h2>JSON Output</h2>
+                    </div>
+                </div>
+                <pre id="jsonOutput">{}</pre>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer-inner">
+            <div class="site-footer-main">
+                <a class="site-footer-brand" href="index.html">
+                    <img src="images/logo.png" alt="PowerZone Logo">
+                    <span>PowerZone</span>
+                </a>
+                <p class="site-footer-tagline">AI-powered training, nutrition intelligence, and recovery planning for every fitness journey.</p>
+                <p class="site-footer-address">HQ: New Delhi, India</p>
+            </div>
+            <div class="site-footer-col">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a>
+                <a href="gym-directory.html">Gyms</a>
+                <a href="health-stream.html">AI Food Scanner</a>
+                <a href="forge-ai.html">ForgeAi</a>
+            </div>
+            <div class="site-footer-col">
+                <h4>Programs</h4>
+                <a href="client.html?view=dashboard">Client Dashboard</a>
+                <a href="franchise.html">Franchise</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </div>
+            <div class="site-footer-col">
+                <h4>Contact</h4>
+                <a href="tel:+918307623649">+91 83076 23649</a>
+                <a href="https://www.linkedin.com/in/priyanshu-a75140318/" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a href="https://www.instagram.com/priyanshujangra__/" target="_blank" rel="noreferrer">Instagram</a>
+                <a href="https://github.com/Priyanshu-Jangra-0007" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+        </div>
+        <div class="site-footer-bottom">
+            <p class="site-footer-copy">made with heart by Priyanshu Jangra</p>
+            <p class="site-footer-note">Train smarter with data-backed plans and AI guidance.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js?v=12"></script>
+    <script src="theme.js"></script>
+    <script src="forge-ai.js?v=1"></script>
+</body>
+</html>

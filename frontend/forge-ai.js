@@ -19,7 +19,8 @@ const API_CANDIDATES = (() => {
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
         candidates.push({ name: 'fastapi-local', url: 'http://127.0.0.1:8000/api/forge-ai' });
     } else {
-        candidates.push({ name: 'production', url: '/api/forge-ai' });
+        candidates.push({ name: 'production-python-module-route', url: '/api/forge_ai' });
+        candidates.push({ name: 'production-dashed-route', url: '/api/forge-ai' });
     }
     return candidates;
 })();

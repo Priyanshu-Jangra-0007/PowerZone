@@ -2,7 +2,7 @@
 const navbar = document.getElementById('navbar');
 const navContainer = document.querySelector('.nav-container');
 const menuToggle = document.querySelector('.nav-menu-toggle');
-const mobileMenuQuery = window.matchMedia('(max-width: 768px)');
+const mobileMenuQuery = window.matchMedia('(max-width: 1100px)');
 const navCta = document.querySelector('.nav-cta');
 const DISPLAY_NAME_KEY = 'powerzone-display-name';
 const AVATAR_URL_KEY = 'powerzone-avatar-url';

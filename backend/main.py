@@ -10,6 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from google.genai import types
 from PIL import Image, UnidentifiedImageError
+from transformers import AutoImageProcessor, AutoModelForImageClassification
+from routes.ai_chat import router as ai_chat_router
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -68,6 +70,8 @@ BACKOFF_BASE = 2
 
 app = FastAPI(title="PowerZone AI Food Scanner API", version="2.0.0")
 
+app = FastAPI(title="PowerZone ML API", version="1.0.0")
+app.include_router(ai_chat_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
